@@ -1,3 +1,0 @@
-com.beaker.recipeRoulette.test
-style WhiteBackgroundDialogTheme
-style WhiteBackgroundTheme
