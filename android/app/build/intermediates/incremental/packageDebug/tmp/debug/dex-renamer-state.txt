@@ -1,0 +1,10 @@
+#Wed Oct 11 10:39:19 PDT 2023
+base.0=/Users/18chanp1/Documents/cpen321/cpen321-recipe-roulette/android/app/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
+base.1=/Users/18chanp1/Documents/cpen321/cpen321-recipe-roulette/android/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
+base.2=/Users/18chanp1/Documents/cpen321/cpen321-recipe-roulette/android/app/build/intermediates/dex/debug/mergeProjectDexDebug/5/classes.dex
+path.0=classes.dex
+path.1=0/classes.dex
+path.2=5/classes.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex
+renamed.2=classes3.dex

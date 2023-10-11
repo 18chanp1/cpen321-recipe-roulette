@@ -1,0 +1,16 @@
+[
+    {
+      "relation" : [
+        "delegate_permission/common.handle_all_urls",
+        "delegate_permission/common.get_login_creds"
+      ],
+      "target" : {
+        "namespace" : "recipeRoulette",
+        "package_name" : "com.beaker.recipeRoulette",
+        "sha256_cert_fingerprints" : [
+          "6A:D4:60:DA:49:8E:A0:74:92:79:5F:D7:F1:79:4E:5B:62:34:98:9C:F9:35:EF:28:DA:B4:B0:CD:E1:86:3F:53"
+        ]
+      }
+    }
+  ]
+  

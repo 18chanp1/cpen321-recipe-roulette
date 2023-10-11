@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="androidTest" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/18chanp1/Documents/cpen321/cpen321-recipe-roulette/android/app/src/androidTest/shaders"/></dataSet><dataSet config="androidTestDebug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/18chanp1/Documents/cpen321/cpen321-recipe-roulette/android/app/src/androidTestDebug/shaders"/></dataSet></merger>

@@ -1,0 +1,6 @@
+com.beaker.recipeRoulette.test.app-annotation-experimental-1.3.0-0 /Users/18chanp1/.gradle/caches/transforms-3/20950aba1c926ba887c70028c7b332ad/transformed/annotation-experimental-1.3.0/res
+com.beaker.recipeRoulette.test.app-core-1.5.0-1 /Users/18chanp1/.gradle/caches/transforms-3/55fc0ee08734532785d302f91c03f611/transformed/core-1.5.0/res
+com.beaker.recipeRoulette.test.app-androidTest-2 /Users/18chanp1/Documents/cpen321/cpen321-recipe-roulette/android/app/build/generated/res/resValues/androidTest/debug
+com.beaker.recipeRoulette.test.app-mergeDebugAndroidTestResources-3 /Users/18chanp1/Documents/cpen321/cpen321-recipe-roulette/android/app/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/merged.dir
+com.beaker.recipeRoulette.test.app-mergeDebugAndroidTestResources-4 /Users/18chanp1/Documents/cpen321/cpen321-recipe-roulette/android/app/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/stripped.dir
+com.beaker.recipeRoulette.test.app-merged_res-5 /Users/18chanp1/Documents/cpen321/cpen321-recipe-roulette/android/app/build/intermediates/merged_res/debugAndroidTest
