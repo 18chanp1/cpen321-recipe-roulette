@@ -12,14 +12,17 @@ import android.app.Activity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
-import com.google.android.gms.auth.api.identity.BeginSignInResult;
 import com.google.android.gms.auth.api.identity.Identity;
 import com.google.android.gms.auth.api.identity.SignInClient;
 import com.google.android.gms.auth.api.identity.SignInCredential;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.CommonStatusCodes;
+
+import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private BeginSignInRequest signInRequest;
     private BeginSignInRequest signUpRequest;
     private static final String TAG = "MainActivity";
-    //boolean showOneTapUI = true;
+    private Calendar timeUntilNextSignIn;
+    private static final int SIGNIN_TIMEOUT = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupSignIn()
     {
+        timeUntilNextSignIn = Calendar.getInstance();
+
         oneTapClient = Identity.getSignInClient(this);
         signInRequest = BeginSignInRequest.builder()
                 .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
@@ -99,28 +105,55 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG, "Got password.");
                             }
                         } catch (ApiException e) {
-                            e.printStackTrace();
+                            Log.d(TAG, e.getMessage());
                         }
 
+                    }
+                    else if (result.getResultCode() == Activity.RESULT_CANCELED)
+                    {
+                        Log.d(TAG, "One tap dialog was closed");
+                        timeUntilNextSignIn = Calendar.getInstance();
+                        timeUntilNextSignIn.add(Calendar.MINUTE, SIGNIN_TIMEOUT);
                     }
                 });
 
         signInButton.setOnClickListener(view -> oneTapClient.beginSignIn(signInRequest)
                 .addOnSuccessListener(MainActivity.this, result -> {
-                    IntentSenderRequest intentSenderRequest =
-                            new IntentSenderRequest.Builder(result.getPendingIntent().getIntentSender()).build();
-                    activityResultLauncher.launch(intentSenderRequest);
+                    if(!timeUntilNextSignIn.after(Calendar.getInstance())) {
+                        IntentSenderRequest intentSenderRequest =
+                                new IntentSenderRequest.Builder(result.getPendingIntent().getIntentSender()).build();
+                        activityResultLauncher.launch(intentSenderRequest);
+                    }
+                    else {
+                        Log.d(TAG, "not showing one tap UI");
+                        String timeDiff = String.valueOf((timeUntilNextSignIn.getTimeInMillis() - Calendar.getInstance().getTimeInMillis()) / (1000 * 60));
+                        Toast toast = Toast.makeText(MainActivity.this,"You declined to sign in. You have to wait " + timeDiff + " minutes", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
 
                 })
                 .addOnFailureListener(MainActivity.this, e -> {
                     // No saved credentials found. Launch the One Tap sign-up flow, or
                     // do nothing and continue presenting the signed-out UI.
-                    Log.d(TAG, e.getLocalizedMessage());
-                    Log.d(TAG, "registering new user");
 
-                    oneTapClient.beginSignIn(signUpRequest);
+                    if(timeUntilNextSignIn.before(Calendar.getInstance())) {
+                        Log.d(TAG, e.getLocalizedMessage());
+                        Log.d(TAG, "registering new user");
 
-                    //TODO Handle case where user refuses to sign in.
+                        oneTapClient.beginSignIn(signUpRequest).addOnSuccessListener(MainActivity.this, result ->
+                        {
+                            IntentSenderRequest intentSenderRequest = new IntentSenderRequest.Builder(result.getPendingIntent().getIntentSender()).build();
+                            activityResultLauncher.launch(intentSenderRequest);
+                        });
+                    }
+                    else {
+                        Log.d(TAG, "not showing one tap UI");
+                        String timeDiff = String.valueOf((timeUntilNextSignIn.getTimeInMillis() - Calendar.getInstance().getTimeInMillis()) / (1000 * 60));
+                        Toast toast = Toast.makeText(MainActivity.this,"You declined to sign in. You have to wait " + timeDiff + " minutes", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+
+
                 }));
 
 
