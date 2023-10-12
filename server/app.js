@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 let assetLinkRouter = require('./routes/assetLink');
+let reviewRouter = require('./routes/review');
 
 const fs = require('fs');
 const http = require("http")
@@ -47,6 +48,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use("/.well-known/assetlinks.json", assetLinkRouter)
+app.use("/reviews", reviewRouter)
 
 
 // catch 404 and forward to error handler
