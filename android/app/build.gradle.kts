@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
 }
 
+
+
 android {
     namespace = "com.beaker.recipeRoulette"
     compileSdk = 33
@@ -33,10 +35,26 @@ android {
 
 dependencies {
 
+
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.google.android.gms:play-services-base:18.2.0")
+    implementation("androidx.datastore:datastore-rxjava3:1.0.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    //OAuth
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+
+    //Preserving login state
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.datastore:datastore:1.0.0")
+    implementation("androidx.datastore:datastore-preferences-rxjava3:1.0.0")
+
+
+
+
+
 }
