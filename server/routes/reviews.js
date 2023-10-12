@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
       id: "1",
       rating: "5",
       author: "John Doe",
-      title: "How to cook human meat"
+      title: "How to cook human meat",
       stringDate: "2018-10-16",
       image: "https://cpen321-reciperoulette.westus.cloudapp.azure.com/reviews/images/1"
     }
