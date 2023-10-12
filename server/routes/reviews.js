@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
     {
       id: "1",
       rating: "5",
-      author: "John Doe",
+      author: "Julia Rubin",
       title: "How to cook human meat",
       stringDate: "2018-10-16",
       image: "https://ece.ubc.ca/files/2017/03/2016a-13-e1580928549507.jpeg"
