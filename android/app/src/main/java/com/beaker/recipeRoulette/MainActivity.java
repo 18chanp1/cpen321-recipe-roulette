@@ -15,6 +15,7 @@ import androidx.datastore.rxjava3.RxDataStore;
 
 import android.app.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -122,6 +123,10 @@ public class MainActivity extends AppCompatActivity {
                                     mutablePreferences.set(tokKey, idToken);
                                     return Single.just(mutablePreferences);
                                 });
+
+                                //Go to main menu
+                                Intent mainMenuIntent = new Intent(MainActivity.this, MainMenu.class);
+                                startActivity(mainMenuIntent);
 
 
                             } else if (password != null) {
