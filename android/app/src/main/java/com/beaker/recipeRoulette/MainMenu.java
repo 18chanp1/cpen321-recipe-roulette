@@ -17,11 +17,8 @@ public class MainMenu extends AppCompatActivity {
         recipeReviewButton = findViewById(R.id.menu5);
 
         recipeReviewButton.setOnClickListener(view -> {
-            Intent mainMenuIntent = new Intent(MainMenu.this, RecipeFacebook.class);
+            Intent mainMenuIntent = new Intent(MainMenu.this, com.beaker.recipeRoulette.RecipeFacebook.class);
             startActivity(mainMenuIntent);
         });
-
-
-
     }
 }
