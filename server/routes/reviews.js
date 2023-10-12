@@ -11,10 +11,11 @@ router.get('/', function(req, res, next) {
       author: "John Doe",
       title: "How to cook human meat",
       stringDate: "2018-10-16",
-      image: "https://cpen321-reciperoulette.westus.cloudapp.azure.com/reviews/images/1"
+      image: "https://ece.ubc.ca/files/2017/03/2016a-13-e1580928549507.jpeg"
     }
   ]
   res.send(reviews);
 });
+
 
 module.exports = router;
