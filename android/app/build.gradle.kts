@@ -41,6 +41,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.gms:play-services-base:18.2.0")
     implementation("androidx.datastore:datastore-rxjava3:1.0.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -52,6 +53,14 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.datastore:datastore:1.0.0")
     implementation("androidx.datastore:datastore-preferences-rxjava3:1.0.0")
+
+    //handling server reviews
+    implementation ("com.squareup.picasso:picasso:2.5.2")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation ("com.google.code.gson:gson:2.10.1")
+
+
+
 
 
 
