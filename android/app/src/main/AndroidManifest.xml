@@ -16,6 +16,9 @@
         android:theme="@style/Theme.RecipeRoulette"
         tools:targetApi="31">
         <activity
+            android:name=".ReviewDetailed"
+            android:exported="false" />
+        <activity
             android:name=".RecipeFacebook"
             android:exported="false" />
         <activity

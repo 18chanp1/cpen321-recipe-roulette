@@ -1,24 +1,18 @@
 package com.beaker.recipeRoulette;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.os.Handler;
-import android.os.Looper;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
-import java.net.URL;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class ReviewAdaptor extends RecyclerView.Adapter<ReviewHolder> {
 
@@ -44,6 +38,16 @@ public class ReviewAdaptor extends RecyclerView.Adapter<ReviewHolder> {
 
         String url = items.get(position).getImage();
         Picasso.with(this.context).load(url).into(holder.imageView);
+
+        //handle the buttons
+        holder.readMoreView.setOnClickListener(view -> {
+            Context c = ReviewAdaptor.this.context;
+            Intent readMoreIntent = new Intent(c, ReviewDetailed.class);
+            readMoreIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            readMoreIntent.putExtra("REVIEW", items.get(holder.getAbsoluteAdapterPosition()));
+            c.startActivity(readMoreIntent);
+        });
+
     }
 
     @Override
@@ -51,9 +55,5 @@ public class ReviewAdaptor extends RecyclerView.Adapter<ReviewHolder> {
         return items.size();
     }
 
-    private void renderImage()
-    {
-
-    }
 
 }
