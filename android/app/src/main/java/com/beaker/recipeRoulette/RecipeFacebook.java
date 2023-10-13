@@ -2,9 +2,15 @@ package com.beaker.recipeRoulette;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.datastore.preferences.core.Preferences;
+import androidx.datastore.preferences.core.PreferencesKeys;
+import androidx.datastore.preferences.rxjava3.RxPreferenceDataStoreBuilder;
+import androidx.datastore.rxjava3.RxDataStore;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.gson.Gson;
@@ -15,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Flowable;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -28,10 +35,16 @@ public class RecipeFacebook extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_facebook);
 
+        //get token
+        SharedPreferences sharedPref =
+                this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
+        String tok = sharedPref.getString("TOKEN", "NOTOKEN");
+
 
         //Get from web server
         Request req = new Request.Builder()
                 .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/reviews")
+                .addHeader("userToken", tok)
                 .build();
 
         OkHttpClient client = new OkHttpClient();

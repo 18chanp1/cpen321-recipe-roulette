@@ -15,7 +15,9 @@ import androidx.datastore.rxjava3.RxDataStore;
 
 import android.app.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -114,15 +116,12 @@ public class MainActivity extends AppCompatActivity {
 
 
                                 //Writing token and credentials to settings file
-                                Single<Preferences> updateResult = dataStore.updateDataAsync(prefsIn ->
-                                {
-                                    MutablePreferences mutablePreferences = prefsIn.toMutablePreferences();
+                                SharedPreferences sharedPref =
+                                        this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putString("TOKEN", idToken);
+                                editor.apply();
 
-                                    Preferences.Key<String> tokKey = PreferencesKeys.stringKey("TOKEN");
-
-                                    mutablePreferences.set(tokKey, idToken);
-                                    return Single.just(mutablePreferences);
-                                });
 
                                 //Go to main menu
                                 Intent mainMenuIntent = new Intent(MainActivity.this, MainMenu.class);
