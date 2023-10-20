@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 let assetLinkRouter = require('./routes/assetLink');
 let reviewRouter = require('./routes/reviews');
+let ingredientRequestRouter = require('./routes/ingredientRequests');
 
 const fs = require('fs');
 const http = require("http")
@@ -49,6 +50,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use("/.well-known/assetlinks.json", assetLinkRouter)
 app.use("/reviews", reviewRouter)
+app.use("/ingredientrequests", ingredientRequestRouter)
 
 
 // catch 404 and forward to error handler
