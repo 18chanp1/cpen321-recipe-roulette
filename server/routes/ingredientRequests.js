@@ -12,6 +12,7 @@ router.get('/', function(req, res, next) {
         ingredientID: "420",
         ingredientName: "Human Meat",
         requestor: "Julia Rubin",
+        image: "https://ece.ubc.ca/files/2017/03/2016a-13-e1580928549507.jpeg",
         requestorID: "1"
     },
 
@@ -22,6 +23,7 @@ router.get('/', function(req, res, next) {
         ingredientID: "420",
         ingredientName: "Human Meat",
         requestor: "Julia Rubin",
+        image: "https://ece.ubc.ca/files/2017/03/2016a-13-e1580928549507.jpeg",
         requestorID: "1"
     },
   ]
