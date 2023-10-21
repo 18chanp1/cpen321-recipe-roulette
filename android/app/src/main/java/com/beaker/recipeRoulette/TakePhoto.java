@@ -29,7 +29,7 @@ public class TakePhoto extends AppCompatActivity {
     Button mCaptureBtn;
     ImageView mImageView;
 
-    Uri image_uri;
+    Uri image_uri; // this will carry the resulting photo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +64,6 @@ public class TakePhoto extends AppCompatActivity {
         someActivityResultLauncher.launch(cameraIntent);
     }
 
-    // You can do the assignment inside onAttach or onCreate, i.e, before the activity is displayed
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -84,12 +83,7 @@ public class TakePhoto extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case PERMISSION_CODE: {
-                if (grantResults.length > 0 && grantResults[0] ==
-                        PackageManager.PERMISSION_GRANTED) {
-                    openCamera();
-                } else {
-                    Toast.makeText(this, "Permission denied...", Toast.LENGTH_SHORT).show();
-                }
+                openCamera();
             }
         }
     }

@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
@@ -39,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     //Elements
     private SignInButton signInButton;
 
+    private Button TakePhotoButton;
+
     // Handle Google Sign In
     private SignInClient oneTapClient;
     private BeginSignInRequest signInRequest;
@@ -53,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "creating");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TakePhotoButton = findViewById(R.id.take_photo);
+
+        TakePhotoButton.setOnClickListener(view -> {
+            Intent takePhotoIntent = new Intent(MainActivity.this, com.beaker.recipeRoulette.TakePhoto.class);
+            startActivity(takePhotoIntent);
+        });
 
         signInButton = findViewById(R.id.sign_in_button);
         setupSignIn();
