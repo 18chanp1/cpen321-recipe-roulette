@@ -2,6 +2,12 @@ var express = require('express');
 var router = express.Router();
 
 /* GET users listing. */
+
+router.post('/new', function(req, res, next) {
+    console.log(req.body);
+    res.status(200).send("success");
+});
+
 router.get('/', function(req, res, next) {
   reviews = 
   [
