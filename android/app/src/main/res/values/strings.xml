@@ -15,4 +15,8 @@
     <string name="Loremipsum">Lorem Ipsum</string>
 
     <string name="shared_pref_filename">com.beaker.recipeRoulette.TOKEN</string>
+
+
+    <string name="req_ingred">Request Ingredients</string>
+    <string name="donate">Donate</string>
 </resources>

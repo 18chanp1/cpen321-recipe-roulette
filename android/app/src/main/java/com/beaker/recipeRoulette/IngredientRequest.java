@@ -14,7 +14,8 @@ public class IngredientRequest implements Parcelable {
     String requestor;
     String requestorID;
 
-    public IngredientRequest(String reqID, String reqDate, String expiryDate, String ingredientID, String ingredientName, String requestor, String requestorID) {
+    String image;
+    public IngredientRequest(String reqID, String reqDate, String expiryDate, String ingredientID, String ingredientName, String requestor, String requestorID, String image) {
         this.reqID = reqID;
         this.reqDate = reqDate;
         this.expiryDate = expiryDate;
@@ -22,6 +23,7 @@ public class IngredientRequest implements Parcelable {
         this.ingredientName = ingredientName;
         this.requestor = requestor;
         this.requestorID = requestorID;
+        this.image = image;
     }
 
     protected IngredientRequest(Parcel in) {
@@ -32,6 +34,7 @@ public class IngredientRequest implements Parcelable {
         ingredientName = in.readString();
         requestor = in.readString();
         requestorID = in.readString();
+        image = in.readString();
     }
 
     public static final Creator<IngredientRequest> CREATOR = new Creator<IngredientRequest>() {
@@ -102,6 +105,14 @@ public class IngredientRequest implements Parcelable {
         this.requestorID = requestorID;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -117,6 +128,7 @@ public class IngredientRequest implements Parcelable {
         parcel.writeString(ingredientName);
         parcel.writeString(requestor);
         parcel.writeString(requestorID);
+        parcel.writeString(image);
     }
 
 }
