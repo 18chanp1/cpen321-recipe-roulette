@@ -18,5 +18,7 @@
 
 
     <string name="req_ingred">Request Ingredients</string>
+    <string name="donate_ingred">Donate Ingredients</string>
     <string name="donate">Donate</string>
+    <string name="ingredient">Ingredient</string>
 </resources>
