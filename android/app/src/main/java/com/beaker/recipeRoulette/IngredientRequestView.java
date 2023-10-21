@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -102,12 +103,12 @@ public class IngredientRequestView extends AppCompatActivity {
             submitRequestHandler();
         });
 
-        ingredientRequestText.setOnKeyListener((view, i, keyEvent) -> {
-            if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER){
-                submitRequestHandler();
-            }
-            return true;
-        });
+//        ingredientRequestText.setOnKeyListener((view, i, keyEvent) -> {
+//            if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER){
+//                submitRequestHandler();
+//            }
+//            return super;
+//        });
 
     }
 
@@ -138,7 +139,8 @@ public class IngredientRequestView extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 e.printStackTrace();
-                runOnUiThread(() -> {
+
+                IngredientRequestView.this.runOnUiThread(() -> {
                     Toast toast = Toast.makeText(IngredientRequestView.this, "Request failed", Toast.LENGTH_LONG);
                     toast.show();
                 });
@@ -146,7 +148,7 @@ public class IngredientRequestView extends AppCompatActivity {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                runOnUiThread(() -> {
+                IngredientRequestView.this.runOnUiThread(() -> {
                     if(response.isSuccessful()) {
                         Log.d("test", "call ok");
                         Toast toast = Toast.makeText(IngredientRequestView.this, "Request made", Toast.LENGTH_LONG);
@@ -155,6 +157,22 @@ public class IngredientRequestView extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if(keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            Intent i = new Intent(this, MainMenu.class);
+            startActivity(i);
+            return true;
+        }
+        if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER){
+            submitRequestHandler();
+            return true;
+        }
+        return super.onKeyDown(keyCode,event);
     }
 
 }
