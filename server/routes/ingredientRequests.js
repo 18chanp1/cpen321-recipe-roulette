@@ -36,6 +36,7 @@ router.get("/self", (req, res, next) =>
         ingredientID: "420",
         ingredientName: "Horse penis",
         requestor: "Valentino Jaber",
+        donationDetails: "MCLD 4018, 4pm",
         image: "https://ece.ubc.ca/files/2017/03/2016a-13-e1580928549507.jpeg",
         requestorID: "1"
     },
