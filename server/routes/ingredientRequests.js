@@ -10,6 +10,7 @@ router.post('/new', function(req, res, next) {
 
 router.post("/self/delete", (req, res, next) =>
 {
+  console.log(req.body)
   res.status(200).send()
 })
 
