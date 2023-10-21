@@ -1,26 +1,30 @@
 package com.beaker.recipeRoulette;
 
 
+import static android.Manifest.permission.POST_NOTIFICATIONS;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.IntentSenderRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.datastore.preferences.core.MutablePreferences;
+import androidx.core.content.ContextCompat;
 import androidx.datastore.preferences.core.Preferences;
-import androidx.datastore.preferences.core.PreferencesKeys;
 import androidx.datastore.preferences.rxjava3.RxPreferenceDataStoreBuilder;
 import androidx.datastore.rxjava3.RxDataStore;
-
-
-import android.app.Activity;
-
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.Identity;
@@ -28,11 +32,8 @@ import com.google.android.gms.auth.api.identity.SignInClient;
 import com.google.android.gms.auth.api.identity.SignInCredential;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.CommonStatusCodes;
 
 import java.util.Calendar;
-
-import io.reactivex.rxjava3.core.Single;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -60,11 +61,12 @@ public class MainActivity extends AppCompatActivity {
         //setup login state
         dataStore = new RxPreferenceDataStoreBuilder(MainActivity.this,  "settings").build();
 
-
-
+        askNotificationPermission();
+        MyFirebaseMessagingService.saveFCMTokentoSharedPref(this);
 
     }
 
+    //TODO: Handle initial sign in endpoint
     private void setupSignIn()
     {
         timeUntilNextSignIn = Calendar.getInstance();
@@ -128,10 +130,16 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(mainMenuIntent);
 
 
-                            } else if (password != null) {
-                                // Got a saved username and password. Use them to authenticate
-                                // with your backend.
-                                Log.d(TAG, "Got password.");
+                            }
+                            else {
+                                //Writing token and credentials to settings file
+                                SharedPreferences sharedPref =
+                                        this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putString("TOKEN", "FAILED");
+                                editor.apply();
+
+                                // do nothing
                             }
                         } catch (ApiException e) {
                             Log.d(TAG, e.getMessage());
@@ -217,7 +225,60 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // FCM notification permission request.
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    // FCM SDK (and your app) can post notifications.
+                    Log.d(TAG, "Can post FCM notifications");
+                } else {
+                    new AlertDialog.Builder(this)
+                            .setTitle("No notifications allowed")
+                            .setMessage("Since you did not allow notifications, you will not get " +
+                                    "information on ingredient sharing. ")
+                            .setCancelable(true)
+                            .create()
+                            .show();
+                }
+            });
 
+    private void askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, POST_NOTIFICATIONS) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                // FCM SDK (and your app) can post notifications.
+            } else if (shouldShowRequestPermissionRationale(POST_NOTIFICATIONS))
+
+                new AlertDialog.Builder(this)
+                        .setTitle("Allow notification permissions")
+                        .setMessage("You must allow the permissions in order to get real time notifications " +
+                                "on ingredient sharing")
+                        .setPositiveButton("OK", (dialogInterface, i) -> {
+                            requestPermissionLauncher.launch(POST_NOTIFICATIONS);
+                        })
+                        .setNegativeButton("Reject notifications", ((dialogInterface, i) -> {
+                            //Do nothing
+                        }))
+                        .create()
+                        .show();
+        } else {
+            // Directly ask for the permission
+            requestPermissionLauncher.launch(POST_NOTIFICATIONS);
+        }
+    }
+    private void setupNotificationChannel()
+    {
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        String channelId = "FCM_NOTIF";
+        NotificationChannel channel = new NotificationChannel(
+                channelId,
+                "notification channel for fcm",
+                NotificationManager.IMPORTANCE_HIGH);
+        mNotificationManager.createNotificationChannel(channel);
+    }
 
 
 

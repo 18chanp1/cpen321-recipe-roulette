@@ -8,6 +8,7 @@ import android.widget.Button;
 
 public class MainMenu extends AppCompatActivity {
     private Button recipeReviewButton;
+    private Button requestIngredientButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,12 @@ public class MainMenu extends AppCompatActivity {
         recipeReviewButton.setOnClickListener(view -> {
             Intent mainMenuIntent = new Intent(MainMenu.this, com.beaker.recipeRoulette.RecipeFacebook.class);
             startActivity(mainMenuIntent);
+        });
+
+        requestIngredientButton = findViewById(R.id.menu3);
+        requestIngredientButton.setOnClickListener(view -> {
+            Intent reqIngrIntent = new Intent(MainMenu.this, IngredientRequestView.class);
+            startActivity(reqIngrIntent);
         });
     }
 }
