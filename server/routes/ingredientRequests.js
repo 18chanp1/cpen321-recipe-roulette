@@ -8,6 +8,11 @@ router.post('/new', function(req, res, next) {
     res.status(200).send("success");
 });
 
+router.post("/self/delete", (req, res, next) =>
+{
+  res.status(200).send()
+})
+
 router.get("/self", (req, res, next) =>
 {
   reviews = 
@@ -35,11 +40,6 @@ router.get("/self", (req, res, next) =>
     },
   ]
   res.send(reviews); 
-})
-
-router.get("/self/delete", (req, res, next) =>
-{
-  res.status(200).send()
 })
 
 router.get('/', function(req, res, next) {
