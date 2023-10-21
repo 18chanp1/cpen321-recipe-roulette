@@ -70,6 +70,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+            String title = remoteMessage.getData().get("title");
+            String body = remoteMessage.getData().get("body");
+            createNotification(title, body);
 
         }
 
@@ -93,7 +96,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getApplicationContext(), "FCM_NOTIF");
-        Intent ii = new Intent(getApplicationContext(), IngredientRequestView.class);
+        Intent ii = new Intent(getApplicationContext(), IngredientRequestSelfView.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, ii, PendingIntent.FLAG_IMMUTABLE);
 
         mBuilder.setContentIntent(pendingIntent);

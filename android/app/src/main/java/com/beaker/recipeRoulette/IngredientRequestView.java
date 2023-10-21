@@ -46,6 +46,7 @@ public class IngredientRequestView extends AppCompatActivity {
         viewRequestButton = findViewById(R.id.view_req_but);
         ingredientRequestText = findViewById(R.id.ingredient_entry);
 
+
         //get tokens
         SharedPreferences sharedPref =
                 this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
@@ -102,6 +103,13 @@ public class IngredientRequestView extends AppCompatActivity {
         requestIngredientButton.setOnClickListener(view -> {
             submitRequestHandler();
         });
+
+        viewRequestButton.setOnClickListener(view ->
+        {
+            Intent selfReqI = new Intent(IngredientRequestView.this, IngredientRequestSelfView.class);
+            startActivity(selfReqI);
+        });
+
 
 //        ingredientRequestText.setOnKeyListener((view, i, keyEvent) -> {
 //            if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER){

@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -18,9 +17,12 @@
         android:theme="@style/Theme.RecipeRoulette"
         tools:targetApi="31">
         <activity
-            android:name=".IngredientRequestView"
-            android:windowSoftInputMode="adjustNothing"
+            android:name=".IngredientRequestSelfView"
             android:exported="false" />
+        <activity
+            android:name=".IngredientRequestView"
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".ReviewDetailed"
             android:exported="false" />
@@ -47,26 +49,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-<!--        &lt;!&ndash; Set custom default icon. This is used when no icon is set for incoming notification messages.-->
-<!--See README(https://goo.gl/l4GJaQ) for more. &ndash;&gt;-->
-<!--        <meta-data-->
-<!--            android:name="com.google.firebase.messaging.default_notification_icon"-->
-<!--            android:resource="@drawable/ic_stat_ic_notification" />-->
-<!--        &lt;!&ndash; Set color used with incoming notification messages. This is used when no color is set for the incoming-->
-<!--             notification message. See README(https://goo.gl/6BKBk7) for more. &ndash;&gt;-->
-<!--        <meta-data-->
-<!--            android:name="com.google.firebase.messaging.default_notification_color"-->
-<!--            android:resource="@color/colorAccent" />-->
-
-<!--        <meta-data-->
-<!--            android:name="com.google.firebase.messaging.default_notification_channel_id"-->
-<!--            android:value="@string/default_notification_channel_id" />-->
-
     </application>
-
-
-
-
 
 </manifest>

@@ -22,4 +22,6 @@
     <string name="donate">Donate</string>
     <string name="ingredient">Ingredient</string>
     <string name="view_prev_req">View outstanding requests</string>
+
+    <string name="your_requests">Your Requests</string>
 </resources>
