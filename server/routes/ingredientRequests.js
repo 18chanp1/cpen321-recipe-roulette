@@ -37,6 +37,11 @@ router.get("/self", (req, res, next) =>
   res.send(reviews); 
 })
 
+router.get("/self/delete", (req, res, next) =>
+{
+  res.status(200).send()
+})
+
 router.get('/', function(req, res, next) {
   reviews = 
   [
