@@ -18,14 +18,6 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_below="@id/readmore_but"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="#673AB7"/>
-
 
     <EditText
         android:id="@+id/editTextText"
