@@ -24,16 +24,17 @@ import okhttp3.Response;
 public class IngredientRequestSelfAdaptor
 extends IngredientRequestAdaptor{
 
-    public IngredientRequestSelfAdaptor(Context context, List<IngredientRequest> items) {
+    public IngredientRequestSelfAdaptor(Context context, List<IngredientRequestSelf> items) {
         super(context, items);
     }
 
+
     @Override
     public void onBindViewHolder (@NonNull IngredientRequestHolder holder, int position) {
-        IngredientRequest item = items.get(position);
+        IngredientRequestSelf item = (IngredientRequestSelf) items.get(position);
 
         holder.nameView.setText(item.ingredientName);
-        holder.emailView.setText(item.getRequestor());
+        holder.emailView.setText(item.donationDetails);
 
         String url = item.getImage();
         Picasso.with(this.context).load(url).into(holder.imageView);

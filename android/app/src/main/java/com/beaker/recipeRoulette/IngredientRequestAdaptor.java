@@ -31,9 +31,9 @@ import okhttp3.Response;
 
 public class IngredientRequestAdaptor extends RecyclerView.Adapter<IngredientRequestHolder> {
     Context context;
-    List<IngredientRequest> items;
+    List<? extends IngredientRequest> items;
 
-    public IngredientRequestAdaptor(Context context, List<IngredientRequest> items) {
+    public IngredientRequestAdaptor(Context context, List<? extends IngredientRequest> items) {
         this.context = context;
         this.items = items;
     }

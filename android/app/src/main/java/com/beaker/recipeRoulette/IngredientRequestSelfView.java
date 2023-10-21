@@ -58,11 +58,11 @@ public class IngredientRequestSelfView extends AppCompatActivity {
                     IngredientRequestSelfView.this.runOnUiThread(() -> {
 
                         //TODO add expiry logic
-                        IngredientRequest[] userArray = new Gson().fromJson(res, IngredientRequest[].class);
+                        IngredientRequestSelf[] userArray = new Gson().fromJson(res, IngredientRequestSelf[].class);
 
-                        List<IngredientRequest> ingredientRequests = new ArrayList<IngredientRequest>();
+                        List<IngredientRequestSelf> ingredientRequests = new ArrayList<IngredientRequestSelf>();
 
-                        for(IngredientRequest r : userArray)
+                        for(IngredientRequestSelf r : userArray)
                         {
                             ingredientRequests.add(r);
                         }
