@@ -106,14 +106,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        String channelId = "FCM_NOTIF";
-        NotificationChannel channel = new NotificationChannel(
-                channelId,
-                "notification channel for fcm",
-                NotificationManager.IMPORTANCE_HIGH);
-        mNotificationManager.createNotificationChannel(channel);
-
-
         mNotificationManager.notify(notifs++, mBuilder.build());
     }
 }
