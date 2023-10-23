@@ -24,8 +24,7 @@ function setupWSS(httpsServer)
 
         ws.on("message", (message) =>
         {
-            console.log("message: " + message);
-            ws.send("echo: " + message);
+            console.log("message rcvd");
             ack = 
             {
                 entryID: "69",
