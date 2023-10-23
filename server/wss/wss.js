@@ -26,11 +26,12 @@ function setupWSS(httpsServer)
         {
             console.log("message: " + message);
             ws.send("echo: " + message);
-            msg = 
+            ack = 
             {
                 entryID: "69",
                 type: "ACK"
             }
+            ws.send(JSON.stringify(ack));
         })
 
         ws.on("close", () =>
