@@ -30,6 +30,7 @@ function setupWSS(httpsServer)
                 entryID: "69",
                 type: "ACK"
             }
+            ws.send(msg);
         })
 
         ws.on("close", () =>
