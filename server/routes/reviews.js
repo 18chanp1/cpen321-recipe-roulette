@@ -31,5 +31,11 @@ router.get('/', function(req, res, next) {
   res.send(reviews);
 });
 
+router.post("/like", (req, res, next) =>
+{
+  console.log("like");
+  res.send("like");
+})
+
 
 module.exports = router;
