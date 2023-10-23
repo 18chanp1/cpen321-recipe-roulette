@@ -1,6 +1,6 @@
 const ws = require("ws").Server
 
-export function setupWSS(httpsServer)
+function setupWSS(httpsServer)
 {
     let wss = new ws({server: httpsServer});
 
@@ -16,3 +16,5 @@ export function setupWSS(httpsServer)
 
     return wss;
 }
+
+export {setupWSS}
