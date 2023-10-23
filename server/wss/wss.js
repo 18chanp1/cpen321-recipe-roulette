@@ -19,13 +19,17 @@ function setupWSS(httpsServer)
             type: "SHOPREQ"
         }
 
-        ws.send(JSON.stringify(msg));
+        ws.send(msg);
 
 
         ws.on("message", (message) =>
         {
-            console.log("message: " + message);
-            ws.send("echo: " + message);
+            console.log("message");
+            msg = 
+            {
+                entryID: "69",
+                type: "ACK"
+            }
         })
 
         ws.on("close", () =>
