@@ -13,6 +13,8 @@
     <string name="read_more">Read more</string>
 
     <string name="Loremipsum">Lorem Ipsum</string>
+    <string name="like">Like</string>
+    <string name="dislike">Dislike</string>
 
     <string name="shared_pref_filename">com.beaker.recipeRoulette.TOKEN</string>
 </resources>
