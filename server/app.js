@@ -33,6 +33,8 @@ httpsServer.listen(8443, () =>
 	}
 )
 
+//setup websocket server
+let wss = require("./wss/wss").setupWSS(httpsServer); 
 
 title = "test"
 
