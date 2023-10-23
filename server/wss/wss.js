@@ -17,4 +17,4 @@ function setupWSS(httpsServer)
     return wss;
 }
 
-export {setupWSS}
+module.exports = setupWSS
