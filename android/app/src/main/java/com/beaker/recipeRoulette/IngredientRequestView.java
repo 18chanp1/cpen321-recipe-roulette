@@ -35,6 +35,7 @@ public class IngredientRequestView extends AppCompatActivity {
     private Button requestIngredientButton;
     private Button viewRequestButton;
     private EditText ingredientRequestText;
+    private EditText phoneNumberText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class IngredientRequestView extends AppCompatActivity {
         requestIngredientButton = findViewById(R.id.req_ingred_but);
         viewRequestButton = findViewById(R.id.view_req_but);
         ingredientRequestText = findViewById(R.id.ingredient_entry);
+        phoneNumberText = findViewById(R.id.reqPhoneNo);
 
 
         //get tokens
@@ -122,6 +124,7 @@ public class IngredientRequestView extends AppCompatActivity {
 
     private void submitRequestHandler()
     {
+
         SharedPreferences sharedPref =
                 this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
         String tok = sharedPref.getString("TOKEN", "NOTOKEN");
@@ -129,8 +132,18 @@ public class IngredientRequestView extends AppCompatActivity {
         OkHttpClient client = new OkHttpClient();
 
         String foodReq = String.valueOf(ingredientRequestText.getText());
+        String phoneNo = String.valueOf(phoneNumberText.getText());
         Gson gson = new Gson();
-        String json = gson.toJson(new IngredientRequestTicket(tok, foodReq));
+        String json = gson.toJson(new IngredientRequestTicket(tok, foodReq, phoneNo));
+
+        //do not allow blank submissions
+        if(foodReq.length() <= 0 || phoneNo.length() <=0)
+        {
+            Toast toast = Toast.makeText(IngredientRequestView.this, "You must enter an ingredient and " +
+                    "a contact method", Toast.LENGTH_LONG);
+            toast.show();
+            return;
+        }
 
 
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
@@ -140,6 +153,7 @@ public class IngredientRequestView extends AppCompatActivity {
                 .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests/new")
                 .addHeader("userToken", tok)
                 .addHeader("requestItem", foodReq)
+                .addHeader("phoneNo", phoneNo)
                 .post(body)
                 .build();
 
@@ -161,6 +175,9 @@ public class IngredientRequestView extends AppCompatActivity {
                         Log.d("test", "call ok");
                         Toast toast = Toast.makeText(IngredientRequestView.this, "Request made", Toast.LENGTH_LONG);
                         toast.show();
+
+                        phoneNumberText.setText("");
+                        ingredientRequestText.setText("");
                     }
                 });
             }
