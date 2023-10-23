@@ -12,6 +12,11 @@ function setupWSS(httpsServer)
             console.log("message: " + message);
             ws.send("echo: " + message);
         })
+
+        ws.on("close", () =>
+        {
+            console.log("closed");
+        })
     })
 
     return wss;
