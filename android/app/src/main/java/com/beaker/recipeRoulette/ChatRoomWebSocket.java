@@ -19,10 +19,10 @@ import okhttp3.WebSocketListener;
 import okio.ByteString;
 
 public class ChatRoomWebSocket extends WebSocketListener {
-    private Context c;
+    private ChatRoomLiveView c;
     private WebSocket ws;
     private final static String TAG = "Websocket";
-    public ChatRoomWebSocket(Context c) {
+    public ChatRoomWebSocket(ChatRoomLiveView c) {
         super();
         this.c = c;
 
@@ -35,6 +35,7 @@ public class ChatRoomWebSocket extends WebSocketListener {
                 .build();
 
         ws = client.newWebSocket(req, this);
+        client.dispatcher().executorService().shutdown();
     }
 
     @Override
@@ -69,6 +70,28 @@ public class ChatRoomWebSocket extends WebSocketListener {
         super.onMessage(webSocket, text);
         Log.d(TAG, "Incoming msg: " + text);
         //TODO handle incoming msgs here
+
+        ChatRoomLiveEntry item = new Gson().fromJson(text, ChatRoomLiveEntry.class);
+
+        if(item.type.equals("SHOPREQ"))
+        {
+            c.runOnUiThread(() -> c.addItemToList(item));
+
+            Log.d(TAG, "Added to list: " + item.name);
+        }
+
+        if(item.type.equals("DEL"))
+        {
+            c.runOnUiThread(() -> c.removeItemFromList(item));
+
+            Log.d(TAG, "Added to list: " + item.name);
+        }
+
+
+
+
+
+
     }
 
     @Override
@@ -77,6 +100,10 @@ public class ChatRoomWebSocket extends WebSocketListener {
 
         Log.d(TAG, "Incoming msg: " + bytes.hex());
         //TODO handle incoming msgs here
+
+        //first deserialize
+
+
     }
 
     private String serializeMsg(String type, String msg)

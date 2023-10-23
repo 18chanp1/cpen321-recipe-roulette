@@ -17,7 +17,7 @@
         android:theme="@style/Theme.RecipeRoulette"
         tools:targetApi="31">
         <activity
-            android:name=".ChatRoom"
+            android:name=".ChatRoomLiveView"
             android:exported="false" />
         <activity
             android:name=".IngredientRequestSelfView"

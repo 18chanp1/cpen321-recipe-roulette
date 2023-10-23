@@ -10,6 +10,7 @@ public class MainMenu extends AppCompatActivity {
     private Button recipeReviewButton;
     private Button requestIngredientButton;
     private Button shopTogetherButton;
+    private Button testListButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +30,19 @@ public class MainMenu extends AppCompatActivity {
             startActivity(reqIngrIntent);
         });
 
-        shopTogetherButton = findViewById(R.id.menu4);
-        shopTogetherButton.setOnClickListener(view -> {
-            Intent cookWithOthersIntent = new Intent(MainMenu.this, ChatRoom.class);
-            startActivity(cookWithOthersIntent);
+//        shopTogetherButton = findViewById(R.id.menu4);
+//        shopTogetherButton.setOnClickListener(view -> {
+//            Intent cookWithOthersIntent = new Intent(MainMenu.this, ChatRoom.class);
+//            startActivity(cookWithOthersIntent);
+//        });
+
+        testListButton = findViewById(R.id.menu6);
+        testListButton.setOnClickListener(view ->
+        {
+            Intent i = new Intent(MainMenu.this, ChatRoomLiveView.class);
+            startActivity(i);
         });
+
 
     }
 }
