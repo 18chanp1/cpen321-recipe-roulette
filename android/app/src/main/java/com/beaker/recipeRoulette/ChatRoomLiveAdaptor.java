@@ -31,10 +31,16 @@ public class ChatRoomLiveAdaptor extends RecyclerView.Adapter<ChatRoomLiveHolder
         ChatRoomLiveEntry item = items.get(position);
 
         holder.nameView.setText(item.name);
-        holder.detailedView.setText(item.details);
+        holder.detailedView.setText("Contact: " + item.contact);
 
-        String url = item.image;
-        Picasso.with(this.context).load(url).into(holder.imageView);
+        if (item.type.equals("SHOPREQ"))
+        {
+            holder.imageView.setImageResource(R.drawable.shopping_cart);
+        }
+        else if (item.type.equals("COOKREQ"))
+        {
+            holder.imageView.setImageResource(R.drawable.frying_pan);
+        }
     }
 
     @Override

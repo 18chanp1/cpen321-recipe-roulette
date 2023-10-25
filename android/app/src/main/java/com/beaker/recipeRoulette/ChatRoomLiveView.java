@@ -19,7 +19,6 @@ public class ChatRoomLiveView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room_live);
 
-        //todo testing
         entries = new ArrayList<>();
 
         recyclerView = findViewById(R.id.goOutList);

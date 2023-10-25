@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //TODO: Handle initial sign in endpoint
     private void setupSignIn()
     {
         timeUntilNextSignIn = Calendar.getInstance();
