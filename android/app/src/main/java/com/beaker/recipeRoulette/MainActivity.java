@@ -57,13 +57,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TakePhotoButton = findViewById(R.id.take_photo);
-
-        TakePhotoButton.setOnClickListener(view -> {
-            Intent takePhotoIntent = new Intent(MainActivity.this, com.beaker.recipeRoulette.TakePhoto.class);
-            startActivity(takePhotoIntent);
-        });
-
         signInButton = findViewById(R.id.sign_in_button);
         setupSignIn();
 

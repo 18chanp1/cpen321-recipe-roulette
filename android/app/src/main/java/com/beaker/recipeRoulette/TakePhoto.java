@@ -6,9 +6,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -20,8 +18,9 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class TakePhoto extends AppCompatActivity {
 
@@ -29,7 +28,8 @@ public class TakePhoto extends AppCompatActivity {
     Button mCaptureBtn;
     ImageView mImageView;
 
-    Uri image_uri; // this will carry the resulting photo
+    Uri image_uri; // This will carry the resulting photo
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,17 +39,21 @@ public class TakePhoto extends AppCompatActivity {
         mCaptureBtn = findViewById(R.id.capture_image_btn);
 
         mCaptureBtn.setOnClickListener(view -> {
-            if (checkSelfPermission(Manifest.permission.CAMERA) ==
-                    PackageManager.PERMISSION_DENIED ||
-                    checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                String[] permission = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-                requestPermissions(permission, PERMISSION_CODE);
-            }
-            else {
+            if (checkPermissions()) {
                 openCamera();
+            } else {
+                requestPermissions();
             }
-
         });
+    }
+
+    private boolean checkPermissions() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermissions() {
+        String[] permission = {Manifest.permission.CAMERA};
+        ActivityCompat.requestPermissions(this, permission, PERMISSION_CODE);
     }
 
     private void openCamera() {
@@ -60,7 +64,7 @@ public class TakePhoto extends AppCompatActivity {
 
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
-        //startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE);
+
         someActivityResultLauncher.launch(cameraIntent);
     }
 
@@ -70,20 +74,21 @@ public class TakePhoto extends AppCompatActivity {
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK) {
-
                         mImageView.setImageURI(image_uri);
+                    } else {
+                        Toast.makeText(TakePhoto.this, "Failed to capture image", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case PERMISSION_CODE: {
+        if (requestCode == PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openCamera();
+            } else {
+                Toast.makeText(this, "Permissions denied. Cannot capture photo.", Toast.LENGTH_SHORT).show();
             }
         }
     }

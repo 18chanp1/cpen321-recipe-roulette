@@ -2,14 +2,13 @@
     <string name="app_name">Recipe Roulette</string>
     <string name="default_web_client_id">217153905955-spv5u408mc29flpg3bgqqev5272k2cd3.apps.googleusercontent.com</string>
     <string name="signin_title">Sign in to use app.</string>
-    <string name="take_photo">Take Photo</string>
 
     <string name="recipe_engine">Recipe Engine</string>
+    <string name="take_photo">Add to Pantry</string>
     <string name="flavor_profile">Flavor Profile</string>
     <string name="req_ingredient">Request Ingredient</string>
     <string name="cook_together">Cook with others</string>
     <string name="recipe_review">Recipe Reviews</string>
-    <string name="shop_together">Go shopping together</string>
 
     <string name="read_more">Read more</string>
 
