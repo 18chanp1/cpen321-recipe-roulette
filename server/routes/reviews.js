@@ -28,7 +28,8 @@ router.get('/', function(req, res, next) {
       image: "https://ece.ubc.ca/files/2017/03/2016a-13-e1580928549507.jpeg"
     }
   ]
-  res.send(reviews);
+  res.status(511).send()
+  //res.send(reviews);
 });
 
 router.post("/like", (req, res, next) =>
