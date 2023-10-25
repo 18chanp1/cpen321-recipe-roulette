@@ -28,4 +28,10 @@
         android:layout_height="wrap_content"
         android:text="Select Photo from Camera Roll" />
 
+    <Button
+        android:id="@+id/send_image_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send Image" />
+
 </LinearLayout>

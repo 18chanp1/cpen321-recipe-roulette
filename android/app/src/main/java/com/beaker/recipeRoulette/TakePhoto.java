@@ -30,6 +30,9 @@ public class TakePhoto extends AppCompatActivity {
     Button mSelectPicButton;
     ImageView mImageView;
 
+    private boolean imageSelectedOrCaptured = false; // Flag to track if an image has been selected or captured
+    private Button sendImageBtn;
+
     Uri image_uri; // This will carry the resulting photo
 
     @Override
@@ -40,6 +43,9 @@ public class TakePhoto extends AppCompatActivity {
         mImageView = findViewById(R.id.imageview);
         mCaptureBtn = findViewById(R.id.capture_image_btn);
         mSelectPicButton = findViewById(R.id.select_image_btn);
+
+        sendImageBtn = findViewById(R.id.send_image_btn);
+        sendImageBtn.setVisibility(View.GONE);
 
         mSelectPicButton.setOnClickListener(view -> {
             if (checkGalleryPermissions()) {
@@ -55,6 +61,11 @@ public class TakePhoto extends AppCompatActivity {
             } else {
                 requestPermissions();
             }
+        });
+
+        sendImageBtn.setOnClickListener(view -> {
+            // Perform some action when the button is clicked
+            // You can add your code here
         });
     }
 
@@ -100,6 +111,8 @@ public class TakePhoto extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         mImageView.setImageURI(image_uri);
+                        imageSelectedOrCaptured = true; // Set the flag to true when an image is captured
+                        sendImageBtn.setVisibility(View.VISIBLE); // Show the button
                     } else {
                         Toast.makeText(TakePhoto.this, "Failed to capture image", Toast.LENGTH_SHORT).show();
                     }
@@ -115,6 +128,8 @@ public class TakePhoto extends AppCompatActivity {
                         // Get the selected image URI
                         Uri selectedImageUri = result.getData().getData();
                         mImageView.setImageURI(selectedImageUri);
+                        imageSelectedOrCaptured = true; // Set the flag to true when an image is captured
+                        sendImageBtn.setVisibility(View.VISIBLE); // Show the button
                     } else {
                         Toast.makeText(TakePhoto.this, "Failed to select image", Toast.LENGTH_SHORT).show();
                     }
