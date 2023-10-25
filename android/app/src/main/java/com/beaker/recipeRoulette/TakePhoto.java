@@ -25,7 +25,9 @@ import androidx.core.content.ContextCompat;
 public class TakePhoto extends AppCompatActivity {
 
     private static final int PERMISSION_CODE = 1000;
+    private static final int GALLERY_PERMISSION_CODE = 1001;
     Button mCaptureBtn;
+    Button mSelectPicButton;
     ImageView mImageView;
 
     Uri image_uri; // This will carry the resulting photo
@@ -37,6 +39,15 @@ public class TakePhoto extends AppCompatActivity {
 
         mImageView = findViewById(R.id.imageview);
         mCaptureBtn = findViewById(R.id.capture_image_btn);
+        mSelectPicButton = findViewById(R.id.select_image_btn);
+
+        mSelectPicButton.setOnClickListener(view -> {
+            if (checkGalleryPermissions()) {
+                openGallery();
+            } else {
+                requestGalleryPermissions();
+            }
+        });
 
         mCaptureBtn.setOnClickListener(view -> {
             if (checkPermissions()) {
@@ -45,6 +56,20 @@ public class TakePhoto extends AppCompatActivity {
                 requestPermissions();
             }
         });
+    }
+
+    private boolean checkGalleryPermissions() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestGalleryPermissions() {
+        String[] permission = {Manifest.permission.READ_EXTERNAL_STORAGE};
+        ActivityCompat.requestPermissions(this, permission, GALLERY_PERMISSION_CODE);
+    }
+
+    private void openGallery() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        someGalleryActivityResultLauncher.launch(galleryIntent);
     }
 
     private boolean checkPermissions() {
@@ -81,6 +106,21 @@ public class TakePhoto extends AppCompatActivity {
                 }
             });
 
+    ActivityResultLauncher<Intent> someGalleryActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // Get the selected image URI
+                        Uri selectedImageUri = result.getData().getData();
+                        mImageView.setImageURI(selectedImageUri);
+                    } else {
+                        Toast.makeText(TakePhoto.this, "Failed to select image", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -89,6 +129,13 @@ public class TakePhoto extends AppCompatActivity {
                 openCamera();
             } else {
                 Toast.makeText(this, "Permissions denied. Cannot capture photo.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (requestCode == GALLERY_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openGallery();
+            } else {
+                Toast.makeText(this, "Gallery permissions denied. Cannot select a photo.", Toast.LENGTH_SHORT).show();
             }
         }
     }
