@@ -70,7 +70,15 @@ public class IngredientRequestView extends AppCompatActivity {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if(response.isSuccessful())
+                if (response.code() == 511)
+                {
+
+                    CharSequence s = "Exit the app and try again";
+
+                    Toast t = Toast.makeText(IngredientRequestView.this, s, Toast.LENGTH_SHORT);
+                    t.show();
+                }
+                else if(response.isSuccessful())
                 {
                     String res = response.body().string();
 
@@ -171,7 +179,16 @@ public class IngredientRequestView extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 IngredientRequestView.this.runOnUiThread(() -> {
-                    if(response.isSuccessful()) {
+                    if (response.code() == 511)
+                    {
+
+                        CharSequence s = "Exit the app and try again";
+
+                        Toast t = Toast.makeText(IngredientRequestView.this, s, Toast.LENGTH_SHORT);
+                        t.show();
+
+                    }
+                    else if(response.isSuccessful()) {
                         Log.d("test", "call ok");
                         Toast toast = Toast.makeText(IngredientRequestView.this, "Request made", Toast.LENGTH_LONG);
                         toast.show();

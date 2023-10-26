@@ -2,6 +2,7 @@ package com.beaker.recipeRoulette;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -120,7 +122,16 @@ public class ReviewDetailed extends AppCompatActivity {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if(response.isSuccessful())
+                if (response.code() == 511)
+                {
+
+                    CharSequence s = "Exit the app and try again";
+
+                    Toast t = Toast.makeText(ReviewDetailed.this, s, Toast.LENGTH_SHORT);
+                    t.show();
+
+                }
+                else if(response.isSuccessful())
                 {
                     if(like) {
                         like_but.setBackgroundColor(Color.GREEN);

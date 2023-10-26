@@ -2,6 +2,7 @@ package com.beaker.recipeRoulette;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -52,6 +54,15 @@ public class IngredientRequestSelfView extends AppCompatActivity {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.code() == 511)
+                {
+
+                    CharSequence s = "Exit the app and try again";
+
+                    Toast t = Toast.makeText(IngredientRequestSelfView.this, s, Toast.LENGTH_SHORT);
+                    t.show();
+
+                }
                 if(response.isSuccessful())
                 {
                     String res = response.body().string();
