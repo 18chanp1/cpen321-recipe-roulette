@@ -136,13 +136,15 @@ public class IngredientRequestView extends AppCompatActivity {
         SharedPreferences sharedPref =
                 this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
         String tok = sharedPref.getString("TOKEN", "NOTOKEN");
+        String fcmtok = sharedPref.getString("FCMTOKEN","NOTOKEN");
+
 
         OkHttpClient client = new OkHttpClient();
 
         String foodReq = String.valueOf(ingredientRequestText.getText());
         String phoneNo = String.valueOf(phoneNumberText.getText());
         Gson gson = new Gson();
-        String json = gson.toJson(new IngredientRequestTicket(tok, foodReq, phoneNo));
+        String json = gson.toJson(new IngredientRequestTicket(tok, fcmtok, foodReq, phoneNo));
 
         //do not allow blank submissions
         if(foodReq.length() <= 0 || phoneNo.length() <=0)
@@ -162,6 +164,7 @@ public class IngredientRequestView extends AppCompatActivity {
                 .addHeader("userToken", tok)
                 .addHeader("requestItem", foodReq)
                 .addHeader("phoneNo", phoneNo)
+                .addHeader("fcmTok", fcmtok)
                 .post(body)
                 .build();
 
