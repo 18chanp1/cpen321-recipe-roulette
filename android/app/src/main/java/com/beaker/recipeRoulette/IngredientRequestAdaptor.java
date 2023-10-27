@@ -94,7 +94,18 @@ public class IngredientRequestAdaptor extends RecyclerView.Adapter<IngredientReq
 
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    if (response.isSuccessful())
+                    if (response.code() == 511)
+                    {
+
+                        CharSequence s = "Exit the app and try again";
+
+                        ContextCompat.getMainExecutor(context).execute(()  -> {
+                            Toast t = Toast.makeText(context, s, Toast.LENGTH_SHORT);
+                            t.show();
+                        });
+
+                    }
+                    else if (response.isSuccessful())
                     {
                         ContextCompat.getMainExecutor(IngredientRequestAdaptor.this.context).execute(() ->
                         {

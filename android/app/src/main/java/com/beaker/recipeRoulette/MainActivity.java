@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //TODO: Handle initial sign in endpoint
     private void setupSignIn()
     {
         timeUntilNextSignIn = Calendar.getInstance();
@@ -126,10 +125,21 @@ public class MainActivity extends AppCompatActivity {
 
 
                                 //Go to main menu
-                                Intent mainMenuIntent = new Intent(MainActivity.this, MainMenu.class);
-                                startActivity(mainMenuIntent);
 
 
+                                try {
+                                    String from = getIntent().getExtras().getString("REFRESHSIGNIN");
+
+                                    if(from.equals("RECIPEFACEBOOK"))
+                                    {
+                                        finish();
+                                    }
+                                } catch (NullPointerException e)
+                                {
+                                    Log.d(TAG, "nullpointeered");
+                                    Intent mainMenuIntent = new Intent(MainActivity.this, MainMenu.class);
+                                    startActivity(mainMenuIntent);
+                                }
                             }
                             else {
                                 //Writing token and credentials to settings file
