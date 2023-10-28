@@ -1,5 +1,12 @@
-import { initializeApp } from "firebase/app";
-import { getMessaging } from "firebase/messaging";
+// const { getMessaging } = require('firebase-admin/messaging');
+// const { initializeApp } = require('firebase-admin/app');
+var admin = require("firebase-admin");
+var serviceAccount = require("../firebase_admin.json");
+
+const app = admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
 var express = require('express');
 var router = express.Router();
 
@@ -19,25 +26,25 @@ var router = express.Router();
 // const app = initializeApp(firebaseConfig);
 
 
-// // Initialize Firebase Cloud Messaging and get a reference to the service
-// const messaging = getMessaging(app);
+// Initialize Firebase Cloud Messaging and get a reference to the service
+const messaging = admin.messaging(app);
 
 // Send a message to the device corresponding to the provided
 // registration token.
   
-sendMessage = async () => {
+sendMessage = (req) => {
     // This registration token comes from the client FCM SDKs.
-    const registrationToken = 'YOUR_REGISTRATION_TOKEN';
-
+    console.log(req.body.tok);
+    let registrationToken = req.body.tok;
     const message = {
     data: {
         score: '850',
         time: '2:45'
     },
-    token: registrationToken
+    token: 'f54vS09YT6GnAzD4Bh-Q-v:APA91bHWZT5rvKn5HV5By2mAUj9q2MPjkyl34QizZQ1N1IP0CN3BD6xkj32MWfD1GPs-Qd48ZICPaZoMrOycCEh96Y0Y5ks0R7BBJ6Xfg2Q97mH8xAVj7igVLn6Ybyzjo2Q-KHwGTgQU'
     };
-    
-    getMessaging().send(message).then((response) => {
+
+    messaging.send(message).then((response) => {
         // Response is a message ID string.
         console.log('Successfully sent message:', response);
     })
@@ -45,9 +52,9 @@ sendMessage = async () => {
         console.log('Error sending message:', error);
     });
 }
-router.get('/', async function(req, res, next) {
-    await getRecipes();
-    res.send('respond with a recipe');
+router.post('/new', async function(req, res, next) {
+    sendMessage(req);
+    res.send('Response with msg');
 });
   
 module.exports = router;
