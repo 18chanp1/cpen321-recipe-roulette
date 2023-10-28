@@ -1,9 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var fetch = require('node-fetch');
 var mongodb = require('../db');
 var url = require('url');
-const fs = require('fs');
 const { default: mongoose } = require('mongoose');
 const recipeSchema = new mongoose.Schema({
   user: String,
@@ -19,20 +17,24 @@ getFlavourProfile = async (req) => {
   const recipes = await Recipe.find({user: `${queriedUser}`});
   console.log(typeof recipes);
   console.log(recipes);
-  for (int i)
-  try {
-    let res = await fetch(endpoint);
-    recipes = await res.json();
-    console.log(recipes);
-    return recipes;
-  } catch (error) {
-    console.log(error);
-    return null;
+  let meat = 0;
+  let veggie = 0;
+  recipes.forEach(recipe => {
+    if (recipe.includes("meat") || recipe.includes("beef") || recipe.includes("pork") || recipe.includes("chicken") ) {
+      meat++;
+    } else {
+      veggie++;
+    }
+  });
+  if (meat > veggie) {
+    return "Meat Lover";
+  } else {
+    return "Veggie Lover";
   }
 }
 router.get('/', async function(req, res, next) {
-  let recipes = await getRecipes(req);
-  res.send(recipes);
+  let flavorProfile = await getFlavourProfile(req);
+  res.send(flavorProfile);
 });
 
 module.exports = router;
