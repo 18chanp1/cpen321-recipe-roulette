@@ -13,6 +13,7 @@
     "firebase-admin": "^11.11.0",
     "http-errors": "~1.6.3",
     "jade": "^0.29.0",
+    "ws": "^8.14.2"
     "mongoose": "^7.6.3",
     "morgan": "~1.9.1",
     "node-fetch": "^2.7.0"

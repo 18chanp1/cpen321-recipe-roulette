@@ -10,6 +10,8 @@ var recipesRouter = require('./routes/recipes');
 var ingredientRequestRouter = require('./routes/ingredientRequest');
 var flavorProfileRouter = require('./routes/flavorProfile');
 let assetLinkRouter = require('./routes/assetLink');
+let reviewRouter = require('./routes/reviews');
+let ingredientRequestRouter = require('./routes/ingredientRequests');
 
 const fs = require('fs');
 const http = require("http")
@@ -35,6 +37,8 @@ httpsServer.listen(8443, () =>
 	}
 )
 
+//setup websocket server
+let wss = require("./wss/wss")(httpsServer); 
 // let httpServer = http.createServer(app)
 // httpServer.listen(8080, () => 
 // 	{
@@ -60,6 +64,8 @@ app.use('/recipes', recipesRouter);
 app.use('/ingredientrequests', ingredientRequestRouter);
 app.use('/flavorprofile', flavorProfileRouter);
 app.use("/.well-known/assetlinks.json", assetLinkRouter)
+app.use("/reviews", reviewRouter)
+app.use("/ingredientrequests", ingredientRequestRouter)
 
 
 // catch 404 and forward to error handler
