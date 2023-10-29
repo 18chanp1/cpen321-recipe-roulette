@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="20dp"
+        android:layout_centerVertical="true"
+        android:id="@+id/imageview"/>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/name"
+        android:layout_toEndOf="@id/imageview"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        tools:text="Name"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/email"
+        android:layout_toEndOf="@id/imageview"
+        android:layout_below="@id/name"
+        android:textColor="@color/black"
+        tools:text="email@email.com"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/readmore_but"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#673AB7"/>
+
+    <Button
+        android:id="@+id/readmore_but"
+        android:layout_width="109dp"
+        android:layout_height="44dp"
+        android:layout_below="@+id/email"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@id/imageview"
+        android:text="@string/donate" />
+
+</RelativeLayout>
