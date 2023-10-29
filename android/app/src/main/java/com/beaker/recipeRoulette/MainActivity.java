@@ -17,6 +17,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.IntentSenderRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -30,8 +32,13 @@ import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.Identity;
 import com.google.android.gms.auth.api.identity.SignInClient;
 import com.google.android.gms.auth.api.identity.SignInCredential;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 
 import java.util.Calendar;
 
@@ -208,29 +215,42 @@ public class MainActivity extends AppCompatActivity {
                     }});
 
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
 
-        signInButton.setOnClickListener(view -> oneTapClient.beginSignIn(signUpRequest)
-                .addOnSuccessListener(MainActivity.this, result -> {
-                    if(!timeUntilNextSignIn.after(Calendar.getInstance())) {
-                        IntentSenderRequest intentSenderRequest =
-                                new IntentSenderRequest.Builder(result.getPendingIntent().getIntentSender()).build();
-                        activityResultLauncher.launch(intentSenderRequest);
-                    }
-                    else {
-                        Log.d(TAG, "not showing one tap UI");
-                        String timeDiff = String.valueOf((timeUntilNextSignIn.getTimeInMillis() - Calendar.getInstance().getTimeInMillis()) / (1000 * 60));
-                        Toast toast = Toast.makeText(MainActivity.this,"You declined to sign in. You have to wait " + timeDiff + " minutes", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
-                })
-                .addOnFailureListener(MainActivity.this, er -> {
-                    // No saved credentials found. Launch the One Tap sign-up flow, or
-                    // do nothing and continue presenting the signed-out UI.
-                    er.printStackTrace();
-                    Toast toast = Toast.makeText(MainActivity.this,"You must be logged into a google account on android first", Toast.LENGTH_LONG);
-                    toast.show();
-                }));
+
+        ActivityResultLauncher<Intent> arl = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+
+                        //do stuff
+                        String tok = task.getResult().getIdToken();
+
+                        if(tok != null)
+                        {
+                            SharedPreferences sharedPref =
+                                    MainActivity.this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.putString("TOKEN", tok);
+                            editor.apply();
+                        }
+
+                        Intent mainMenuIntent = new Intent(MainActivity.this, MainMenu.class);
+                        startActivity(mainMenuIntent);
+                    }
+                });
+
+        signInButton.setOnClickListener(view ->
+        {
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+            arl.launch(signInIntent);
+        });
 
 
     }
