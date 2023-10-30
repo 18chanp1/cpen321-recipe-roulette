@@ -31,6 +31,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    packaging {
+        exclude("META-INF/INDEX.LIST")
+        exclude("META-INF/DEPENDENCIES")
+        // Add any other exclusions or configurations as needed
+    }
 }
 
 dependencies {
@@ -48,6 +54,7 @@ dependencies {
 
     //OAuth
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("com.google.cloud:google-cloud-vision:3.27.0")
 
     //Preserving login state
     implementation("androidx.datastore:datastore-preferences:1.0.0")

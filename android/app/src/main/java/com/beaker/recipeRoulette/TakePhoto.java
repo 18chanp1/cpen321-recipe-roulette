@@ -64,8 +64,12 @@ public class TakePhoto extends AppCompatActivity {
         });
 
         sendImageBtn.setOnClickListener(view -> {
-            // Perform some action when the button is clicked
-            // You can add your code here
+            if (imageSelectedOrCaptured) {
+                String imageUriString = image_uri.toString();
+                QueryVisions.processImage(imageUriString);
+            } else {
+                Toast.makeText(TakePhoto.this, "Please capture or select an image first.", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
@@ -127,6 +131,7 @@ public class TakePhoto extends AppCompatActivity {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         // Get the selected image URI
                         Uri selectedImageUri = result.getData().getData();
+                        image_uri = selectedImageUri;
                         mImageView.setImageURI(selectedImageUri);
                         imageSelectedOrCaptured = true; // Set the flag to true when an image is captured
                         sendImageBtn.setVisibility(View.VISIBLE); // Show the button
