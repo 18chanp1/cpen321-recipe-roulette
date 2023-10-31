@@ -30,9 +30,9 @@ router.post('/upload', async (req, res) => {
 
 router.get('/', async function(req, res, next) {
   try {
-    mongodb.once('open', function() {
-      console.log("We're connected to MongoDB!");
-    });
+    // mongodb.once('open', function() {
+    //   console.log("We're connected to MongoDB!");
+    // });
 
     let queriedUser = url.parse(req.url, true).query.userId;
     const ingredients = await Models.Ingredient.find({userId: `${queriedUser}`});
@@ -45,6 +45,58 @@ router.get('/', async function(req, res, next) {
     res.status(500).send(err.message);
   } finally {
     console.log('Finished processing request');
+  }
+});
+
+// PUT: given a user and a list of ingredients, if the ingredient exists, decrement the counter or delete the food item
+router.put('/update', async (req, res) => {
+  try {
+    const { userId, ingredients } = req.body;
+
+    await Promise.all(ingredients.map(async (ingredientName) => {    
+      const userIngredient = await Models.Ingredient.findOne({ userId });
+      
+      if (!userIngredient) {
+        console.log(`User with userId ${userId} not found`);
+        return res.status(404).send('User not found');
+      } else {
+        console.log("Get userId: " + userIngredient.userId);
+      }
+
+      const ingredient = userIngredient.ingredients.find(ing => ing.name === ingredientName);
+      
+      if (ingredient) {
+        if (ingredient.count > 1) {
+          // Decrement count if it's more than 1
+          console.log('Ingredient Name: ' + ingredientName);
+          console.log('Count: ' + ingredient.count);
+          ingredient.count -= 1;
+          console.log('Count after: ' + ingredient.count);
+        } else {
+          // Remove ingredient from user's ingredients array if count is 1 or less
+          console.log('Ingredient Name: ' + ingredientName);
+          console.log('Count: ' + ingredient.count);
+
+          Models.Ingredient.updateOne(
+            { userId: userId },
+            { $pull: { ingredients: { name : ingredientName } } }
+          ).then(() => {
+            console.log(ingredientName + " got removed from the array");
+          }).catch((error) => {
+            console.error(error);
+          });
+        }
+
+      } else {
+        console.log(`Ingredient ${ingredientName} not found`);
+      }
+
+      await userIngredient.save();
+    }));
+    res.send('Ingredients updated successfully');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.message);
   }
 });
 
