@@ -43,6 +43,8 @@ import com.google.android.gms.tasks.Task;
 import java.util.Calendar;
 
 
+
+
 public class MainActivity extends AppCompatActivity {
     //Elements
     private SignInButton signInButton;
@@ -115,25 +117,22 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(result.getData());
                             String idToken = credential.getGoogleIdToken();
-                            // String username = credential.getId();
+                            String username = credential.getId();
                             String password = credential.getPassword();
                             if (idToken !=  null) {
                                 // Got an ID token from Google. Use it to authenticate
                                 // with your backend.
                                 Log.d(TAG, "Got ID token.");
 
-
-                                //Writing token and credentials to settings file
+                                //Writing token and email to settings file
                                 SharedPreferences sharedPref =
                                         this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPref.edit();
                                 editor.putString("TOKEN", idToken);
+                                editor.putString("EMAIL", username);
                                 editor.apply();
 
-
                                 //Go to main menu
-
-
                                 try {
                                     String from = getIntent().getExtras().getString("REFRESHSIGNIN");
 
@@ -154,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
                                         this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPref.edit();
                                 editor.putString("TOKEN", "FAILED");
+                                editor.putString("EMAIL", "FAILED");
                                 editor.apply();
 
                                 // do nothing
@@ -229,8 +229,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onActivityResult(ActivityResult result) {
                         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
 
-                        //do stuff
                         String tok = task.getResult().getIdToken();
+                        String email = task.getResult().getEmail();
 
                         if(tok != null)
                         {
@@ -238,6 +238,7 @@ public class MainActivity extends AppCompatActivity {
                                     MainActivity.this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPref.edit();
                             editor.putString("TOKEN", tok);
+                            editor.putString("EMAIL", email);
                             editor.apply();
                         }
 
