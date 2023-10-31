@@ -14,13 +14,13 @@ const bodyParser = require('body-parser');
 const Schema = mongoose.Schema;
 
 const FoodItemSchema = new Schema({
-  name: { "type": "string", "required": "true" },
-  count: { "type": "number", "required": "true" },
-  date:  [Date]
+  name: {type: String, required: true},
+  count: {type: Number, min: 0, required: true},
+  date: [{type: Date, required: true}]
 })
 
 const FoodItemsSchema = new Schema({
-  userId: { "type": "String"},
+  userId: {type: String, required: [true, 'Missing userId']},
   ingredients: [FoodItemSchema]
 });
 
