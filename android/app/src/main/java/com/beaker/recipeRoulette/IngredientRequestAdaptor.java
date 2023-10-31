@@ -72,7 +72,7 @@ public class IngredientRequestAdaptor extends RecyclerView.Adapter<IngredientReq
 
             MediaType JSON = MediaType.get("application/json; charset=utf-8");
             RequestBody body = RequestBody.create(json, JSON);
-            String acceptUrl = "https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientRequests";
+            String acceptUrl = "https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests";
 
             Request req = new Request.Builder()
                     .url(acceptUrl)
