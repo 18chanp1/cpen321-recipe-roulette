@@ -22,4 +22,18 @@ const ingredientRequestSchema = new mongoose.Schema({
 })
 const IngredientRequest = mongoose.model('ingredientRequest', ingredientRequestSchema);
 
-module.exports = { Recipe, IngredientRequest };
+const FoodItemSchema = new mongoose.Schema({
+  name: {type: String, required: true},
+  count: {type: Number, min: 0, required: true},
+  date: [{type: Date, required: true}]
+})
+
+const FoodItemsSchema = new mongoose.Schema({
+  userId: {type: String, required: [true, 'Missing userId']},
+  ingredients: [FoodItemSchema]
+});
+
+// Create a model
+const Ingredient = mongoose.model('food_items', FoodItemsSchema);
+
+module.exports = { Recipe, IngredientRequest, Ingredient };
