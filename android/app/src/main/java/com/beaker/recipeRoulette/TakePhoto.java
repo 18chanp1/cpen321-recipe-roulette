@@ -2,7 +2,9 @@ package com.beaker.recipeRoulette;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -10,6 +12,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -28,6 +31,7 @@ public class TakePhoto extends AppCompatActivity {
     private static final int GALLERY_PERMISSION_CODE = 1001;
     Button mCaptureBtn;
     Button mSelectPicButton;
+    Button mManualBtn;
     ImageView mImageView;
 
     private boolean imageSelectedOrCaptured = false; // Flag to track if an image has been selected or captured
@@ -42,6 +46,7 @@ public class TakePhoto extends AppCompatActivity {
 
         mImageView = findViewById(R.id.imageview);
         mCaptureBtn = findViewById(R.id.capture_image_btn);
+        mManualBtn = findViewById(R.id.manual_entry_btn);
         mSelectPicButton = findViewById(R.id.select_image_btn);
 
         sendImageBtn = findViewById(R.id.send_image_btn);
@@ -61,6 +66,10 @@ public class TakePhoto extends AppCompatActivity {
             } else {
                 requestPermissions();
             }
+        });
+
+        mManualBtn.setOnClickListener(view -> {
+            showManualEntryDialog();
         });
 
         sendImageBtn.setOnClickListener(view -> {
@@ -158,5 +167,38 @@ public class TakePhoto extends AppCompatActivity {
                 Toast.makeText(this, "Gallery permissions denied. Cannot select a photo.", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void showManualEntryDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter Grocery Item");
+
+        // Create an EditText for user input
+        final EditText editText = new EditText(this);
+        builder.setView(editText);
+
+        builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Get the entered grocery item from the EditText
+                String groceryItem = editText.getText().toString();
+
+                // You can now do something with the entered grocery item
+                // For example, display it in a toast message
+                Toast.makeText(TakePhoto.this, "You entered: " + groceryItem, Toast.LENGTH_SHORT).show();
+
+                // You can also store the grocery item or send it to another function.
+                // For example, store it in a list or send it to your QueryVisions.processImage function.
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
     }
 }

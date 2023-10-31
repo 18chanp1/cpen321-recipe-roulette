@@ -34,4 +34,11 @@
         android:layout_height="wrap_content"
         android:text="Send Image" />
 
+
+    <Button
+        android:id="@+id/manual_entry_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Manually Enter Item" />
+
 </LinearLayout>
