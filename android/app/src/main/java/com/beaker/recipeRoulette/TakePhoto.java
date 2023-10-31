@@ -66,7 +66,7 @@ public class TakePhoto extends AppCompatActivity {
         sendImageBtn.setOnClickListener(view -> {
             if (imageSelectedOrCaptured) {
                 String imageUriString = image_uri.toString();
-                QueryVisions.processImage(imageUriString);
+                QueryVisions.processImage(imageUriString, TakePhoto.this);
             } else {
                 Toast.makeText(TakePhoto.this, "Please capture or select an image first.", Toast.LENGTH_SHORT).show();
             }

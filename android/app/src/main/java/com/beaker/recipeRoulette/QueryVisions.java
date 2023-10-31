@@ -1,5 +1,10 @@
 package com.beaker.recipeRoulette;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.api.client.util.Lists;
+import com.google.api.gax.core.FixedCredentialsProvider;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.vision.v1.AnnotateImageRequest;
 import com.google.cloud.vision.v1.AnnotateImageResponse;
 import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
@@ -8,17 +13,35 @@ import com.google.cloud.vision.v1.Feature;
 import com.google.cloud.vision.v1.Feature.Type;
 import com.google.cloud.vision.v1.Image;
 import com.google.cloud.vision.v1.ImageAnnotatorClient;
+import com.google.cloud.vision.v1.ImageAnnotatorSettings;
 import com.google.protobuf.ByteString;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class QueryVisions {
 
-    public static void processImage(String imageUri) {
-        try (ImageAnnotatorClient vision = ImageAnnotatorClient.create()) {
+    public static void processImage(String imageUri, AppCompatActivity c) {
+
+        List<String> l = new ArrayList<>();
+        l.add("https://www.googleapis.com/auth/cloud-platform");
+        GoogleCredentials credentials;
+        ImageAnnotatorSettings ias;
+
+        try {
+            InputStream s = c.getAssets().open("cpen321-recipe-roulette-401802-1ca843ff111a.json");
+            credentials = GoogleCredentials.fromStream(s).createScoped(l);
+            ias = ImageAnnotatorSettings.newBuilder()
+                    .setCredentialsProvider(FixedCredentialsProvider.create(credentials)).build();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        try (ImageAnnotatorClient vision = ImageAnnotatorClient.create(ias)) {
             // Read the image content from the image URI
             byte[] imgBytes = readImageBytesFromUri(imageUri);
 
