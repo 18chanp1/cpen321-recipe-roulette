@@ -1,18 +1,20 @@
 var express = require('express');
 var router = express.Router();
 var fetch = require('node-fetch');
-var Recipe = require('../db');
-var Ingredient = require('../db');
+var Models = require('../db');
 var url = require('url');
 const fs = require('fs');
 const apiKey = fs.readFileSync("api_key.txt", "utf8");
 
 getRecipes = async (req) => {
   //let ingredientList = url.parse(req.url, true).query.ingredients;
-  let user = url.parse(req.url, true).query.user;
+  // let user = url.parse(req.url, true).query.user;
+  let user = "test@ubc.ca"
   // Find all ingredients of user
-  let allIngredients = Ingredient.find({userId: `${user}`});
-  console.log(allIngredients);
+  let allIngredients = await Models.Ingredient.findOne({userId: `${user}`});
+  if (allIngredients == null) {
+    return null;
+  };
   let ingredientList = [];
   allIngredients.ingredients.forEach(ingredient => {
     ingredientList.push(ingredient.name);
