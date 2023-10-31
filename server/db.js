@@ -14,9 +14,11 @@ const recipeSchema = new mongoose.Schema({
 const Recipe = mongoose.model('recipe', recipeSchema);
 
 const ingredientRequestSchema = new mongoose.Schema({
+  requestId: mongoose.ObjectId,
   user: String,
   ingredientName: String,
-  ingredientCount: Number
+  ingredientCount: Number,
+  fcmTok: String
 })
 const IngredientRequest = mongoose.model('ingredientRequest', ingredientRequestSchema);
 

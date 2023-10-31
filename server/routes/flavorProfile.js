@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var Recipe = require('../db');
 var url = require('url');
-const { default: mongoose } = require('mongoose');
 
 getFlavourProfile = async (req) => {
   let queriedUser = url.parse(req.url, true).query.user;

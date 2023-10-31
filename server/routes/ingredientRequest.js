@@ -3,6 +3,7 @@
 var admin = require("firebase-admin");
 var serviceAccount = require("../firebase_admin.json");
 var IngredientRequest = require("../db");
+const { default: mongoose } = require('mongoose');
 
 const app = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -38,20 +39,30 @@ requestIngredient = async (req) => {
     let user = req.body.user;
     let ingredientName = req.body.ingredientName;
     let ingredientCount = req.body.ingredientCount;
-    let newRequestIngredient = new IngredientRequest({user: user, ingredientName: ingredientName, ingredientCount: ingredientCount});
+    let fcmTok = req.body.fcmTok;
+    let id = new mongoose.Types.ObjectId();
+    let newRequestIngredient = new IngredientRequest({
+        requestId: id, 
+        user: user, 
+        ingredientName: ingredientName, 
+        ingredientCount: ingredientCount,
+        fcmTok: fcmTok
+    });
     await newRequestIngredient.save();
 }
 
 donateIngredient = (req) => {
     // This registration token comes from the client FCM SDKs.
-    console.log(req.body.tok);
-    let registrationToken = req.body.tok;
+    console.log(req.body.reqID);
+    let ingredientRequest = IngredientRequest.find({requestId: `${req.body.reqID}`});
+    let fcmToken = ingredientRequest.fcmTok;
+    ingredientRequest.deleteOne();
     const message = {
-    data: {
-        score: '850',
-        time: '2:45'
-    },
-    token: 'f54vS09YT6GnAzD4Bh-Q-v:APA91bHWZT5rvKn5HV5By2mAUj9q2MPjkyl34QizZQ1N1IP0CN3BD6xkj32MWfD1GPs-Qd48ZICPaZoMrOycCEh96Y0Y5ks0R7BBJ6Xfg2Q97mH8xAVj7igVLn6Ybyzjo2Q-KHwGTgQU'
+        data: {
+            text: `Request ID ${req.body.reqID} fulfilled`
+        },
+        //token: 'f54vS09YT6GnAzD4Bh-Q-v:APA91bHWZT5rvKn5HV5By2mAUj9q2MPjkyl34QizZQ1N1IP0CN3BD6xkj32MWfD1GPs-Qd48ZICPaZoMrOycCEh96Y0Y5ks0R7BBJ6Xfg2Q97mH8xAVj7igVLn6Ybyzjo2Q-KHwGTgQU'
+        token: fcmToken    
     };
 
     messaging.send(message).then((response) => {
@@ -63,9 +74,8 @@ donateIngredient = (req) => {
     });
 }
 
-getAllRequests = async (req) => {
-    let user = url.parse(req.url, true).query.user;
-    let allRequests = await IngredientRequest.find({user: `${user}`});
+getAllRequests = async () => {
+    let allRequests = await IngredientRequest.find();
     console.log(allRequests);
     return allRequests;
 }
@@ -81,7 +91,7 @@ router.get('/donate', async function(req, res, next) {
 });
 
 router.get('/', async function(req, res, next) {
-    let allRequests = await getAllRequests(req);
+    let allRequests = await getAllRequests();
     res.send(allRequests);
 });
   
