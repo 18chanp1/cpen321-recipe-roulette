@@ -1,6 +1,6 @@
 const express = require('express');
 var router = express.Router();
-var Ingredient = require('../db');
+var Models = require('../db');
 var url = require('url');
 var mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -14,7 +14,7 @@ router.post('/upload', async (req, res) => {
   const {userId, ingredients} = req.body;
 
   // Create a new document
-  const ingredientDoc = new Ingredient({ userId , ingredients });
+  const ingredientDoc = new Models.Ingredient({ userId , ingredients });
 
   // Save the document to MongoDB
   try {
@@ -35,7 +35,7 @@ router.get('/', async function(req, res, next) {
     });
 
     let queriedUser = url.parse(req.url, true).query.userId;
-    const ingredients = await Ingredient.find({userId: `${queriedUser}`});
+    const ingredients = await Models.Ingredient.find({userId: `${queriedUser}`});
     console.log(typeof ingredients);
     console.log(ingredients);
 
