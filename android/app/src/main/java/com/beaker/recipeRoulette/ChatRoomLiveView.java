@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import java.util.ArrayList;
@@ -25,7 +26,15 @@ public class ChatRoomLiveView extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(ChatRoomLiveView.this));
         recyclerView.setAdapter(new ChatRoomLiveAdaptor(getApplicationContext(), entries));
 
-        ws = new ChatRoomWebSocket(this);
+
+        //get intent
+        Intent i = getIntent();
+        boolean isCookingRequest = i.getBooleanExtra("COOK", true);
+        String name = i.getStringExtra("NAME");
+        String details = i.getStringExtra("DETAILS");
+        String contact = i.getStringExtra("CONTACT");
+
+        ws = new ChatRoomWebSocket(this, isCookingRequest, name, details, contact);
     }
 
 
