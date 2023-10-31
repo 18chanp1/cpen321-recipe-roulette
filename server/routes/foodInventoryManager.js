@@ -46,7 +46,6 @@ router.post('/upload', async (req, res) => {
 
 router.get('/', async function(req, res, next) {
   try {
-
     mongodb.once('open', function() {
       console.log("We're connected to MongoDB!");
     });
