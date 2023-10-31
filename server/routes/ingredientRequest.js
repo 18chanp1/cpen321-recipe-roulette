@@ -2,6 +2,7 @@
 // const { initializeApp } = require('firebase-admin/app');
 var admin = require("firebase-admin");
 var serviceAccount = require("../firebase_admin.json");
+var IngredientRequest = require("../db");
 
 const app = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -31,8 +32,17 @@ const messaging = admin.messaging(app);
 
 // Send a message to the device corresponding to the provided
 // registration token.
-  
-sendMessage = (req) => {
+
+requestIngredient = async (req) => {
+    // Get all info of ingredient and create new document in collection
+    let user = req.body.user;
+    let ingredientName = req.body.ingredientName;
+    let ingredientCount = req.body.ingredientCount;
+    let newRequestIngredient = new IngredientRequest({user: user, ingredientName: ingredientName, ingredientCount: ingredientCount});
+    await newRequestIngredient.save();
+}
+
+donateIngredient = (req) => {
     // This registration token comes from the client FCM SDKs.
     console.log(req.body.tok);
     let registrationToken = req.body.tok;
@@ -52,9 +62,27 @@ sendMessage = (req) => {
         console.log('Error sending message:', error);
     });
 }
+
+getAllRequests = async (req) => {
+    let user = url.parse(req.url, true).query.user;
+    let allRequests = await IngredientRequest.find({user: `${user}`});
+    console.log(allRequests);
+    return allRequests;
+}
+
 router.post('/new', async function(req, res, next) {
-    sendMessage(req);
+    await requestIngredient(req);
     res.send('Response with msg');
+});
+
+router.get('/donate', async function(req, res, next) {
+    donateIngredient(req);
+    res.send('Response with msg');
+});
+
+router.get('/', async function(req, res, next) {
+    let allRequests = await getAllRequests(req);
+    res.send(allRequests);
 });
   
 module.exports = router;

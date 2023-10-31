@@ -6,4 +6,18 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log("We're connected to MongoDB!");
 });
-module.exports = db;
+
+const recipeSchema = new mongoose.Schema({
+  user: String,
+  recipeNames: [String]
+})
+const Recipe = mongoose.model('recipe', recipeSchema);
+
+const ingredientRequestSchema = new mongoose.Schema({
+  user: String,
+  ingredientName: String,
+  ingredientCount: Number
+})
+const IngredientRequest = mongoose.model('ingredientRequest', ingredientRequestSchema);
+
+module.exports = { Recipe, IngredientRequest };
