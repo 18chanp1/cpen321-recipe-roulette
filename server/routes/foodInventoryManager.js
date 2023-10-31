@@ -15,7 +15,7 @@ const FoodItemSchema = new Schema({
 })
 
 const FoodItemsSchema = new Schema({
-  userId: {type: String, required: [true, 'Missing userId']},
+  userId: {type: String, unique: true, index: true, required: [true, 'Missing userId'], unique: true},
   ingredients: [FoodItemSchema]
 });
 
@@ -46,9 +46,9 @@ router.post('/upload', async (req, res) => {
 
 router.get('/', async function(req, res, next) {
   try {
-    mongodb.once('open', function() {
-      console.log("We're connected to MongoDB!");
-    });
+    // mongodb.once('open', function() {
+    //   console.log("We're connected to MongoDB!");
+    // });
 
     let queriedUser = url.parse(req.url, true).query.userId;
     const ingredients = await Ingredient.find({userId: `${queriedUser}`});
@@ -61,6 +61,44 @@ router.get('/', async function(req, res, next) {
     res.status(500).send(err.message);
   } finally {
     console.log('Finished processing request');
+  }
+});
+
+// DELETE/UPDATE: given a user and a list of ingredients, if the ingredient exists, decrement the counter or delete the food item
+
+/*
+  {
+    "userId": "yourUserId",
+    "ingredients": ["ingredient1", "ingredient2", ...]
+  }
+*/
+router.put('/update', async (req, res) => {
+  try {
+    const { userId, ingredients } = req.body;
+
+    await Promise.all(ingredients.map(async (ingredientName) => {
+      const userIngredient = await Ingredient.findOne({ userId });
+      const ingredient = userIngredient.ingredients.find(ing => ing.name === ingredientName);
+      
+      if (ingredient) {
+        if (ingredient.count > 1) {
+          // Decrement count if it's more than 1
+          ingredient.count -= 1;
+        } else {
+          // Remove ingredient from user's ingredients array if count is 1 or less
+          userIngredient.ingredients.pull(ingredient);
+        }
+      } else {
+        console.log(`Ingredient ${ingredientName} not found`);
+      }
+
+      // userIngredient.ingredients.markModified('ingredients');
+      await userIngredient.save();
+    }));
+    res.send('Ingredients updated successfully');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.message);
   }
 });
 
