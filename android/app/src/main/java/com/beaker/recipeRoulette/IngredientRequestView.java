@@ -147,7 +147,7 @@ public class IngredientRequestView extends AppCompatActivity {
         String foodReq = String.valueOf(ingredientRequestText.getText());
         String phoneNo = String.valueOf(phoneNumberText.getText());
         Gson gson = new Gson();
-        String json = gson.toJson(new IngredientRequestTicket(tok, fcmtok, foodReq,phoneNo, email));
+        String json = gson.toJson(new IngredientRequestTicket(tok, foodReq, phoneNo, fcmtok, email));
 
         //do not allow blank submissions
         if(foodReq.length() <= 0 || phoneNo.length() <=0)
