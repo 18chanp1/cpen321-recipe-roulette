@@ -40,11 +40,12 @@ public class RecipeFacebook extends AppCompatActivity {
         SharedPreferences sharedPref =
                 this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
         String tok = sharedPref.getString("TOKEN", "NOTOKEN");
-
+        String email = sharedPref.getString("EMAIL", "NOEMAIL");
 
         //Get from web server
         Request req = new Request.Builder()
                 .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/reviews")
+                .addHeader("email", email)
                 .addHeader("userToken", tok)
                 .build();
 

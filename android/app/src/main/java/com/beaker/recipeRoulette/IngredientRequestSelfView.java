@@ -37,11 +37,13 @@ public class IngredientRequestSelfView extends AppCompatActivity {
         SharedPreferences sharedPref =
                 this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
         String tok = sharedPref.getString("TOKEN", "NOTOKEN");
+        String email = sharedPref.getString("EMAIL", "NOEMAIL");
 
         //get requests from server
         Request req = new Request.Builder()
                 .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests/self/")
                 .addHeader("userToken", tok)
+                .addHeader("email", email)
                 .build();
 
         OkHttpClient client = new OkHttpClient();

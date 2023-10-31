@@ -97,9 +97,10 @@ public class ReviewDetailed extends AppCompatActivity {
         SharedPreferences sharedPref =
                 this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
         String tok = sharedPref.getString("TOKEN", "NOTOKEN");
+        String email = sharedPref.getString("EMAIL", "NOEMAIL");
 
         Gson gson = new Gson();
-        String json = gson.toJson(new LikeTicket(tok, id, like));
+        String json = gson.toJson(new LikeTicket(tok, id, like, email));
 
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
         RequestBody body = RequestBody.create(json, JSON);
@@ -109,6 +110,8 @@ public class ReviewDetailed extends AppCompatActivity {
                 .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/reviews/like")
                 .addHeader("userToken", tok)
                 .addHeader("id", String.valueOf(id))
+                .addHeader("email", email)
+                .addHeader("like", String.valueOf(like))
                 .post(body)
                 .build();
 

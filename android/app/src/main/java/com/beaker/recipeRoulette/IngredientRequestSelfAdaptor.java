@@ -50,11 +50,12 @@ extends IngredientRequestAdaptor{
             SharedPreferences sharedPref =
                     this.context.getSharedPreferences(this.context.getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
             String tok = sharedPref.getString("TOKEN", "NOTOKEN");
+            String email = sharedPref.getString("EMAIL", "NOEMAIL");
 
             OkHttpClient client = new OkHttpClient();
 
             Gson gson = new Gson();
-            String json = gson.toJson(new IngredientRequestAcceptTicket(tok, item.reqID));
+            String json = gson.toJson(new IngredientRequestAcceptTicket(tok, item.reqID, email));
 
             MediaType JSON = MediaType.get("application/json; charset=utf-8");
             RequestBody body = RequestBody.create(json, JSON);
@@ -65,6 +66,7 @@ extends IngredientRequestAdaptor{
                     .addHeader("userToken", tok)
                     .addHeader("reqID", item.reqID)
                     .addHeader("loc", "donate ingredients")
+                    .addHeader("email", email)
                     .post(body)
                     .build();
 

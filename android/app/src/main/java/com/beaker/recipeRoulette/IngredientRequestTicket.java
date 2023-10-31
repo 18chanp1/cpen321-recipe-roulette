@@ -1,16 +1,18 @@
 package com.beaker.recipeRoulette;
 
 public class IngredientRequestTicket {
-    String tok;
     String fcmtok;
-    String ingredient;
+    String userToken;
+    String requestItem;
     String phoneNo;
+    String email;
 
-    public IngredientRequestTicket(String tok, String fcmtok, String ingredient, String phoneNo) {
-        this.tok = tok;
-        this.fcmtok = fcmtok;
-        this.ingredient = ingredient;
+    public IngredientRequestTicket(String userToken, String requestItem, String phoneNo, String fcmtok, String email) {
+        this.userToken = userToken;
+        this.requestItem = requestItem;
         this.phoneNo = phoneNo;
+        this.email = email;
+        this.fcmtok = fcmtok;
     }
 
 }

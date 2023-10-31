@@ -53,10 +53,12 @@ public class IngredientRequestView extends AppCompatActivity {
         SharedPreferences sharedPref =
                 this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
         String tok = sharedPref.getString("TOKEN", "NOTOKEN");
+        String email = sharedPref.getString("EMAIL", "NOEMAIL");
 
         //get requests from server
         Request req = new Request.Builder()
                 .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests")
+                .addHeader("email", email)
                 .addHeader("userToken", tok)
                 .build();
 
@@ -136,6 +138,7 @@ public class IngredientRequestView extends AppCompatActivity {
         SharedPreferences sharedPref =
                 this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
         String tok = sharedPref.getString("TOKEN", "NOTOKEN");
+        String email = sharedPref.getString("EMAIL", "NOEMAIL");
         String fcmtok = sharedPref.getString("FCMTOKEN","NOTOKEN");
 
 
@@ -144,7 +147,7 @@ public class IngredientRequestView extends AppCompatActivity {
         String foodReq = String.valueOf(ingredientRequestText.getText());
         String phoneNo = String.valueOf(phoneNumberText.getText());
         Gson gson = new Gson();
-        String json = gson.toJson(new IngredientRequestTicket(tok, fcmtok, foodReq, phoneNo));
+        String json = gson.toJson(new IngredientRequestTicket(tok, fcmtok, foodReq,phoneNo, email));
 
         //do not allow blank submissions
         if(foodReq.length() <= 0 || phoneNo.length() <=0)
@@ -164,6 +167,7 @@ public class IngredientRequestView extends AppCompatActivity {
                 .addHeader("userToken", tok)
                 .addHeader("requestItem", foodReq)
                 .addHeader("phoneNo", phoneNo)
+                .addHeader("email", email)
                 .addHeader("fcmTok", fcmtok)
                 .post(body)
                 .build();
