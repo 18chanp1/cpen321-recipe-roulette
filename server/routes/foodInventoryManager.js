@@ -1,7 +1,7 @@
 const express = require('express');
 var router = express.Router();
 var mongodb = require('../db');
-
+var url = require('url');
 var mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
@@ -43,8 +43,26 @@ router.post('/upload', async (req, res) => {
 
 });
 
+
 router.get('/', async function(req, res, next) {
-  res.send("GET inside food inventory manager");
+  try {
+
+    mongodb.once('open', function() {
+      console.log("We're connected to MongoDB!");
+    });
+
+    let queriedUser = url.parse(req.url, true).query.userId;
+    const ingredients = await Ingredient.find({userId: `${queriedUser}`});
+    console.log(typeof ingredients);
+    console.log(ingredients);
+
+    res.send(ingredients);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.message);
+  } finally {
+    console.log('Finished processing request');
+  }
 });
 
 module.exports = router;
