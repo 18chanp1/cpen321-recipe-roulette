@@ -11,6 +11,7 @@ var ingredientRequestRouter = require('./routes/ingredientRequest');
 var flavorProfileRouter = require('./routes/flavorProfile');
 let assetLinkRouter = require('./routes/assetLink');
 let reviewRouter = require('./routes/reviews');
+var foodInventoryRouter = require('./routes/foodInventoryManager');
 
 const fs = require('fs');
 const http = require("http")
@@ -64,8 +65,9 @@ app.use('/users', usersRouter);
 app.use('/recipes', recipesRouter);
 app.use('/ingredientrequests', ingredientRequestRouter);
 app.use('/flavorprofile', flavorProfileRouter);
-app.use("/.well-known/assetlinks.json", assetLinkRouter)
-app.use("/reviews", reviewRouter)
+app.use("/.well-known/assetlinks.json", assetLinkRouter);
+app.use("/reviews", reviewRouter);
+app.use("/foodInventoryManager", foodInventoryRouter);
 
 
 // catch 404 and forward to error handler
