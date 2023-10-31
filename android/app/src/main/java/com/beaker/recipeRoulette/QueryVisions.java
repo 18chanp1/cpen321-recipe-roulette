@@ -1,5 +1,8 @@
 package com.beaker.recipeRoulette;
 
+import android.content.Context;
+import android.net.Uri;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.api.client.util.Lists;
@@ -16,6 +19,7 @@ import com.google.cloud.vision.v1.ImageAnnotatorClient;
 import com.google.cloud.vision.v1.ImageAnnotatorSettings;
 import com.google.protobuf.ByteString;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,7 +47,7 @@ public class QueryVisions {
 
         try (ImageAnnotatorClient vision = ImageAnnotatorClient.create(ias)) {
             // Read the image content from the image URI
-            byte[] imgBytes = readImageBytesFromUri(imageUri);
+            byte[] imgBytes = readImageBytesFromUri(imageUri, c);
 
             if (imgBytes != null) {
                 // Build the image annotation request
@@ -81,16 +85,22 @@ public class QueryVisions {
         }
     }
 
-    private static byte[] readImageBytesFromUri(String imageUri) {
+    private static byte[] readImageBytesFromUri(String imageUri, Context context) {
         try {
-            FileInputStream fileInputStream = new FileInputStream(imageUri);
-            byte[] bytes = new byte[fileInputStream.available()];
-            fileInputStream.read(bytes);
-            fileInputStream.close();
-            return bytes;
+            InputStream inputStream = context.getContentResolver().openInputStream(Uri.parse(imageUri));
+            if (inputStream != null) {
+                byte[] buffer = new byte[4096];
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    byteArrayOutputStream.write(buffer, 0, bytesRead);
+                }
+                inputStream.close();
+                return byteArrayOutputStream.toByteArray();
+            }
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 }
