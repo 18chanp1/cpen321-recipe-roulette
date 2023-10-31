@@ -62,14 +62,21 @@ router.put('/update', async (req, res) => {
 
     await Promise.all(ingredients.map(async (ingredientName) => {
       const userIngredient = await Ingredient.findOne({ userId });
+      console.log("Get userId: " + userIngredient.userId);
       const ingredient = userIngredient.ingredients.find(ing => ing.name === ingredientName);
+      // console.log("Get ingredient name: " + ingredient.name);
       
       if (ingredient) {
         if (ingredient.count > 1) {
           // Decrement count if it's more than 1
+          console.log('Ingredient Name: ' + ingredientName);
+          console.log('Count: ' + ingredient.count);
           ingredient.count -= 1;
+          console.log('Count after: ' + ingredient.count);
         } else {
           // Remove ingredient from user's ingredients array if count is 1 or less
+          console.log('Count is zero for ' + ingredientName);
+          console.log('Count: ' + ingredient.count);
           userIngredient.ingredients.pull(ingredient);
         }
       } else {
