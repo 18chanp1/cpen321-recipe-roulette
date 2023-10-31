@@ -1,16 +1,27 @@
 var express = require('express');
 var router = express.Router();
 var fetch = require('node-fetch');
-var Recipe = require('../db');
+var Models = require('../db');
 var url = require('url');
 const fs = require('fs');
 const apiKey = fs.readFileSync("api_key.txt", "utf8");
 
 getRecipes = async (req) => {
-  let ingredientList = url.parse(req.url, true).query.ingredients;
+  //let ingredientList = url.parse(req.url, true).query.ingredients;
+  // let user = url.parse(req.url, true).query.user;
+  let user = "test@ubc.ca"
+  // Find all ingredients of user
+  let allIngredients = await Models.Ingredient.findOne({userId: `${user}`});
+  if (allIngredients == null) {
+    return null;
+  };
+  let ingredientList = [];
+  allIngredients.ingredients.forEach(ingredient => {
+    ingredientList.push(ingredient.name);
+  });
+  //let ingredientList = ["flour","rice","bread","egg"];
   console.log(typeof ingredientList);
   console.log(ingredientList);
-  //let ingredientList = ["flour","rice","bread","egg"];
   let endpoint = `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${apiKey}&ingredients=${ingredientList}&number=5`;
   let recipes;
   try {
@@ -32,6 +43,9 @@ saveRecipes = async (req) => {
   console.log(typeof recipes);
   console.log(recipes);
   recipes.recipeNames.push(chosenRecipe);
+  // Delete ingredients
+
+  // Save chosen recipe into db
   await recipes.save();
   return true;
 }

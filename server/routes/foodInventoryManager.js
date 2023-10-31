@@ -1,26 +1,10 @@
 const express = require('express');
 var router = express.Router();
-var mongodb = require('../db');
+var Ingredient = require('../db');
 var url = require('url');
 var mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-// Create a schema
-const Schema = mongoose.Schema;
-
-const FoodItemSchema = new Schema({
-  name: {type: String, required: true},
-  count: {type: Number, min: 0, required: true},
-  date: [{type: Date, required: true}]
-})
-
-const FoodItemsSchema = new Schema({
-  userId: {type: String, unique: true, index: true, required: [true, 'Missing userId'], unique: true},
-  ingredients: [FoodItemSchema]
-});
-
-// Create a model
-const Ingredient = mongoose.model('food_items', FoodItemsSchema);
 
 // Use body-parser middleware to parse request bodies
 router.use(bodyParser.json());

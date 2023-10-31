@@ -2,7 +2,7 @@
 // const { initializeApp } = require('firebase-admin/app');
 var admin = require("firebase-admin");
 var serviceAccount = require("../firebase_admin.json");
-var IngredientRequest = require("../db");
+var Models = require("../db");
 const { default: mongoose } = require('mongoose');
 
 const app = admin.initializeApp({
@@ -36,14 +36,15 @@ const messaging = admin.messaging(app);
 
 requestIngredient = async (req) => {
     // Get all info of ingredient and create new document in collection
-    let user = req.body.user;
-    let ingredientName = req.body.ingredientName;
-    let ingredientCount = req.body.ingredientCount;
-    let fcmTok = req.body.fcmTok;
+    console.log(req.body);
+    let user = req.body.email;
+    let ingredientName = req.body.phoneNo;
+    let ingredientCount = 1;
+    let fcmTok = req.body.requestItem;
     let id = new mongoose.Types.ObjectId();
-    let newRequestIngredient = new IngredientRequest({
+    let newRequestIngredient = new Models.IngredientRequest({
         requestId: id, 
-        user: user, 
+        userId: user, 
         ingredientName: ingredientName, 
         ingredientCount: ingredientCount,
         fcmTok: fcmTok
@@ -54,7 +55,7 @@ requestIngredient = async (req) => {
 donateIngredient = (req) => {
     // This registration token comes from the client FCM SDKs.
     console.log(req.body.reqID);
-    let ingredientRequest = IngredientRequest.find({requestId: `${req.body.reqID}`});
+    let ingredientRequest = Models.IngredientRequest.find({requestId: `${req.body.reqID}`});
     let fcmToken = ingredientRequest.fcmTok;
     ingredientRequest.deleteOne();
     const message = {
@@ -75,7 +76,15 @@ donateIngredient = (req) => {
 }
 
 getAllRequests = async () => {
-    let allRequests = await IngredientRequest.find();
+    let allRequests = await Models.IngredientRequest.find();
+    console.log(allRequests);
+    return allRequests;
+}
+
+getAllSelfRequests = async (req) => {
+    console.log(req.headers);
+    let userId = req.headers.email;
+    let allRequests = await Models.IngredientRequest.find({userId: `${userId}`});
     console.log(allRequests);
     return allRequests;
 }
@@ -88,6 +97,11 @@ router.post('/new', async function(req, res, next) {
 router.get('/donate', async function(req, res, next) {
     donateIngredient(req);
     res.send('Response with msg');
+});
+
+router.get('/self', async function(req, res, next) {
+    let allRequests = await getAllSelfRequests(req);
+    res.send(allRequests);
 });
 
 router.get('/', async function(req, res, next) {
