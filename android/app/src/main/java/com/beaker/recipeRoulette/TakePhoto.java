@@ -4,8 +4,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +26,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class TakePhoto extends AppCompatActivity {
 
@@ -183,12 +200,57 @@ public class TakePhoto extends AppCompatActivity {
                 // Get the entered grocery item from the EditText
                 String groceryItem = editText.getText().toString();
 
-                // You can now do something with the entered grocery item
-                // For example, display it in a toast message
-                Toast.makeText(TakePhoto.this, "You entered: " + groceryItem, Toast.LENGTH_SHORT).show();
+                SharedPreferences sharedPref =
+                        getSharedPreferences("com.beaker.recipeRoulette.TOKEN", Context.MODE_PRIVATE);
+                String tok = sharedPref.getString("TOKEN", "NOTOKEN");
+                String email = sharedPref.getString("EMAIL", "NOEMAIL");
 
-                // You can also store the grocery item or send it to another function.
-                // For example, store it in a list or send it to your QueryVisions.processImage function.
+                IngredientsRequest ingredientsRequest = new IngredientsRequest();
+                ingredientsRequest.userId = email;
+                List<Ingredient> ingredientList = new ArrayList<>();
+                Ingredient ingredient = new Ingredient();
+                ingredient.name = groceryItem;
+                ingredient.count = 1;
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.add(Calendar.WEEK_OF_YEAR, 1);
+                long unixTime = calendar.getTimeInMillis() / 1000;
+                ingredient.date = new long[] {unixTime};
+
+                ingredientList.add(ingredient);
+                ingredientsRequest.ingredients = ingredientList;
+
+                OkHttpClient client = new OkHttpClient();
+                Gson gson = new Gson();
+
+                MediaType JSON = MediaType.get("application/json; charset=utf-8");
+                RequestBody body = RequestBody.create(gson.toJson(ingredientsRequest), JSON); // Convert the descriptions array to a JSON string
+
+                String acceptUrl = "https://cpen321-reciperoulette.westus.cloudapp.azure.com/foodInventoryManager/upload";
+
+                Request req = new Request.Builder()
+                        .url(acceptUrl)
+                        .addHeader("userToken", tok)
+                        .addHeader("email", email)
+                        .post(body)
+                        .build();
+
+                try {
+                    client.newCall(req).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                            System.err.println("Request failed with code: " + e);
+                        }
+
+                        @Override
+                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                            String responseBody = response.body().string();
+                            System.out.println("Response: " + responseBody);
+                        }
+                    });
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -201,4 +263,15 @@ public class TakePhoto extends AppCompatActivity {
 
         builder.create().show();
     }
+}
+
+class Ingredient {
+    String name;
+    int count;
+    long[] date;
+}
+
+class IngredientsRequest {
+    String userId;
+    List<Ingredient> ingredients;
 }

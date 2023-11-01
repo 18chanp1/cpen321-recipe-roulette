@@ -1,8 +1,10 @@
 package com.beaker.recipeRoulette;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.api.client.util.Lists;
@@ -17,6 +19,7 @@ import com.google.cloud.vision.v1.Feature.Type;
 import com.google.cloud.vision.v1.Image;
 import com.google.cloud.vision.v1.ImageAnnotatorClient;
 import com.google.cloud.vision.v1.ImageAnnotatorSettings;
+import com.google.gson.Gson;
 import com.google.protobuf.ByteString;
 
 import java.io.ByteArrayOutputStream;
@@ -24,7 +27,19 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import static android.provider.Settings.System.getString;
 
 public class QueryVisions {
 
@@ -70,11 +85,67 @@ public class QueryVisions {
                         System.out.format("Error: %s%n", res.getError().getMessage());
                         return;
                     }
+                    List<String> descriptions = new ArrayList<>();
 
                     for (EntityAnnotation annotation : res.getLabelAnnotationsList()) {
-                        annotation
-                                .getAllFields()
-                                .forEach((k, v) -> System.out.format("%s : %s%n", k, v.toString()));
+                        String description = annotation.getDescription(); // Get the description value from the annotation
+                        descriptions.add(description);
+//                        annotation
+//                                .getAllFields()
+//                                .forEach((k, v) -> System.out.format("%s : %s%n", k, v.toString()));
+                    }
+                    SharedPreferences sharedPref =
+                            c.getSharedPreferences("com.beaker.recipeRoulette.TOKEN", Context.MODE_PRIVATE);
+                    String tok = sharedPref.getString("TOKEN", "NOTOKEN");
+                    String email = sharedPref.getString("EMAIL", "NOEMAIL");
+
+                    IngredientsRequest ingredientsRequest = new IngredientsRequest();
+                    ingredientsRequest.userId = email;
+                    List<Ingredient> ingredientList = new ArrayList<>();
+                    for (String description : descriptions) {
+                        Ingredient ingredient = new Ingredient();
+                        ingredient.name = description;
+                        ingredient.count = 1;
+
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.add(Calendar.WEEK_OF_YEAR, 1);
+                        long unixTime = calendar.getTimeInMillis() / 1000;
+
+                        ingredient.date = new long[] {unixTime};
+                        ingredientList.add(ingredient);
+                    }
+                    ingredientsRequest.ingredients = ingredientList;
+
+                    OkHttpClient client = new OkHttpClient();
+                    Gson gson = new Gson();
+
+                    MediaType JSON = MediaType.get("application/json; charset=utf-8");
+                    RequestBody body = RequestBody.create(gson.toJson(ingredientsRequest), JSON); // Convert the descriptions array to a JSON string
+
+                    String acceptUrl = "https://cpen321-reciperoulette.westus.cloudapp.azure.com/foodInventoryManager/upload";
+
+                    Request req = new Request.Builder()
+                            .url(acceptUrl)
+                            .addHeader("userToken", tok)
+                            .addHeader("email", email)
+                            .post(body)
+                            .build();
+
+                    try {
+                        client.newCall(req).enqueue(new Callback() {
+                            @Override
+                            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                                System.err.println("Request failed with code: " + e);
+                            }
+
+                            @Override
+                            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                                String responseBody = response.body().string();
+                                System.out.println("Response: " + responseBody);
+                            }
+                        });
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
                     }
                 }
             } else {
