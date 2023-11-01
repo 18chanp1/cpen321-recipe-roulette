@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://137.135.47.124:27017/Recipe_Roulette", {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect("mongodb://jaber:recipe@137.135.47.124:27017/Recipe_Roulette?authSource=admin", {useNewUrlParser: true, useUnifiedTopology: true});
 
 const recipeSchema = new mongoose.Schema({
   user: String,
