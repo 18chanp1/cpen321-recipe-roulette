@@ -53,6 +53,13 @@ function setupWSS(httpsServer)
                     requests[e].ws.send(JSON.stringify(ann))
                 }
 
+		//Send to relevant existing entries to new joiner
+		for(const e in requests)
+		{
+		    console.log("Sending existing entries")
+		    ws.send(JSON.stringify(requests[e]))
+		}
+
                 console.log(ann);
 
                 //add to requests
