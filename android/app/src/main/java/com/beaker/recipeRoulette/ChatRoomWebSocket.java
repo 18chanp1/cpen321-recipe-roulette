@@ -151,4 +151,9 @@ public class ChatRoomWebSocket extends WebSocketListener {
         ws.send(serialized);
     }
 
+    public void close()
+    {
+        ws.close(1000, "Socket is closed by client");
+    }
+
 }
