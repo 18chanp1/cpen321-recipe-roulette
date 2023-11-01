@@ -63,7 +63,7 @@ function setupWSS(httpsServer)
         {
             //find the corresponding request
             let id = ws.entryID
-            requests.delete(id)
+            delete requests[id]
 
             //announce it to everyone else
             ann = {
