@@ -73,7 +73,7 @@ function setupWSS(httpsServer)
 
             for (const e in requests)
             {
-                requests.ws.send(JSON.stringify(ann))
+                e.ws.send(JSON.stringify(ann))
             }
 
             console.log(ann);
