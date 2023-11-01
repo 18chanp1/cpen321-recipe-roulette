@@ -34,4 +34,7 @@
     <string name="contact_details">Contact Details</string>
     <string name="go_cook">Go cooking</string>
     <string name="go_shop">Go shopping</string>
+
+    <string name="your_flavor_profile_is">Your flavor profile is:</string>
+
 </resources>
