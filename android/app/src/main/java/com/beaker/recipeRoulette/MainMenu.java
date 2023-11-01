@@ -11,6 +11,7 @@ public class MainMenu extends AppCompatActivity {
     private Button requestIngredientButton;
     private Button shopTogetherButton;
     private Button testListButton;
+    private Button flavorProfileButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,14 @@ public class MainMenu extends AppCompatActivity {
             Intent mainMenuIntent = new Intent(MainMenu.this, com.beaker.recipeRoulette.RecipeFacebook.class);
             startActivity(mainMenuIntent);
         });
+
+        flavorProfileButton = findViewById(R.id.menu2);
+        flavorProfileButton.setOnClickListener(view -> {
+            Intent fpI = new Intent(MainMenu.this, FlavorProfile.class);
+            startActivity(fpI);
+        });
+
+
 
         requestIngredientButton = findViewById(R.id.menu3);
         requestIngredientButton.setOnClickListener(view -> {
