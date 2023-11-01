@@ -15,7 +15,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -49,8 +48,6 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity {
     //Elements
     private SignInButton signInButton;
-
-    private Button TakePhotoButton;
 
     // Handle Google Sign In
     private SignInClient oneTapClient;
