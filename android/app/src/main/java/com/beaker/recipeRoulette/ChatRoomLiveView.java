@@ -46,8 +46,9 @@ public class ChatRoomLiveView extends AppCompatActivity {
     protected void onStop()
     {
         super.onStop();
+        int sz = entries.size();
         entries.clear();
-        recyclerView.getAdapter().notifyDataSetChanged();
+        recyclerView.getAdapter().notifyItemRangeRemoved(0, sz);
         ws.close();
     }
 
