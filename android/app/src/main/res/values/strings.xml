@@ -13,6 +13,25 @@
     <string name="read_more">Read more</string>
 
     <string name="Loremipsum">Lorem Ipsum</string>
+    <string name="like">Like</string>
+    <string name="dislike">Dislike</string>
 
     <string name="shared_pref_filename">com.beaker.recipeRoulette.TOKEN</string>
+
+
+    <string name="req_ingred">Request Ingredients</string>
+    <string name="donate_ingred">Donate Ingredients</string>
+    <string name="donate">Donate</string>
+    <string name="ingredient">Ingredient</string>
+    <string name="view_prev_req">View outstanding requests</string>
+
+    <string name="your_requests">Your Requests</string>
+
+    <string name="go_out_with_others">Go out with others</string>
+
+    <string name="name">Name</string>
+    <string name="details">Details</string>
+    <string name="contact_details">Contact Details</string>
+    <string name="go_cook">Go cooking</string>
+    <string name="go_shop">Go shopping</string>
 </resources>

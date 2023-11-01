@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EnterChatRoomView">
+
+    <EditText
+        android:id="@+id/ecc_name"
+        android:layout_width="277dp"
+        android:layout_height="85dp"
+        android:ems="10"
+        android:hint="@string/name"
+        android:inputType="text"
+        android:textColorHint="#8D6E63"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintVertical_bias="0.092"
+        android:autofillHints="" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/go_out_with_others"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.074" />
+
+    <EditText
+        android:id="@+id/ecc_details"
+        android:layout_width="281dp"
+        android:layout_height="179dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="@string/details"
+        android:inputType="textMultiLine"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ecc_name"
+        app:layout_constraintVertical_bias="0.084"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/ecc_contact"
+        android:layout_width="283dp"
+        android:layout_height="66dp"
+        android:ems="10"
+        android:hint="@string/contact_details"
+        android:inputType="phone"
+        android:textColorHint="#8D6E63"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ecc_details"
+        app:layout_constraintVertical_bias="0.136"
+        android:autofillHints="" />
+
+    <Button
+        android:id="@+id/ecc_gocook_but"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/go_cook"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.21"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ecc_contact"
+        app:layout_constraintVertical_bias="0.371" />
+
+    <Button
+        android:id="@+id/ecc_goshop_but"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/go_shop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintStart_toEndOf="@+id/ecc_gocook_but"
+        app:layout_constraintTop_toBottomOf="@+id/ecc_contact"
+        app:layout_constraintVertical_bias="0.371" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -18,6 +19,19 @@
         android:theme="@style/Theme.RecipeRoulette"
         android:requestLegacyExternalStorage="true"
         tools:targetApi="31">
+        <activity
+            android:name=".EnterChatRoomView"
+            android:exported="false" />
+        <activity
+            android:name=".ChatRoomLiveView"
+            android:exported="false" />
+        <activity
+            android:name=".IngredientRequestSelfView"
+            android:exported="false" />
+        <activity
+            android:name=".IngredientRequestView"
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".ReviewDetailed"
             android:exported="false" />
@@ -39,6 +53,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
