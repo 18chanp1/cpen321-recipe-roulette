@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var Recipe = require('../utils/db');
+var Models = require('../utils/db');
 var url = require('url');
 
 getFlavourProfile = async (req) => {
   let queriedUser = url.parse(req.url, true).query.user;
-  const recipes = await Recipe.find({user: `${queriedUser}`});
+  const recipes = await Models.Recipe.find({user: `${queriedUser}`});
   console.log(typeof recipes);
   console.log(recipes);
   let meat = 0;
