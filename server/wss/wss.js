@@ -1,6 +1,7 @@
 const ws = require("ws").Server
 const uuidv4 = require("uuid").v4
 
+
 function setupWSS(httpsServer)
 {
     let wss = new ws({server: httpsServer});
@@ -9,6 +10,7 @@ function setupWSS(httpsServer)
     wss.on("connection", (ws) =>
     {
         console.log("connection");
+	testificate = 1;
 
         //send a sample message
         // msg = 
@@ -47,7 +49,8 @@ function setupWSS(httpsServer)
 
                 for(const e in requests)
                 {
-                    e.ws.send(JSON.stringify(ann))
+		    console.log(e)
+                    requests[e].ws.send(JSON.stringify(ann))
                 }
 
                 console.log(ann);
@@ -63,7 +66,7 @@ function setupWSS(httpsServer)
         {
             //find the corresponding request
             let id = ws.entryID
-            delete requests[id]
+           delete requests[id]
 
             //announce it to everyone else
             ann = {
@@ -73,7 +76,8 @@ function setupWSS(httpsServer)
 
             for (const e in requests)
             {
-                e.ws.send(JSON.stringify(ann))
+		console.log(e[requests])
+                requests[e].ws.send(JSON.stringify(ann))
             }
 
             console.log(ann);
