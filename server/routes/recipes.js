@@ -5,6 +5,21 @@ var Models = require('../db');
 var url = require('url');
 const fs = require('fs');
 const apiKey = fs.readFileSync("api_key.txt", "utf8");
+const { default: mongoose } = require('mongoose');
+
+submitReview = async (req) => {
+  console.log(req.body);
+  let newReview = new Models.Review({
+    reviewId: new mongoose.Types.ObjectId(),
+    userId: req.body.email,
+    recipeName: req.body.recipeName,
+    reviewTitle: req.body.title,
+    reviewText: req.body.text,
+    likes: 0
+  })
+  await newReview.save();
+  return true;
+}
 
 getRecipes = async (req) => {
   //let ingredientList = url.parse(req.url, true).query.ingredients;
@@ -15,6 +30,7 @@ getRecipes = async (req) => {
   if (allIngredients == null) {
     return null;
   };
+  // Push into a list
   let ingredientList = [];
   allIngredients.ingredients.forEach(ingredient => {
     ingredientList.push(ingredient.name);
@@ -22,6 +38,7 @@ getRecipes = async (req) => {
   //let ingredientList = ["flour","rice","bread","egg"];
   console.log(typeof ingredientList);
   console.log(ingredientList);
+  // Get recipes from api endpoint
   let endpoint = `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${apiKey}&ingredients=${ingredientList}&number=5`;
   let recipes;
   try {
@@ -57,7 +74,12 @@ router.get('/', async function(req, res, next) {
 
 router.post('/', async function(req, res, next) {
   let result = await saveRecipes(req);
-  res.send(recipes);
+  res.send(result);
+});
+
+router.post('/submitreview', async function(req, res, next) {
+  let result = await submitReview(req);
+  res.send(result);
 });
 
 module.exports = router;
