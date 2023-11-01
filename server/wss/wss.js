@@ -1,5 +1,5 @@
 const ws = require("ws").Server
-const v4 = require("uuid").v4
+const uuidv4 = require("uuid").v4
 
 function setupWSS(httpsServer)
 {
