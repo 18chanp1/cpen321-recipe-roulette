@@ -15,6 +15,11 @@ public class ChatRoomLiveView extends AppCompatActivity {
     private List<ChatRoomLiveEntry> entries;
     private ChatRoomWebSocket ws;
 
+    private String name;
+    private String details;
+    private String contact;
+    private boolean isCookingRequest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,15 +34,27 @@ public class ChatRoomLiveView extends AppCompatActivity {
 
         //get intent
         Intent i = getIntent();
-        boolean isCookingRequest = i.getBooleanExtra("COOK", true);
-        String name = i.getStringExtra("NAME");
-        String details = i.getStringExtra("DETAILS");
-        String contact = i.getStringExtra("CONTACT");
+        isCookingRequest = i.getBooleanExtra("COOK", true);
+        name = i.getStringExtra("NAME");
+        details = i.getStringExtra("DETAILS");
+        contact = i.getStringExtra("CONTACT");
 
         ws = new ChatRoomWebSocket(this, isCookingRequest, name, details, contact);
     }
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        ws.close();
+        ws = null;
+    }
 
-
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        ws = new ChatRoomWebSocket(this, isCookingRequest, name, details, contact);
+    }
 
     protected void addItemToList(ChatRoomLiveEntry c) {
         entries.add(0, c);
