@@ -23,6 +23,9 @@
             android:name=".ChatRoomLiveView"
             android:exported="false" />
         <activity
+            android:name=".RecipeSelect"
+            android:exported="false" />
+        <activity
             android:name=".IngredientRequestSelfView"
             android:exported="false" />
         <activity
