@@ -4,6 +4,8 @@
     package="com.beaker.recipeRoulette">
     <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
@@ -15,6 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RecipeRoulette"
+        android:requestLegacyExternalStorage="true"
         tools:targetApi="31">
         <activity
             android:name=".FlavorProfile"
@@ -37,6 +40,9 @@
             android:exported="false" />
         <activity
             android:name=".RecipeFacebook"
+            android:exported="false" />
+        <activity
+            android:name=".TakePhoto"
             android:exported="false" />
         <activity
             android:name=".MainMenu"

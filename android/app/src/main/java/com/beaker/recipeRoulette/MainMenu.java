@@ -13,12 +13,20 @@ public class MainMenu extends AppCompatActivity {
     private Button testListButton;
     private Button flavorProfileButton;
 
+    private Button takePhotoButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
         recipeReviewButton = findViewById(R.id.menu5);
+        takePhotoButton = findViewById(R.id.menu6);
+
+        takePhotoButton.setOnClickListener(view -> {
+            Intent takePhotoIntent = new Intent(MainMenu.this, com.beaker.recipeRoulette.TakePhoto.class);
+            startActivity(takePhotoIntent);
+        });
 
         recipeReviewButton.setOnClickListener(view -> {
             Intent mainMenuIntent = new Intent(MainMenu.this, com.beaker.recipeRoulette.RecipeFacebook.class);
@@ -44,14 +52,6 @@ public class MainMenu extends AppCompatActivity {
             Intent cookWithOthersIntent = new Intent(MainMenu.this, EnterChatRoomView.class);
             startActivity(cookWithOthersIntent);
         });
-
-        testListButton = findViewById(R.id.menu6);
-        testListButton.setOnClickListener(view ->
-        {
-            Intent i = new Intent(MainMenu.this, ChatRoomLiveView.class);
-            startActivity(i);
-        });
-
 
     }
 }

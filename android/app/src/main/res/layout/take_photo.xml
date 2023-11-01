@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context=".TakePhoto">
+
+    <ImageView
+        android:id="@+id/imageview"
+        android:scaleType="centerCrop"
+        android:src="@drawable/p"
+        android:layout_width="400dp"
+        android:layout_height="400dp" />
+
+    <Button
+        android:id="@+id/capture_image_btn"
+        android:text="Capture Image"
+        style="@style/Base.Theme.RecipeRoulette"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/select_image_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Photo from Camera Roll" />
+
+    <Button
+        android:id="@+id/send_image_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send Image" />
+
+
+    <Button
+        android:id="@+id/manual_entry_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Manually Enter Item" />
+
+</LinearLayout>
