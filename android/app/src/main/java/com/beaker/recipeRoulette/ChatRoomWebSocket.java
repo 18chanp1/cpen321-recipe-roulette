@@ -22,9 +22,19 @@ public class ChatRoomWebSocket extends WebSocketListener {
     private ChatRoomLiveView c;
     private WebSocket ws;
     private final static String TAG = "Websocket";
-    public ChatRoomWebSocket(ChatRoomLiveView c) {
+    private boolean isCookingRequest;
+    private String name;
+    private String details;
+    private String contact;
+
+    public ChatRoomWebSocket(ChatRoomLiveView c, boolean isCookingRequest, String name,
+                             String details, String contact) {
         super();
         this.c = c;
+        this.isCookingRequest = isCookingRequest;
+        this.name = name;
+        this.details = details;
+        this.contact = contact;
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .readTimeout(0, TimeUnit.MILLISECONDS)
@@ -41,9 +51,24 @@ public class ChatRoomWebSocket extends WebSocketListener {
     @Override
     public void onOpen(@NonNull WebSocket webSocket, @NonNull Response response) {
         super.onOpen(webSocket, response);
-        String msg = serializeMsg("HELLO", "HELLO");
-        webSocket.send(msg);
 
+        //get token
+        SharedPreferences sharedPref =
+                c.getSharedPreferences(c.getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
+        String tok = sharedPref.getString("TOKEN", "NOTOKEN");
+
+        ChatRoomLiveEntry c;
+
+        if(isCookingRequest) {
+            c = new ChatRoomLiveEntry("", name, details, contact, "", "NEWCOOKREQ");
+        }
+        else {
+            c = new ChatRoomLiveEntry("", name, details, contact, "", "NEWSHOPREQ");
+        }
+
+        String msg = new Gson().toJson(c);
+
+        webSocket.send(msg);
     }
     @Override
     public void onClosed(@NonNull WebSocket webSocket, int code, @NonNull String reason) {

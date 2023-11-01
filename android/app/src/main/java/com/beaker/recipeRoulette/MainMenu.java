@@ -30,11 +30,11 @@ public class MainMenu extends AppCompatActivity {
             startActivity(reqIngrIntent);
         });
 
-//        shopTogetherButton = findViewById(R.id.menu4);
-//        shopTogetherButton.setOnClickListener(view -> {
-//            Intent cookWithOthersIntent = new Intent(MainMenu.this, ChatRoom.class);
-//            startActivity(cookWithOthersIntent);
-//        });
+        shopTogetherButton = findViewById(R.id.menu4);
+        shopTogetherButton.setOnClickListener(view -> {
+            Intent cookWithOthersIntent = new Intent(MainMenu.this, EnterChatRoomView.class);
+            startActivity(cookWithOthersIntent);
+        });
 
         testListButton = findViewById(R.id.menu6);
         testListButton.setOnClickListener(view ->
