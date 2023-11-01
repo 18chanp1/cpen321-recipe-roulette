@@ -1,9 +1,23 @@
 var express = require('express');
 var router = express.Router();
+var Models = require("../db");
+
+getAllReviews = async () => {
+  let allReviews = await Models.Review.find();
+  console.log(allReviews);
+  return allReviews;
+}
+
+likeReview = async (req) => {
+  console.log(req.body);
+  let review = await Models.Review.findOne({reviewId: `${req.body.reviewId}`});
+  review.likes++;
+  await review.save();
+}
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  reviews = 
+router.get('/', async function(req, res, next) {
+  reviewsTest = 
   [
     {
       id: "1",
@@ -28,14 +42,17 @@ router.get('/', function(req, res, next) {
       image: "https://ece.ubc.ca/files/2017/03/2016a-13-e1580928549507.jpeg"
     }
   ]
-  res.status(511).send()
+  //res.status(511).send()
   //res.send(reviews);
+  let reviews = await getAllReviews();
+  res.send(reviews)
 });
 
-router.post("/like", (req, res, next) =>
+router.post("/like", async (req, res, next) =>
 {
   console.log("like");
-  res.send("like");
+  await likeReview(req);
+  res.send("like succeeded");
 })
 
 

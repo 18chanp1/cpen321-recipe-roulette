@@ -8,7 +8,7 @@ const recipeSchema = new mongoose.Schema({
 const Recipe = mongoose.model('recipe', recipeSchema);
 
 const ingredientRequestSchema = new mongoose.Schema({
-  requestId: mongoose.ObjectId,
+  reqID: mongoose.ObjectId,
   userId: String,
   ingredientName: String,
   ingredientCount: Number,
@@ -36,4 +36,14 @@ db.once('open', function() {
   console.log("We're connected to MongoDB!");
 });
 
-module.exports = { Recipe, IngredientRequest, Ingredient };
+const reviewSchema = new mongoose.Schema({
+  reviewId: mongoose.ObjectId,
+  userId: String,
+  recipeName: String,
+  reviewTitle: String,
+  reviewText: String,
+  likes: Number
+})
+const Review = mongoose.model('review', reviewSchema);
+
+module.exports = { Recipe, IngredientRequest, Ingredient, Review };
