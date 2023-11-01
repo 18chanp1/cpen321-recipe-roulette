@@ -45,7 +45,7 @@ function setupWSS(httpsServer)
                 ann.image = obj.image
                 ann.type = obj.type
 
-                for(const e of requests)
+                for(const e in requests)
                 {
                     e.ws.send(JSON.stringify(ann))
                 }
@@ -71,7 +71,7 @@ function setupWSS(httpsServer)
                 type: "DEL"
             }
 
-            for (const e of requests)
+            for (const e in requests)
             {
                 requests.ws.send(JSON.stringify(ann))
             }
