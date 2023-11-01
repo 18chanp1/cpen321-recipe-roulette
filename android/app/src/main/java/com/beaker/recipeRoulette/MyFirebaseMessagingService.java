@@ -74,7 +74,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
             String title = remoteMessage.getData().get("title");
-            String body = remoteMessage.getData().get("body");
+            String body = remoteMessage.getData().get("text");
             createNotification(title, body);
 
         }
