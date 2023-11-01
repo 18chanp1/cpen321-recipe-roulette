@@ -44,13 +44,5 @@ public class MainMenu extends AppCompatActivity {
             startActivity(cookWithOthersIntent);
         });
 
-        testListButton = findViewById(R.id.menu6);
-        testListButton.setOnClickListener(view ->
-        {
-            Intent i = new Intent(MainMenu.this, ChatRoomLiveView.class);
-            startActivity(i);
-        });
-
-
     }
 }
