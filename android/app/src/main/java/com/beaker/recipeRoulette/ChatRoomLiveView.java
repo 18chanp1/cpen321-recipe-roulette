@@ -41,20 +41,24 @@ public class ChatRoomLiveView extends AppCompatActivity {
 
         ws = new ChatRoomWebSocket(this, isCookingRequest, name, details, contact);
     }
+
     @Override
-    protected void onPause()
+    protected void onStop()
     {
-        super.onPause();
+        super.onStop();
+        int sz = entries.size();
+        entries.clear();
+        recyclerView.getAdapter().notifyItemRangeRemoved(0, sz);
         ws.close();
-        ws = null;
     }
 
     @Override
-    protected void onResume()
+    protected void onRestart()
     {
-        super.onResume();
+        super.onRestart();
         ws = new ChatRoomWebSocket(this, isCookingRequest, name, details, contact);
     }
+
 
     protected void addItemToList(ChatRoomLiveEntry c) {
         entries.add(0, c);
