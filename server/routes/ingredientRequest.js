@@ -34,16 +34,25 @@ const messaging = admin.messaging(app);
 // Send a message to the device corresponding to the provided
 // registration token.
 
+deleteIngredientRequest = async (req) => {
+    console.log(req.body.reqID);
+    let ingredientRequest = Models.IngredientRequest.findOne({reqID: `${req.body.reqID}`});
+    console.log(ingredientRequest);
+    if (ingredientRequest != null) {
+        await ingredientRequest.deleteOne();
+    }
+}
+
 requestIngredient = async (req) => {
     // Get all info of ingredient and create new document in collection
     console.log(req.body);
     let user = req.body.email;
-    let ingredientName = req.body.phoneNo;
+    let ingredientName = req.body.requestItem;
     let ingredientCount = 1;
-    let fcmTok = req.body.requestItem;
+    let fcmTok = req.body.fcmtok;
     let id = new mongoose.Types.ObjectId();
     let newRequestIngredient = new Models.IngredientRequest({
-        requestId: id, 
+        reqID: id, 
         userId: user, 
         ingredientName: ingredientName, 
         ingredientCount: ingredientCount,
@@ -52,17 +61,21 @@ requestIngredient = async (req) => {
     await newRequestIngredient.save();
 }
 
-donateIngredient = (req) => {
+donateIngredient = async (req) => {
     // This registration token comes from the client FCM SDKs.
     console.log(req.body.reqID);
-    let ingredientRequest = Models.IngredientRequest.find({requestId: `${req.body.reqID}`});
+    let ingredientRequest = await Models.IngredientRequest.findOne({reqID: `${req.body.reqID}`});
+    if (ingredientRequest == null) {
+        return null;
+    }
     let fcmToken = ingredientRequest.fcmTok;
-    ingredientRequest.deleteOne();
+    console.log(ingredientRequest);
+    console.log(fcmToken);
+    await ingredientRequest.deleteOne();
     const message = {
         data: {
             text: `Request ID ${req.body.reqID} fulfilled`
         },
-        //token: 'f54vS09YT6GnAzD4Bh-Q-v:APA91bHWZT5rvKn5HV5By2mAUj9q2MPjkyl34QizZQ1N1IP0CN3BD6xkj32MWfD1GPs-Qd48ZICPaZoMrOycCEh96Y0Y5ks0R7BBJ6Xfg2Q97mH8xAVj7igVLn6Ybyzjo2Q-KHwGTgQU'
         token: fcmToken    
     };
 
@@ -104,8 +117,18 @@ router.get('/self', async function(req, res, next) {
     res.send(allRequests);
 });
 
+router.post('/self/delete', async function(req, res, next) {
+    await deleteIngredientRequest(req);
+    res.send("deleted");
+});
+
 router.get('/', async function(req, res, next) {
     let allRequests = await getAllRequests();
+    res.send(allRequests);
+});
+
+router.post('/', async function(req, res, next) {
+    let allRequests = await donateIngredient(req);
     res.send(allRequests);
 });
   

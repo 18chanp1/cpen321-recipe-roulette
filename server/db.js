@@ -8,7 +8,7 @@ const recipeSchema = new mongoose.Schema({
 const Recipe = mongoose.model('recipe', recipeSchema);
 
 const ingredientRequestSchema = new mongoose.Schema({
-  requestId: mongoose.ObjectId,
+  reqID: mongoose.ObjectId,
   userId: String,
   ingredientName: String,
   ingredientCount: Number,
