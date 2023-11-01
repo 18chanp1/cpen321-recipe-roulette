@@ -1,6 +1,6 @@
 const express = require('express');
 var router = express.Router();
-var Models = require('../db');
+var Models = require('../utils/db');
 var url = require('url');
 var mongoose = require('mongoose');
 const bodyParser = require('body-parser');

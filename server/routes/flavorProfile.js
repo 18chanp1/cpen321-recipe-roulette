@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Recipe = require('../db');
+var Recipe = require('../utils/db');
 var url = require('url');
 
 getFlavourProfile = async (req) => {

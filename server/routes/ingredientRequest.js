@@ -2,7 +2,7 @@
 // const { initializeApp } = require('firebase-admin/app');
 var admin = require("firebase-admin");
 var serviceAccount = require("../firebase_admin.json");
-var Models = require("../db");
+var Models = require("../utils/db");
 const { default: mongoose } = require('mongoose');
 
 const app = admin.initializeApp({

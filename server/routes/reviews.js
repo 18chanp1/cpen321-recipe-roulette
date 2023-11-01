@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Models = require("../db");
+var Models = require("../utils/db");
 
 getAllReviews = async () => {
   let allReviews = await Models.Review.find();

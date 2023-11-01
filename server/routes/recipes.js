@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var fetch = require('node-fetch');
-var Models = require('../db');
+var Models = require('../utils/db');
+var removeIngredients = require('../utils/ingredientManager');
 var url = require('url');
 const fs = require('fs');
 const apiKey = fs.readFileSync("api_key.txt", "utf8");
@@ -53,15 +54,16 @@ getRecipes = async (req) => {
 }
 
 saveRecipes = async (req) => {
-  let user = url.parse(req.url, true).query.user;
-  let chosenRecipe = url.parse(req.url, true).query.chosenRecipe;
+  let userId = req.body.email;
+  let chosenRecipe = req.body.chosenRecipe;
+  let ingredientList = req.body.ingredientList;
   console.log(user);
   const recipes = await Recipe.find({user: `${user}`});
   console.log(typeof recipes);
   console.log(recipes);
   recipes.recipeNames.push(chosenRecipe);
   // Delete ingredients
-
+  await removeIngredients(userId, ingredientList);
   // Save chosen recipe into db
   await recipes.save();
   return true;
