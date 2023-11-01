@@ -1,6 +1,7 @@
 package com.beaker.recipeRoulette;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -60,6 +62,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("FCMTOKEN", token);
         editor.apply();
+        Log.d(TAG, "FCM TOKEN: " + token);
     }
 
     @SuppressLint("MissingPermission")
@@ -84,12 +87,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             createNotification(title, body);
         }
 
+        super.onMessageReceived(remoteMessage);
+
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
 
     }
 
 
+    @SuppressLint("MissingPermission")
     private void createNotification(String title, String body)
     {
         NotificationManager mNotificationManager;
@@ -105,10 +111,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         mBuilder.setContentText(body);
         //.setAutoCancel(true)
         mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
+        mBuilder.setChannelId("FCM_NOTIF");
 
         mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
+        mNotificationManager.createNotificationChannel(new NotificationChannel("FCM_NOTIF", "For fcm notifications", NotificationManager.IMPORTANCE_HIGH));
+
         mNotificationManager.notify(notifs++, mBuilder.build());
+
     }
 }
