@@ -1,12 +1,15 @@
 package com.beaker.recipeRoulette;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -17,11 +20,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class RecipeSelect extends AppCompatActivity {
@@ -42,7 +49,7 @@ public class RecipeSelect extends AppCompatActivity {
     private void CallRecipeBackend() {
         OkHttpClient client = new OkHttpClient();
 
-        String url = "https://cpen321-reciperoulette.westus.cloudapp.azure.com/recipes?user=test@ubc.ca";
+        String url = "https://cpen321-reciperoulette.westus.cloudapp.azure.com/recipes";
 
         Request request = new Request.Builder()
                 .url(url)
@@ -66,27 +73,76 @@ public class RecipeSelect extends AppCompatActivity {
                     String responseBody = response.body().string();
                     Log.d("RECIPE", responseBody);
                     String[] recipeNames = parseRecipeNames(responseBody);
+                    int[] recipeIds = parseRecipeId(responseBody);
 
                     for (String name : recipeNames) {
                         System.out.println("Recipe Name: " + name);
                     }
-                    //TODO Write code to display each recipe name (up to 5 recipes) as a clickable button.
-                    // The recipe names are stored in recipeNames. If there is less than 5 recipes (indicated by empty string,
-                    // only the buttons with recipes should appear as buttons.
+                    for (int id : recipeIds) {
+                        System.out.println("Recipe id: " + id);
+                    }
+                    AllRecipeDetails AllRecipes = new AllRecipeDetails();
+                    List<RecipeDetails> recipeList = new ArrayList<>();
+                    for (int i = 0; i < recipeNames.length; i++) {
+                        RecipeDetails localRecipe = new RecipeDetails();
+                        localRecipe.name = recipeNames[i];
+                        localRecipe.recipeId = recipeIds[i];
+
+                        recipeList.add(localRecipe);
+                    }
+                    AllRecipes.recipeList = recipeList;
 
                     runOnUiThread(() -> {
                         LinearLayout recipeButtonLayout = findViewById(R.id.recipeButtonLayout); // Assuming you have a LinearLayout in your activity's layout to hold the buttons
                         recipeButtonLayout.removeAllViews(); // Clear previous buttons if any
 
-                        for (String name : recipeNames) {
-                            if (!name.isEmpty()) {
+                        for (RecipeDetails localRecipe : AllRecipes.recipeList) {
+                            if (!localRecipe.name.isEmpty()) {
                                 Button recipeButton = new Button(RecipeSelect.this);
-                                recipeButton.setText(name);
+                                recipeButton.setText(localRecipe.name);
                                 recipeButton.setOnClickListener(v -> {
-                                    // Handle button click, e.g., open the selected recipe
-                                    Toast.makeText(RecipeSelect.this, "Clicked " + name, Toast.LENGTH_SHORT).show();
-                                    // You can also launch a new activity to display the selected recipe
-                                    // Example: startActivity(new Intent(RecipeSelect.this, RecipeDetailsActivity.class));
+                                    Toast.makeText(RecipeSelect.this, "Clicked " + localRecipe.name, Toast.LENGTH_SHORT).show();
+
+                                    SharedPreferences sharedPref =
+                                            getSharedPreferences("com.beaker.recipeRoulette.TOKEN", Context.MODE_PRIVATE);
+                                    String tok = sharedPref.getString("TOKEN", "NOTOKEN");
+                                    String email = sharedPref.getString("EMAIL", "NOEMAIL");
+
+                                    RecipePick chosenRecipe = new RecipePick();
+                                    chosenRecipe.userId = email;
+                                    chosenRecipe.recipeId = localRecipe.recipeId;
+
+                                    OkHttpClient client = new OkHttpClient();
+                                    Gson gson = new Gson();
+
+                                    MediaType JSON = MediaType.get("application/json; charset=utf-8");
+                                    RequestBody body = RequestBody.create(gson.toJson(chosenRecipe), JSON);
+
+                                    String acceptUrl = "https://cpen321-reciperoulette.westus.cloudapp.azure.com/";
+
+                                    Request req = new Request.Builder()
+                                            .url(acceptUrl)
+                                            .addHeader("userToken", tok)
+                                            .addHeader("email", email)
+                                            .post(body)
+                                            .build();
+
+                                    try {
+                                        client.newCall(req).enqueue(new Callback() {
+                                            @Override
+                                            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                                                System.err.println("Request failed with code: " + e);
+                                            }
+
+                                            @Override
+                                            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                                                String responseBody = response.body().string();
+                                                System.out.println("Response: " + responseBody);
+                                            }
+                                        });
+                                    } catch (Exception e) {
+                                        throw new RuntimeException(e);
+                                    }
                                 });
                                 recipeButtonLayout.addView(recipeButton); // Add the button to the layout
                             }
@@ -118,4 +174,37 @@ public class RecipeSelect extends AppCompatActivity {
         }
         return null;
     }
+
+    private int[] parseRecipeId(String jsonInput) {
+        try {
+            JSONArray jsonArray = new JSONArray(jsonInput);
+            int[] recipeId = new int[jsonArray.length()];
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject recipeObject = jsonArray.getJSONObject(i);
+                int id = recipeObject.getInt("id"); // Use "title" field
+                recipeId[i] = id;
+            }
+
+            return recipeId;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d("RECIPE", "Failed to parse recipe ids");
+        }
+        return null;
+    }
+}
+
+class RecipePick {
+    String userId;
+    int recipeId;
+}
+
+class RecipeDetails {
+    String name;
+    int recipeId;
+}
+
+class AllRecipeDetails {
+    List<RecipeDetails> recipeList;
 }
