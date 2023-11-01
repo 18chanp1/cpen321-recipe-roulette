@@ -104,6 +104,12 @@ public class ChatRoomWebSocket extends WebSocketListener {
 
             Log.d(TAG, "Added to list: " + item.name);
         }
+        else if(item.type.equals("COOKREQ"))
+        {
+            c.runOnUiThread(() -> c.addItemToList(item));
+
+            Log.d(TAG, "Added to list: " + item.name);
+        }
 
         if(item.type.equals("DEL"))
         {
