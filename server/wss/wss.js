@@ -50,6 +50,8 @@ function setupWSS(httpsServer)
                     e.ws.send(JSON.stringify(ann))
                 }
 
+                console.log(ann);
+
                 //add to requests
                 obj.ws = ws
                 requests[ann.entryID] = obj
@@ -74,7 +76,7 @@ function setupWSS(httpsServer)
                 requests.ws.send(JSON.stringify(ann))
             }
 
-            console.log("closed");
+            console.log(ann);
         })
     })
 
