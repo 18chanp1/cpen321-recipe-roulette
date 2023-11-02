@@ -4,11 +4,11 @@
     <string name="signin_title">Sign in to use app.</string>
 
     <string name="recipe_engine">Recipe Engine</string>
+    <string name="take_photo">Add to Pantry</string>
     <string name="flavor_profile">Flavor Profile</string>
     <string name="req_ingredient">Request Ingredient</string>
     <string name="cook_together">Cook with others</string>
     <string name="recipe_review">Recipe Reviews</string>
-    <string name="shop_together">Go shopping together</string>
 
     <string name="read_more">Read more</string>
 
