@@ -30,9 +30,9 @@ likeRecipe = async (req) => {
   if (review !== null) {
     review.likes++;
     await review.save();
-    return "Liked";
+    return true;
   }
-  return "Failed to like";
+  return false;
 }
 
 /* GET users listing. */
@@ -74,7 +74,12 @@ router.post("/like", async (req, res, next) =>
 {
   console.log("like");
   let result = await likeRecipe(req);
-  res.send(result);
+  if (result) {
+    res.send("Liked");
+  } else {
+    res.status(400);
+    res.send("Failed to like");
+  }
 })
 
 
