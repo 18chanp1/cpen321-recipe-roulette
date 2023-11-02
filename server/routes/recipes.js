@@ -24,8 +24,8 @@ submitReview = async (req) => {
 
 getRecipes = async (req) => {
   //let ingredientList = url.parse(req.url, true).query.ingredients;
-  // let user = url.parse(req.url, true).query.user;
-  let user = "test@ubc.ca"
+  let user = url.parse(req.url, true).query.email;
+  //let user = "test@ubc.ca"
   // Find all ingredients of user
   let allIngredients = await Models.Ingredient.findOne({userId: `${user}`});
   if (allIngredients == null) {
