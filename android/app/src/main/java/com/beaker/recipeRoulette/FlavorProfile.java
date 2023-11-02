@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import okhttp3.Response;
 
 public class FlavorProfile extends AppCompatActivity {
     private TextView flavorProfile;
+    private static final String TAG = "FlavorProfile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,15 @@ public class FlavorProfile extends AppCompatActivity {
                 }
                 else if(response.isSuccessful())
                 {
-                    flavorProfile.setText(response.message());
+                    runOnUiThread(() -> {
+                        try {
+                            String result = response.body().string();
+                            flavorProfile.setText(response.body().string());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+
                 }
             }
         });
