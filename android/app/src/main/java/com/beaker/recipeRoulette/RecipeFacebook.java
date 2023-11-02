@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -86,6 +87,8 @@ public class RecipeFacebook extends AppCompatActivity {
                 else if(response.isSuccessful())
                 {
                     String res = response.body().string();
+
+                    Log.d("RecipeFacebook", res);
 
                     RecipeFacebook.this.runOnUiThread(new Runnable() {
                         @Override

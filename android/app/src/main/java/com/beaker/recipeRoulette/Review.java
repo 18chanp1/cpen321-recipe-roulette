@@ -1,15 +1,12 @@
 package com.beaker.recipeRoulette;
 
-import android.media.Image;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import java.util.Calendar;
-
 public class Review implements Parcelable {
-    int ID;
+    int id;
     int rating;
     String author;
     String title;
@@ -18,8 +15,8 @@ public class Review implements Parcelable {
     String publishDate;
     String image;
 
-    public Review(int ID, int rating, String author, String title, String review, String publishDate, String image) {
-        this.ID = ID;
+    public Review(int id, int rating, String author, String title, String review, String publishDate, String image) {
+        this.id = id;
         this.rating = rating;
         this.author = author;
         this.title = title;
@@ -29,7 +26,7 @@ public class Review implements Parcelable {
     }
 
     protected Review(Parcel in) {
-        ID = in.readInt();
+        id = in.readInt();
         rating = in.readInt();
         author = in.readString();
         title = in.readString();
@@ -57,12 +54,12 @@ public class Review implements Parcelable {
 
 
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getRating() {
@@ -120,7 +117,7 @@ public class Review implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeInt(ID);
+        parcel.writeInt(id);
         parcel.writeInt(rating);
         parcel.writeString(author);
         parcel.writeString(title);

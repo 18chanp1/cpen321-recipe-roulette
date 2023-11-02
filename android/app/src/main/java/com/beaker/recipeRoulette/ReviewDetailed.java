@@ -2,9 +2,6 @@ package com.beaker.recipeRoulette;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,8 +19,6 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -75,12 +70,12 @@ public class ReviewDetailed extends AppCompatActivity {
             Picasso.with(this).load(r.getImage()).into(image);
 
             like_but.setOnClickListener(view -> {
-                likeListener(true, r.getID());
+                likeListener(true, r.getId());
             });
 
             dislike_but.setOnClickListener(view ->
             {
-                likeListener(false, r.getID());
+                likeListener(false, r.getId());
             });
         }
 
@@ -102,7 +97,7 @@ public class ReviewDetailed extends AppCompatActivity {
         String email = sharedPref.getString("EMAIL", "NOEMAIL");
 
         Gson gson = new Gson();
-        String json = gson.toJson(new LikeTicket(tok, id, like, email));
+        String json = gson.toJson(new LikeTicket(tok, id, like, authorText.getText().toString()));
 
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
         RequestBody body = RequestBody.create(json, JSON);
@@ -112,7 +107,7 @@ public class ReviewDetailed extends AppCompatActivity {
                 .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/reviews/like")
                 .addHeader("userToken", tok)
                 .addHeader("id", String.valueOf(id))
-                .addHeader("email", email)
+                .addHeader("email", authorText.getText().toString())
                 .addHeader("like", String.valueOf(like))
                 .post(body)
                 .build();
