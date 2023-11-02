@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.widget.Button;
 
 public class MainMenu extends AppCompatActivity {
+
+    private Button recipeRequestButton;
     private Button recipeReviewButton;
     private Button requestIngredientButton;
     private Button shopTogetherButton;
@@ -19,6 +21,13 @@ public class MainMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        recipeRequestButton = findViewById(R.id.menu1);
+
+        recipeRequestButton.setOnClickListener(view -> {
+            Intent recipeSelectIntent = new Intent(MainMenu.this, com.beaker.recipeRoulette.RecipeSelect.class);
+            startActivity(recipeSelectIntent);
+        });
 
         recipeReviewButton = findViewById(R.id.menu5);
         takePhotoButton = findViewById(R.id.menu6);
