@@ -4,7 +4,7 @@ var Models = require("../utils/db");
 
 getAllReviews = async () => {
   let response = [];
-  let allRecipes = await Models.Recipe.find().limit(10);
+  let allRecipes = await Models.Recipe.find().limit(20);
   allRecipes.forEach(recipe => {
     let review = {
       id: recipe.recipeId,
