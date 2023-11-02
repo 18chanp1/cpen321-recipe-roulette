@@ -26,6 +26,9 @@
             android:name=".RecipeSelect"
             android:exported="false" />
         <activity
+            android:name=".RecipeDisplay"
+            android:exported="false" />
+        <activity
             android:name=".IngredientRequestSelfView"
             android:exported="false" />
         <activity

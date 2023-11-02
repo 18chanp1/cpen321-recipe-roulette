@@ -118,7 +118,7 @@ public class RecipeSelect extends AppCompatActivity {
                                     MediaType JSON = MediaType.get("application/json; charset=utf-8");
                                     RequestBody body = RequestBody.create(gson.toJson(chosenRecipe), JSON);
 
-                                    String acceptUrl = "https://cpen321-reciperoulette.westus.cloudapp.azure.com/";
+                                    String acceptUrl = "https://cpen321-reciperoulette.westus.cloudapp.azure.com/recipes";
 
                                     Request req = new Request.Builder()
                                             .url(acceptUrl)
@@ -138,6 +138,15 @@ public class RecipeSelect extends AppCompatActivity {
                                             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                                                 String responseBody = response.body().string();
                                                 System.out.println("Response: " + responseBody);
+                                                Context context = RecipeSelect.this;
+                                                Intent intent = new Intent(context, RecipeDisplay.class);
+
+                                                // Pass data as extras to the RecipeActivity
+                                                intent.putExtra("recipeName", localRecipe.name);
+                                                intent.putExtra("responseBody", responseBody);
+
+                                                // Start the RecipeActivity
+                                                context.startActivity(intent);
                                             }
                                         });
                                     } catch (Exception e) {
