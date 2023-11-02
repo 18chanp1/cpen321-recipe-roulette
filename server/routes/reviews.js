@@ -3,14 +3,29 @@ var router = express.Router();
 var Models = require("../utils/db");
 
 getAllReviews = async () => {
-  let allReviews = await Models.Review.find();
-  console.log(allReviews);
-  return allReviews;
+  let response = [];
+  let allRecipes = await Models.Recipe.find().limit(10);
+  allRecipes.forEach(recipe => {
+    let review = {
+      id: recipe.recipeId,
+      rating: recipe.likes,
+      author: recipe.userId,
+      title: recipe.recipeName,
+      image: "https://spoonacular.com/recipeImages/73420-312x231.jpg",
+      review: recipe.recipeSummary
+    }
+    response.push(review);
+  })
+  console.log(response);
+  return response;
 }
 
-likeReview = async (req) => {
+likeRecipe = async (req) => {
   console.log(req.body);
-  let review = await Models.Review.findOne({reviewId: `${req.body.reviewId}`});
+  let review = await Models.Review.findOne({
+    userId: `${req.body.userId}`, 
+    reviewId: `${req.body.id}`
+  });
   review.likes++;
   await review.save();
 }
@@ -42,10 +57,12 @@ router.get('/', async function(req, res, next) {
       image: "https://ece.ubc.ca/files/2017/03/2016a-13-e1580928549507.jpeg"
     }
   ]
+
+
   //res.status(511).send()
   //res.send(reviews);
   let reviews = await getAllReviews();
-  res.send(reviews)
+  res.send(reviews);
 });
 
 router.post("/like", async (req, res, next) =>
