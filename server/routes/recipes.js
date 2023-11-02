@@ -55,18 +55,44 @@ getRecipes = async (req) => {
 
 saveRecipes = async (req) => {
   let userId = req.body.email;
-  let chosenRecipe = req.body.chosenRecipe;
-  let ingredientList = req.body.ingredientList;
-  console.log(user);
-  const recipes = await Recipe.find({user: `${user}`});
-  console.log(typeof recipes);
-  console.log(recipes);
-  recipes.recipeNames.push(chosenRecipe);
+  let chosenRecipeId = req.body.recipeId;
+  let summaryEndpoint = `https://api.spoonacular.com/recipes/${chosenRecipeId}/summary?apiKey=${apiKey}`;
+  let summary = "";
+  let name = "";
+  try {
+    let res = await fetch(summaryEndpoint);
+    console.log(res);
+    let resJson = await res.json();
+    console.log(resJson);
+    summary = resJson.summary;
+    name = resJson.title;
+  } catch (error) {
+    console.log(error);
+  }
+  let response = {
+    userId: userId,
+    recipeId: chosenRecipeId,
+    recipeSummary: summary,
+    recipeName: name
+  }
+  let savedRecipe = new Models.Recipe(response);
+  await savedRecipe.save();
+  // Get instructions
+  let instrEndpoint = `https://api.spoonacular.com/recipes/${chosenRecipeId}/analyzedInstructions?apiKey=${apiKey}`;
+  try {
+    let res = await fetch(instrEndpoint);
+    console.log(res)
+    let resJson = await res.json();
+    console.log(resJson);
+    response.instructions = resJson;
+  } catch (error) {
+    console.log(error);
+  }
   // Delete ingredients
-  await removeIngredients(userId, ingredientList);
-  // Save chosen recipe into db
-  await recipes.save();
-  return true;
+
+  //await removeIngredients(userId, ingredientList);
+  console.log(response);
+  return response;
 }
 
 router.get('/', async function(req, res, next) {
@@ -79,9 +105,9 @@ router.post('/', async function(req, res, next) {
   res.send(result);
 });
 
-router.post('/submitreview', async function(req, res, next) {
-  let result = await submitReview(req);
-  res.send(result);
-});
+// router.post('/submitreview', async function(req, res, next) {
+//   let result = await submitReview(req);
+//   res.send(result);
+// });
 
 module.exports = router;

@@ -64,7 +64,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/recipes', recipesRouter);
 app.use('/ingredientrequests', ingredientRequestRouter);
-app.use('/flavorprofile', flavorProfileRouter);
+app.use('/flavourprofile', flavorProfileRouter);
 app.use("/.well-known/assetlinks.json", assetLinkRouter);
 app.use("/reviews", reviewRouter);
 app.use("/foodInventoryManager", foodInventoryRouter);

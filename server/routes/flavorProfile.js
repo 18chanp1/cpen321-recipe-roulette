@@ -4,28 +4,27 @@ var Models = require('../utils/db');
 var url = require('url');
 
 getFlavourProfile = async (req) => {
-  let queriedUser = url.parse(req.url, true).query.user;
+  let queriedUser = url.parse(req.url, true).query.email;
   console.log(queriedUser);
-  let recipes = await Models.Recipe.find({user: `${queriedUser}`});
-  console.log(typeof recipes);
-  console.log(recipes);
+  let recipes = await Models.Recipe.find({userId: `${queriedUser}`});
   let meat = 0;
   let veggie = 0;
-  let meat_indicators = ["meat", "beef", "pork", "chicken"];
-  if (recipes == null || recipes.recipeNames == null) {
+  let meat_indicators = ["meat", "beef", "pork", "chicken", "salmon"];
+  if (recipes == null) {
     return "No Flavor Profile Available";
   }
-  recipes.recipeNames.forEach(name => {
+  recipes.forEach(recipe => {
+    console.log(recipe)
     veggie++;
     for (let i = 0; i < meat_indicators.length; i++) {
-      if (name.includes(meat_indicators[i])) {
+      if (recipe.recipeName.toLowerCase().includes(meat_indicators[i])) {
         meat++;
         veggie--;
         break;
       }
     }
   });
-  if (meat > veggie) {
+  if (meat >= veggie) {
     return "Meat Lover";
   } else {
     return "Veggie Lover";

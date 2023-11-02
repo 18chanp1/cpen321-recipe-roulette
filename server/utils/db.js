@@ -2,8 +2,10 @@ const mongoose = require("mongoose");
 mongoose.connect("mongodb://jaber:recipe@137.135.47.124:27017/Recipe_Roulette?authSource=admin", {useNewUrlParser: true, useUnifiedTopology: true});
 
 const recipeSchema = new mongoose.Schema({
-  user: String,
-  recipeNames: [String]
+  userId: String,
+  recipeName: String,
+  recipeId: String,
+  recipeSummary: String
 })
 const Recipe = mongoose.model('recipe', recipeSchema);
 
