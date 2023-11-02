@@ -93,6 +93,9 @@ public class TakePhoto extends AppCompatActivity {
             if (imageSelectedOrCaptured) {
                 String imageUriString = image_uri.toString();
                 QueryVisions.processImage(imageUriString, TakePhoto.this);
+
+                Intent returnMenuIntent = new Intent(this, com.beaker.recipeRoulette.MainMenu.class);
+                startActivity(returnMenuIntent);
             } else {
                 Toast.makeText(TakePhoto.this, "Please capture or select an image first.", Toast.LENGTH_SHORT).show();
             }
