@@ -72,7 +72,7 @@ public class FlavorProfile extends AppCompatActivity {
                     runOnUiThread(() -> {
                         try {
                             String result = response.body().string();
-                            flavorProfile.setText(response.body().string());
+                            flavorProfile.setText(result);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
