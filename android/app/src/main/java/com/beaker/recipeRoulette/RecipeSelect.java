@@ -49,10 +49,18 @@ public class RecipeSelect extends AppCompatActivity {
     private void CallRecipeBackend() {
         OkHttpClient client = new OkHttpClient();
 
-        String url = "https://cpen321-reciperoulette.westus.cloudapp.azure.com/recipes";
+        SharedPreferences sharedPref =
+                getSharedPreferences("com.beaker.recipeRoulette.TOKEN", Context.MODE_PRIVATE);
+        String tok = sharedPref.getString("TOKEN", "NOTOKEN");
+        String email = sharedPref.getString("EMAIL", "NOEMAIL");
 
+        String url = "https://cpen321-reciperoulette.westus.cloudapp.azure.com/recipes?email="+ email;
+
+        System.out.println(url);
         Request request = new Request.Builder()
                 .url(url)
+                .addHeader("userToken", tok)
+                .addHeader("email", email)
                 .get()
                 .build();
 
