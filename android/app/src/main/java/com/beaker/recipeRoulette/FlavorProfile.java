@@ -44,7 +44,7 @@ public class FlavorProfile extends AppCompatActivity {
 
         //get requests from server
         Request req = new Request.Builder()
-                .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/flavorprofile")
+                .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/flavourprofile")
                 .addHeader("email", email)
                 .addHeader("userToken", tok)
                 .build();
@@ -72,7 +72,7 @@ public class FlavorProfile extends AppCompatActivity {
                     runOnUiThread(() -> {
                         try {
                             String result = response.body().string();
-                            flavorProfile.setText(response.body().string());
+                            flavorProfile.setText(result);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
