@@ -11,7 +11,7 @@ getFlavourProfile = async (req) => {
   let veggie = 0;
   let meat_indicators = ["meat", "beef", "pork", "chicken", "salmon"];
   // console.log(recipes);
-  if (recipes === undefined || recipes.length == 0) {
+  if (recipes === undefined || recipes === null || recipes.length == 0) {
     return "No Flavor Profile Available";
   }
   recipes.forEach(recipe => {

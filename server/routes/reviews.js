@@ -21,13 +21,18 @@ getAllReviews = async () => {
 }
 
 likeRecipe = async (req) => {
-  console.log(req.body);
-  let review = await Models.Review.findOne({
-    userId: `${req.body.userId}`, 
-    reviewId: `${req.body.id}`
+  //console.log(req.body);
+  let review = await Models.Recipe.findOne({
+    userId: `${req.body.email}`, 
+    recipeId: `${req.body.id}`
   });
-  review.likes++;
-  await review.save();
+  //console.log(review);
+  if (review !== null) {
+    review.likes++;
+    await review.save();
+    return true;
+  }
+  return false;
 }
 
 /* GET users listing. */
@@ -68,8 +73,13 @@ router.get('/', async function(req, res, next) {
 router.post("/like", async (req, res, next) =>
 {
   console.log("like");
-  await likeReview(req);
-  res.send("like succeeded");
+  let result = await likeRecipe(req);
+  if (result) {
+    res.send("Liked");
+  } else {
+    res.status(400);
+    res.send("Failed to like");
+  }
 })
 
 
