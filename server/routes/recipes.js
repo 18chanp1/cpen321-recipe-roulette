@@ -54,7 +54,7 @@ getRecipes = async (req) => {
 }
 
 saveRecipes = async (req) => {
-  let userId = req.body.email;
+  let userId = req.body.userId;
   let chosenRecipeId = req.body.recipeId;
   let summaryEndpoint = `https://api.spoonacular.com/recipes/${chosenRecipeId}/summary?apiKey=${apiKey}`;
   let summary = "";
