@@ -29,7 +29,7 @@ getRecipes = async (req) => {
   // Find all ingredients of user
   let allIngredients = await Models.Ingredient.findOne({userId: `${user}`});
   if (allIngredients == null) {
-    return null;
+    return [];
   };
   // Push into a list
   let ingredientList = [];
