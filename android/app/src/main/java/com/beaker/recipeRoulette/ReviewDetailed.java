@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -58,17 +59,18 @@ public class ReviewDetailed extends AppCompatActivity {
         Intent in = getIntent();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            titleText.setText(in.getParcelableExtra("REVIEW", Review.class).getTitle());
-            authorText.setText(in.getParcelableExtra("REVIEW", Review.class).getAuthor());
-            reviewText.setText(in.getParcelableExtra("REVIEW", Review.class).getReview());
-            ratingText.setText(in.getParcelableExtra("REVIEW", Review.class).getRating());
-            Picasso.with(this).load(in.getParcelableExtra("REVIEW", Review.class).getImage()).into(image);
+            Review r = in.getParcelableExtra("REVIEW", Review.class);
+            titleText.setText(r.getTitle());
+            authorText.setText(r.getAuthor());
+            reviewText.setText(Html.fromHtml(r.getReview(), Html.FROM_HTML_MODE_COMPACT));
+            ratingText.setText(r.getRating());
+            Picasso.with(this).load(r.getImage()).into(image);
         } else {
             Review r = in.getParcelableExtra("REVIEW");
 
             titleText.setText(r.getTitle());
             authorText.setText(r.getAuthor());
-            reviewText.setText(r.getReview());
+            reviewText.setText(Html.fromHtml(r.getReview(), Html.FROM_HTML_MODE_COMPACT));
             ratingText.setText("Rating: " + String.valueOf(r.getRating()));
             Picasso.with(this).load(r.getImage()).into(image);
 
