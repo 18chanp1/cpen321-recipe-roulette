@@ -73,7 +73,8 @@ saveRecipes = async (req) => {
     userId: userId,
     recipeId: chosenRecipeId,
     recipeSummary: summary,
-    recipeName: name
+    recipeName: name,
+    likes: 0
   }
   let savedRecipe = new Models.Recipe(response);
   await savedRecipe.save();
