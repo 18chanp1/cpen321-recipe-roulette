@@ -15,6 +15,8 @@
     <string name="Loremipsum">Lorem Ipsum</string>
     <string name="like">Like</string>
     <string name="dislike">Dislike</string>
+    <string name="like_info">Rating count is only updated upon refreshing the recipes activity.
+    Please go to the main menu, and then reopen this review to see the count increase. </string>
 
     <string name="shared_pref_filename">com.beaker.recipeRoulette.TOKEN</string>
 
