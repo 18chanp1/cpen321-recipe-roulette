@@ -62,7 +62,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "FCM TOKEN: " + token);
     }
 
-    @SuppressLint("MissingPermission")
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: " + remoteMessage.getFrom());
@@ -92,7 +91,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
 
-    @SuppressLint("MissingPermission")
     private void createNotification(String title, String body)
     {
         NotificationManager mNotificationManager;
