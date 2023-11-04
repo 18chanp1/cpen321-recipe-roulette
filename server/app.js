@@ -27,7 +27,7 @@ const ca = fs.readFileSync("/etc/letsencrypt/live/cpen321-reciperoulette.westus.
 const credentials = {
 	key: privateKey,
 	cert: certificate, 
-	ca: ca,
+	ca
 }
 
 let httpsServer = https.createServer(credentials, app)
@@ -38,7 +38,7 @@ httpsServer.listen(8443, () =>
 )
 
 // setup websocket server
-let wss = require("./wss/wss")(httpsServer); 
+app.wssServer = require("./wss/wss")(httpsServer); 
 
 
 let httpServer = http.createServer(app)
@@ -48,7 +48,6 @@ httpServer.listen(8080, () =>
 	}
 )
 
-title = "test"
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

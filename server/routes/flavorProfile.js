@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var Models = require('../utils/db');
-var url = require('url');
 
-getFlavourProfile = async (req) => {
+let getFlavourProfile = async (req) => {
   //let queriedUser = url.parse(req.url, true).query.email;
   let queriedUser = req.headers.email;
   console.log(queriedUser);

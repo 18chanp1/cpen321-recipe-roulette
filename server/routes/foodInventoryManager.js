@@ -2,7 +2,6 @@ const express = require('express');
 var router = express.Router();
 var Models = require('../utils/db');
 var url = require('url');
-var mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 
@@ -34,7 +33,9 @@ router.get('/', async function(req, res, next) {
     //   console.log("We're connected to MongoDB!");
     // });
 
-    let queriedUser = url.parse(req.url, true).query.userId;
+
+    //TODO, I think this should work, but please test it. 
+    let queriedUser = req.get('userId');
     const ingredients = await Models.Ingredient.find({userId: `${queriedUser}`});
     console.log(typeof ingredients);
     console.log(ingredients);
@@ -50,6 +51,9 @@ router.get('/', async function(req, res, next) {
 
 // PUT: given a user and a list of ingredients, if the ingredient exists, decrement the counter or delete the food item
 router.put('/update', async (req, res) => {
+  let logOne = 1;
+  let logTwo = 2;
+  console.log(logOne + logTwo);
   try {
     const { userId, ingredients } = req.body;
 
@@ -78,7 +82,7 @@ router.put('/update', async (req, res) => {
           console.log('Count: ' + ingredient.count);
 
           Models.Ingredient.updateOne(
-            { userId: userId },
+            {userId},
             { $pull: { ingredients: { name : ingredientName } } }
           ).then(() => {
             console.log(ingredientName + " got removed from the array");
