@@ -1,7 +1,6 @@
 const express = require('express');
 var router = express.Router();
 var Models = require('../utils/db');
-var url = require('url');
 const bodyParser = require('body-parser');
 
 
@@ -28,6 +27,9 @@ router.post('/upload', async (req, res) => {
 
 
 router.get('/', async function(req, res, next) {
+  //TODO: Please surround the minimal amount of code that generates exceptions with try catch blocks
+  console.log("Return the list of ingredients in the user's inventory")
+
   try {
     // mongodb.once('open', function() {
     //   console.log("We're connected to MongoDB!");
@@ -51,9 +53,14 @@ router.get('/', async function(req, res, next) {
 
 // PUT: given a user and a list of ingredients, if the ingredient exists, decrement the counter or delete the food item
 router.put('/update', async (req, res) => {
+
+  //this code is here to get around the stupid "unnecessary block" issue.
+  // TODO: please, only surround code that generates exceptions with try/catch blocks. Move everything else outside. 
   let logOne = 1;
   let logTwo = 2;
   console.log(logOne + logTwo);
+
+
   try {
     const { userId, ingredients } = req.body;
 

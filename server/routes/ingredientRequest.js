@@ -34,7 +34,7 @@ const messaging = admin.messaging(app);
 // Send a message to the device corresponding to the provided
 // registration token.
 
-deleteIngredientRequest = async (req) => {
+let deleteIngredientRequest = async (req) => {
     console.log(req.body.reqID);
     let ingredientRequest = Models.IngredientRequest.findOne({reqID: `${req.body.reqID}`});
     console.log(ingredientRequest);
@@ -43,7 +43,7 @@ deleteIngredientRequest = async (req) => {
     }
 }
 
-requestIngredient = async (req) => {
+let requestIngredient = async (req) => {
     // Get all info of ingredient and create new document in collection
     console.log(req.body);
     let user = req.body.email;
@@ -54,14 +54,14 @@ requestIngredient = async (req) => {
     let newRequestIngredient = new Models.IngredientRequest({
         reqID: id, 
         userId: user, 
-        ingredientName: ingredientName, 
+        ingredientName, 
         ingredientCount: ingredientCount,
-        fcmTok: fcmTok
+        fcmTok
     });
     await newRequestIngredient.save();
 }
 
-donateIngredient = async (req) => {
+let donateIngredient = async (req) => {
     // This registration token comes from the client FCM SDKs.
     console.log(req.body.reqID);
     let ingredientRequest = await Models.IngredientRequest.findOne({reqID: `${req.body.reqID}`});
@@ -88,13 +88,13 @@ donateIngredient = async (req) => {
     });
 }
 
-getAllRequests = async () => {
+let getAllRequests = async () => {
     let allRequests = await Models.IngredientRequest.find();
     console.log(allRequests);
     return allRequests;
 }
 
-getAllSelfRequests = async (req) => {
+let getAllSelfRequests = async (req) => {
     console.log(req.headers);
     let userId = req.headers.email;
     let allRequests = await Models.IngredientRequest.find({userId: `${userId}`});

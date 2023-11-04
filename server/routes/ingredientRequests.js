@@ -16,7 +16,7 @@ router.post("/self/delete", (req, res, next) =>
 
 router.get("/self", (req, res, next) =>
 {
-  reviews = 
+  let reviews = 
   [
     {
         reqID : "69",
@@ -45,7 +45,7 @@ router.get("/self", (req, res, next) =>
 })
 
 router.get('/', function(req, res, next) {
-  reviews = 
+  let reviews = 
   [
     {
         reqID : "69",

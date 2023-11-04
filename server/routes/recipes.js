@@ -2,13 +2,11 @@ var express = require('express');
 var router = express.Router();
 var fetch = require('node-fetch');
 var Models = require('../utils/db');
-var removeIngredients = require('../utils/ingredientManager');
-var url = require('url');
 const fs = require('fs');
 const apiKey = fs.readFileSync("api_key.txt", "utf8");
 const { default: mongoose } = require('mongoose');
 
-submitReview = async (req) => {
+let submitReview = async (req) => {
   console.log(req.body);
   let newReview = new Models.Review({
     reviewId: new mongoose.Types.ObjectId(),
@@ -22,15 +20,16 @@ submitReview = async (req) => {
   return true;
 }
 
-getRecipes = async (req) => {
+let getRecipes = async (req) => {
   //let ingredientList = url.parse(req.url, true).query.ingredients;
-  let user = url.parse(req.url, true).query.email;
+  //TODO test if this works
+  let user = req.get("email");
   //let user = "test@ubc.ca"
   // Find all ingredients of user
   let allIngredients = await Models.Ingredient.findOne({userId: `${user}`});
   if (allIngredients == null) {
     return [];
-  };
+  }
   // Push into a list
   let ingredientList = [];
   allIngredients.ingredients.forEach(ingredient => {
@@ -53,7 +52,7 @@ getRecipes = async (req) => {
   }
 }
 
-saveRecipes = async (req) => {
+let saveRecipes = async (req) => {
   let userId = req.body.userId;
   let chosenRecipeId = req.body.recipeId;
   let summaryEndpoint = `https://api.spoonacular.com/recipes/${chosenRecipeId}/summary?apiKey=${apiKey}`;
@@ -70,7 +69,7 @@ saveRecipes = async (req) => {
     console.log(error);
   }
   let response = {
-    userId: userId,
+    userId,
     recipeId: chosenRecipeId,
     recipeSummary: summary,
     recipeName: name,
