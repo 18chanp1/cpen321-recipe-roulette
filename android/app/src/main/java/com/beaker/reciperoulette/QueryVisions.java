@@ -130,22 +130,20 @@ public class QueryVisions {
                             .post(body)
                             .build();
 
-                    try {
-                        client.newCall(req).enqueue(new Callback() {
-                            @Override
-                            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                                System.err.println("Request failed with code: " + e);
-                            }
+                    //TODO: Valentino, refrain from trying to catch unchecked exceptions, you can't
+                    //      catch them. Even if so, please do it gracefully.
+                    client.newCall(req).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                            System.err.println("Request failed with code: " + e);
+                        }
 
-                            @Override
-                            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                                String responseBody = response.body().string();
-                                System.out.println("Response: " + responseBody);
-                            }
-                        });
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+                        @Override
+                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                            String responseBody = response.body().string();
+                            System.out.println("Response: " + responseBody);
+                        }
+                    });
                 }
             } else {
                 System.out.println("Failed to read image bytes from the URI.");
