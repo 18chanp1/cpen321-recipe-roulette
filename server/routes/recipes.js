@@ -4,21 +4,24 @@ var fetch = require('node-fetch');
 var Models = require('../utils/db');
 const fs = require('fs');
 const apiKey = fs.readFileSync("api_key.txt", "utf8");
-const { default: mongoose } = require('mongoose');
 
-let submitReview = async (req) => {
-  console.log(req.body);
-  let newReview = new Models.Review({
-    reviewId: new mongoose.Types.ObjectId(),
-    userId: req.body.email,
-    recipeName: req.body.recipeName,
-    reviewTitle: req.body.title,
-    reviewText: req.body.text,
-    likes: 0
-  })
-  await newReview.save();
-  return true;
-}
+//TODO not used
+//const { default: mongoose } = require('mongoose');
+
+//TODO not sure what thid does but it appears not be used anywhere
+// let submitReview = async (req) => {
+//   console.log(req.body);
+//   let newReview = new Models.Review({
+//     reviewId: new mongoose.Types.ObjectId(),
+//     userId: req.body.email,
+//     recipeName: req.body.recipeName,
+//     reviewTitle: req.body.title,
+//     reviewText: req.body.text,
+//     likes: 0
+//   })
+//   await newReview.save();
+//   return true;
+// }
 
 let getRecipes = async (req) => {
   //let ingredientList = url.parse(req.url, true).query.ingredients;

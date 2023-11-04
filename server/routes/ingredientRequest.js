@@ -55,7 +55,7 @@ let requestIngredient = async (req) => {
         reqID: id, 
         userId: user, 
         ingredientName, 
-        ingredientCount: ingredientCount,
+        ingredientCount,
         fcmTok
     });
     await newRequestIngredient.save();

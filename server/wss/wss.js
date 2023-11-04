@@ -67,18 +67,15 @@ function setupWSS(httpsServer)
            delete requests[id]
 
             //announce it to everyone else
-            ann = {
+            let ann = {
                 entryID: id,
                 type: "DEL"
             }
 
             for (const e in requests)
             {
-		console.log(e[requests])
                 requests[e].ws.send(JSON.stringify(ann))
             }
-
-            console.log(ann);
         })
     })
 
