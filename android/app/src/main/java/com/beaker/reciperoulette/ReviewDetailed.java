@@ -29,11 +29,13 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ReviewDetailed extends AppCompatActivity {
-    private TextView titleText;
+    /**
+     *     private TextView titleText;
+     *     private TextView reviewText;
+     *     private ImageView image;
+     */
+
     private TextView authorText;
-    private TextView reviewText;
-    private TextView ratingText;
-    private ImageView image;
     private Button like_but;
     private Button dislike_but;
 
@@ -43,11 +45,12 @@ public class ReviewDetailed extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_detailed);
 
-        titleText = findViewById(R.id.detailed_title);
+        TextView titleText = findViewById(R.id.detailed_title);
+        TextView reviewText = findViewById(R.id.detailed_text);
+        TextView ratingText = findViewById(R.id.detailed_rating);
+        ImageView image = findViewById(R.id.detailed_image);
+
         authorText = findViewById(R.id.detailed_author);
-        reviewText = findViewById(R.id.detailed_text);
-        ratingText = findViewById(R.id.detailed_rating);
-        image = findViewById(R.id.detailed_image);
         like_but = findViewById(R.id.like_button);
         dislike_but = findViewById(R.id.dislike_but);
 

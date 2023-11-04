@@ -5,8 +5,6 @@ import static android.Manifest.permission.POST_NOTIFICATIONS;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,9 +21,6 @@ import androidx.activity.result.IntentSenderRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.datastore.preferences.core.Preferences;
-import androidx.datastore.preferences.rxjava3.RxPreferenceDataStoreBuilder;
-import androidx.datastore.rxjava3.RxDataStore;
 
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.Identity;
@@ -50,12 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
     // Handle Google Sign In
     private SignInClient oneTapClient;
-    private BeginSignInRequest signInRequest;
     private BeginSignInRequest signUpRequest;
     private static final String TAG = "MainActivity";
     private Calendar timeUntilNextSignIn;
     private static final int SIGNIN_TIMEOUT = 10;
-    private RxDataStore<Preferences> dataStore;
 
     private final ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
@@ -83,8 +76,6 @@ public class MainActivity extends AppCompatActivity {
         setupSignIn();
 
         //setup login state
-        dataStore = new RxPreferenceDataStoreBuilder(MainActivity.this,  "settings").build();
-
         askNotificationPermission();
         MyFirebaseMessagingService.saveFCMTokentoSharedPref(this);
 
@@ -95,7 +86,8 @@ public class MainActivity extends AppCompatActivity {
         timeUntilNextSignIn = Calendar.getInstance();
 
         oneTapClient = Identity.getSignInClient(this);
-        signInRequest = BeginSignInRequest.builder()
+
+        BeginSignInRequest signInRequest = BeginSignInRequest.builder()
                 .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
                         .setSupported(false)
                         .build())

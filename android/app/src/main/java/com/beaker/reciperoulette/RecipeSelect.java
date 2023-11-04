@@ -32,14 +32,17 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class RecipeSelect extends AppCompatActivity {
-    private Button genRecipeButton;
+    /**
+     * Added here to keep track.
+     * private Button genRecipeButton;
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_select);
 
-        genRecipeButton = findViewById(R.id.gen_recipes);
+        Button genRecipeButton = findViewById(R.id.gen_recipes);
 
         genRecipeButton.setOnClickListener(view -> {
             callRecipeBackend();
@@ -135,31 +138,32 @@ public class RecipeSelect extends AppCompatActivity {
                                             .post(body)
                                             .build();
 
-                                    try {
-                                        client.newCall(req).enqueue(new Callback() {
-                                            @Override
-                                            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                                                System.err.println("Request failed with code: " + e);
-                                            }
+                                    /**
+                                     * TODO: Valentino, I am not sure why you are trying to catch
+                                     *       a runtime exception, so I removed it.
+                                     */
 
-                                            @Override
-                                            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                                                String responseBody = response.body().string();
-                                                System.out.println("Response: " + responseBody);
-                                                Context context = RecipeSelect.this;
-                                                Intent intent = new Intent(context, RecipeDisplay.class);
+                                    client.newCall(req).enqueue(new Callback() {
+                                        @Override
+                                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                                            System.err.println("Request failed with code: " + e);
+                                        }
 
-                                                // Pass data as extras to the RecipeActivity
-                                                intent.putExtra("recipeName", localRecipe.name);
-                                                intent.putExtra("responseBody", responseBody);
+                                        @Override
+                                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                                            String responseBody = response.body().string();
+                                            System.out.println("Response: " + responseBody);
+                                            Context context = RecipeSelect.this;
+                                            Intent intent = new Intent(context, RecipeDisplay.class);
 
-                                                // Start the RecipeActivity
-                                                context.startActivity(intent);
-                                            }
-                                        });
-                                    } catch (Exception e) {
-                                        throw new RuntimeException(e);
-                                    }
+                                            // Pass data as extras to the RecipeActivity
+                                            intent.putExtra("recipeName", localRecipe.name);
+                                            intent.putExtra("responseBody", responseBody);
+
+                                            // Start the RecipeActivity
+                                            context.startActivity(intent);
+                                        }
+                                    });
                                 });
                                 recipeButtonLayout.addView(recipeButton); // Add the button to the layout
                             }

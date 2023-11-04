@@ -17,14 +17,18 @@ import java.util.Set;
 
 public class RecipeDisplay extends AppCompatActivity {
 
-    private Button recipeCompleteButton;
+    /**
+     * Save this here for to keep track of buttons
+     *
+     * private Button recipeCompleteButton;
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_display);
 
-        recipeCompleteButton = findViewById(R.id.recipe_complete);
+        Button recipeCompleteButton = findViewById(R.id.recipe_complete);
 
         recipeCompleteButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, MainMenu.class);

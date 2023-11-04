@@ -24,6 +24,7 @@ import com.google.protobuf.ByteString;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -51,7 +52,10 @@ public class QueryVisions {
             ias = ImageAnnotatorSettings.newBuilder()
                     .setCredentialsProvider(FixedCredentialsProvider.create(credentials)).build();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            /**
+             * TODO: Valentino, please handle exceptions more gracefully.
+             */
+            throw new UncheckedIOException(e);
         }
 
 

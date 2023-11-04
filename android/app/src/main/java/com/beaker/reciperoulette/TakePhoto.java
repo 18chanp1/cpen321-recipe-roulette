@@ -238,22 +238,19 @@ public class TakePhoto extends AppCompatActivity {
                         .post(body)
                         .build();
 
-                try {
-                    client.newCall(req).enqueue(new Callback() {
-                        @Override
-                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                            System.err.println("Request failed with code: " + e);
-                        }
+                //TODO: Valentino stop trying to catch runtime exceptions.
+                client.newCall(req).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                        System.err.println("Request failed with code: " + e);
+                    }
 
-                        @Override
-                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                            String responseBody = response.body().string();
-                            System.out.println("Response: " + responseBody);
-                        }
-                    });
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
+                    @Override
+                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                        String responseBody = response.body().string();
+                        System.out.println("Response: " + responseBody);
+                    }
+                });
             }
         });
 

@@ -30,8 +30,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class IngredientRequestView extends AppCompatActivity {
-    private Button requestIngredientButton;
-    private Button viewRequestButton;
+    //private Button requestIngredientButton;
+    //private Button viewRequestButton; //Put this for reference to ensure that we know all buttons used.
     private EditText ingredientRequestText;
     private EditText phoneNumberText;
 
@@ -41,8 +41,8 @@ public class IngredientRequestView extends AppCompatActivity {
         setContentView(R.layout.ingredient_req_view);
 
         //setup buttons
-        requestIngredientButton = findViewById(R.id.req_ingred_but);
-        viewRequestButton = findViewById(R.id.view_req_but);
+        Button requestIngredientButton = findViewById(R.id.req_ingred_but);
+        Button viewRequestButton = findViewById(R.id.view_req_but);
         ingredientRequestText = findViewById(R.id.ingredient_entry);
         phoneNumberText = findViewById(R.id.reqPhoneNo);
 

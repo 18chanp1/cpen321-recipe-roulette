@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -65,7 +66,11 @@ public class FlavorProfile extends AppCompatActivity {
                             String result = response.body().string();
                             flavorProfile.setText(result);
                         } catch (IOException e) {
-                            throw new RuntimeException(e);
+                            /**
+                             * TODO: Valentino, please handle this exception better.
+                             */
+
+                            throw new UncheckedIOException(e);
                         }
                     });
 
