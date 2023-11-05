@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -32,7 +33,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class RecipeSelect extends AppCompatActivity {
-    /**
+    /*
      * Added here to keep track.
      * private Button genRecipeButton;
      */
@@ -44,9 +45,7 @@ public class RecipeSelect extends AppCompatActivity {
 
         Button genRecipeButton = findViewById(R.id.gen_recipes);
 
-        genRecipeButton.setOnClickListener(view -> {
-            callRecipeBackend();
-        });
+        genRecipeButton.setOnClickListener(view -> callRecipeBackend());
     }
 
     private void callRecipeBackend() {
@@ -69,7 +68,7 @@ public class RecipeSelect extends AppCompatActivity {
 
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 e.printStackTrace();
                 ContextCompat.getMainExecutor(RecipeSelect.this).execute(() ->
                 {
@@ -79,17 +78,17 @@ public class RecipeSelect extends AppCompatActivity {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    String responseBody = response.body().string();
+                    String responseBody = Objects.requireNonNull(response.body()).string();
                     Log.d("RECIPE", responseBody);
                     String[] recipeNames = parseRecipeNames(responseBody);
                     int[] recipeIds = parseRecipeId(responseBody);
 
-                    for (String name : recipeNames) {
+                    for (String name : Objects.requireNonNull(recipeNames)) {
                         System.out.println("Recipe Name: " + name);
                     }
-                    for (int id : recipeIds) {
+                    for (int id : Objects.requireNonNull(recipeIds)) {
                         System.out.println("Recipe id: " + id);
                     }
                     AllRecipeDetails AllRecipes = new AllRecipeDetails();
@@ -104,8 +103,8 @@ public class RecipeSelect extends AppCompatActivity {
                     AllRecipes.recipeList = recipeList;
 
                     runOnUiThread(() -> {
-                        LinearLayout recipeButtonLayout = findViewById(R.id.recipeButtonLayout); // Assuming you have a LinearLayout in your activity's layout to hold the buttons
-                        recipeButtonLayout.removeAllViews(); // Clear previous buttons if any
+                        LinearLayout recipeButtonLayout = findViewById(R.id.recipeButtonLayout);
+                        recipeButtonLayout.removeAllViews();
 
                         for (RecipeDetails localRecipe : AllRecipes.recipeList) {
                             if (!localRecipe.name.isEmpty()) {
@@ -138,11 +137,6 @@ public class RecipeSelect extends AppCompatActivity {
                                             .post(body)
                                             .build();
 
-                                    /**
-                                     * TODO: Valentino, I am not sure why you are trying to catch
-                                     *       a runtime exception, so I removed it.
-                                     */
-
                                     client.newCall(req).enqueue(new Callback() {
                                         @Override
                                         public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -151,21 +145,19 @@ public class RecipeSelect extends AppCompatActivity {
 
                                         @Override
                                         public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                                            String responseBody = response.body().string();
+                                            String responseBody = Objects.requireNonNull(response.body()).string();
                                             System.out.println("Response: " + responseBody);
                                             Context context = RecipeSelect.this;
                                             Intent intent = new Intent(context, RecipeDisplay.class);
 
-                                            // Pass data as extras to the RecipeActivity
                                             intent.putExtra("recipeName", localRecipe.name);
                                             intent.putExtra("responseBody", responseBody);
 
-                                            // Start the RecipeActivity
                                             context.startActivity(intent);
                                         }
                                     });
                                 });
-                                recipeButtonLayout.addView(recipeButton); // Add the button to the layout
+                                recipeButtonLayout.addView(recipeButton);
                             }
                         }
                     });
@@ -203,7 +195,7 @@ public class RecipeSelect extends AppCompatActivity {
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject recipeObject = jsonArray.getJSONObject(i);
-                int id = recipeObject.getInt("id"); // Use "title" field
+                int id = recipeObject.getInt("id");
                 recipeId[i] = id;
             }
 

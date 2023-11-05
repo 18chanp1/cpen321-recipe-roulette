@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -33,6 +32,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -85,9 +85,7 @@ public class TakePhoto extends AppCompatActivity {
             }
         });
 
-        mManualBtn.setOnClickListener(view -> {
-            showManualEntryDialog();
-        });
+        mManualBtn.setOnClickListener(view -> showManualEntryDialog());
 
         sendImageBtn.setOnClickListener(view -> {
             if (imageSelectedOrCaptured) {
@@ -159,7 +157,7 @@ public class TakePhoto extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         // Get the selected image URI
-                        Uri selectedImageUri = result.getData().getData();
+                        Uri selectedImageUri = Objects.requireNonNull(result.getData()).getData();
                         image_uri = selectedImageUri;
                         mImageView.setImageURI(selectedImageUri);
                         imageSelectedOrCaptured = true; // Set the flag to true when an image is captured
@@ -197,69 +195,60 @@ public class TakePhoto extends AppCompatActivity {
         final EditText editText = new EditText(this);
         builder.setView(editText);
 
-        builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Get the entered grocery item from the EditText
-                String groceryItem = editText.getText().toString();
+        builder.setPositiveButton("Submit", (dialog, which) -> {
+            // Get the entered grocery item from the EditText
+            String groceryItem = editText.getText().toString();
 
-                SharedPreferences sharedPref =
-                        getSharedPreferences("com.beaker.recipeRoulette.TOKEN", Context.MODE_PRIVATE);
-                String tok = sharedPref.getString("TOKEN", "NOTOKEN");
-                String email = sharedPref.getString("EMAIL", "NOEMAIL");
+            SharedPreferences sharedPref =
+                    getSharedPreferences("com.beaker.recipeRoulette.TOKEN", Context.MODE_PRIVATE);
+            String tok = sharedPref.getString("TOKEN", "NOTOKEN");
+            String email = sharedPref.getString("EMAIL", "NOEMAIL");
 
-                IngredientsRequest ingredientsRequest = new IngredientsRequest();
-                ingredientsRequest.userId = email;
-                List<Ingredient> ingredientList = new ArrayList<>();
-                Ingredient ingredient = new Ingredient();
-                ingredient.name = groceryItem;
-                ingredient.count = 1;
+            IngredientsRequest ingredientsRequest = new IngredientsRequest();
+            ingredientsRequest.userId = email;
+            List<Ingredient> ingredientList = new ArrayList<>();
+            Ingredient ingredient = new Ingredient();
+            ingredient.name = groceryItem;
+            ingredient.count = 1;
 
-                Calendar calendar = Calendar.getInstance();
-                calendar.add(Calendar.WEEK_OF_YEAR, 1);
-                long unixTime = calendar.getTimeInMillis() / 1000;
-                ingredient.date = new long[] {unixTime};
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.WEEK_OF_YEAR, 1);
+            long unixTime = calendar.getTimeInMillis() / 1000;
+            ingredient.date = new long[] {unixTime};
 
-                ingredientList.add(ingredient);
-                ingredientsRequest.ingredients = ingredientList;
+            ingredientList.add(ingredient);
+            ingredientsRequest.ingredients = ingredientList;
 
-                OkHttpClient client = new OkHttpClient();
-                Gson gson = new Gson();
+            OkHttpClient client = new OkHttpClient();
+            Gson gson = new Gson();
 
-                MediaType JSON = MediaType.get("application/json; charset=utf-8");
-                RequestBody body = RequestBody.create(gson.toJson(ingredientsRequest), JSON); // Convert the descriptions array to a JSON string
+            MediaType JSON = MediaType.get("application/json; charset=utf-8");
+            RequestBody body = RequestBody.create(gson.toJson(ingredientsRequest), JSON); // Convert the descriptions array to a JSON string
 
-                String acceptUrl = "https://cpen321-reciperoulette.westus.cloudapp.azure.com/foodInventoryManager/upload";
+            String acceptUrl = "https://cpen321-reciperoulette.westus.cloudapp.azure.com/foodInventoryManager/upload";
 
-                Request req = new Request.Builder()
-                        .url(acceptUrl)
-                        .addHeader("userToken", tok)
-                        .addHeader("email", email)
-                        .post(body)
-                        .build();
+            Request req = new Request.Builder()
+                    .url(acceptUrl)
+                    .addHeader("userToken", tok)
+                    .addHeader("email", email)
+                    .post(body)
+                    .build();
 
-                //TODO: Valentino stop trying to catch runtime exceptions.
-                client.newCall(req).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                        System.err.println("Request failed with code: " + e);
-                    }
+            client.newCall(req).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    System.err.println("Request failed with code: " + e);
+                }
 
-                    @Override
-                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                        String responseBody = response.body().string();
-                        System.out.println("Response: " + responseBody);
-                    }
-                });
-            }
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    String responseBody = Objects.requireNonNull(response.body()).string();
+                    System.out.println("Response: " + responseBody);
+                }
+            });
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
 
         builder.create().show();
     }

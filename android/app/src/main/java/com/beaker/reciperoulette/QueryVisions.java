@@ -24,10 +24,10 @@ import com.google.protobuf.ByteString;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -52,10 +52,8 @@ public class QueryVisions {
             ias = ImageAnnotatorSettings.newBuilder()
                     .setCredentialsProvider(FixedCredentialsProvider.create(credentials)).build();
         } catch (IOException e) {
-            /**
-             * TODO: Valentino, please handle exceptions more gracefully.
-             */
-            throw new UncheckedIOException(e);
+            System.err.println("Failed to initialize Google Cloud Vision credentials: " + e.getMessage());
+            return;
         }
 
 
@@ -89,9 +87,6 @@ public class QueryVisions {
                     for (EntityAnnotation annotation : res.getLabelAnnotationsList()) {
                         String description = annotation.getDescription(); // Get the description value from the annotation
                         descriptions.add(description);
-//                        annotation
-//                                .getAllFields()
-//                                .forEach((k, v) -> System.out.format("%s : %s%n", k, v.toString()));
                     }
                     SharedPreferences sharedPref =
                             c.getSharedPreferences("com.beaker.recipeRoulette.TOKEN", Context.MODE_PRIVATE);
@@ -130,8 +125,6 @@ public class QueryVisions {
                             .post(body)
                             .build();
 
-                    //TODO: Valentino, refrain from trying to catch unchecked exceptions, you can't
-                    //      catch them. Even if so, please do it gracefully.
                     client.newCall(req).enqueue(new Callback() {
                         @Override
                         public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -140,7 +133,7 @@ public class QueryVisions {
 
                         @Override
                         public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                            String responseBody = response.body().string();
+                            String responseBody = Objects.requireNonNull(response.body()).string();
                             System.out.println("Response: " + responseBody);
                         }
                     });

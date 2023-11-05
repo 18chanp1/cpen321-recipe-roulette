@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -50,7 +50,7 @@ public class FlavorProfile extends AppCompatActivity {
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
                 if (response.code() == 511)
                 {
 
@@ -63,14 +63,10 @@ public class FlavorProfile extends AppCompatActivity {
                 {
                     runOnUiThread(() -> {
                         try {
-                            String result = response.body().string();
+                            String result = Objects.requireNonNull(response.body()).string();
                             flavorProfile.setText(result);
                         } catch (IOException e) {
-                            /**
-                             * TODO: Valentino, please handle this exception better.
-                             */
-
-                            throw new UncheckedIOException(e);
+                            e.printStackTrace();
                         }
                     });
 
