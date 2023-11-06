@@ -35,6 +35,7 @@ let getFlavourProfile = async (req) => {
 
 router.get('/', async function(req, res, next) {
   let flavorProfile = await getFlavourProfile(req);
+  res.status(200);
   res.send(flavorProfile);
 });
 

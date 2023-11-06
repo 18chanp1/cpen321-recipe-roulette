@@ -41,7 +41,7 @@ router.get('/', async function(req, res, next) {
     const ingredients = await Models.Ingredient.find({userId: `${queriedUser}`});
     console.log(typeof ingredients);
     console.log(ingredients);
-
+    res.status(200);
     res.send(ingredients);
   } catch (err) {
     console.error(err);
@@ -104,6 +104,7 @@ router.put('/update', async (req, res) => {
 
       await userIngredient.save();
     }));
+    res.status(200);
     res.send('Ingredients updated successfully');
   } catch (err) {
     console.error(err);

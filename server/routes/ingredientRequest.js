@@ -104,31 +104,37 @@ let getAllSelfRequests = async (req) => {
 
 router.post('/new', async function(req, res, next) {
     await requestIngredient(req);
-    res.send('Response with msg');
+    res.status(200);
+    res.send('Request submitted');
 });
 
 router.get('/donate', async function(req, res, next) {
     donateIngredient(req);
-    res.send('Response with msg');
+    res.status(200);
+    res.send('Donate success');
 });
 
 router.get('/self', async function(req, res, next) {
     let allRequests = await getAllSelfRequests(req);
+    res.status(200);
     res.send(allRequests);
 });
 
 router.post('/self/delete', async function(req, res, next) {
     await deleteIngredientRequest(req);
-    res.send("deleted");
+    res.status(200);
+    res.send("Deleted");
 });
 
 router.get('/', async function(req, res, next) {
     let allRequests = await getAllRequests();
+    res.status(200);
     res.send(allRequests);
 });
 
 router.post('/', async function(req, res, next) {
     let allRequests = await donateIngredient(req);
+    res.status(200);
     res.send(allRequests);
 });
   

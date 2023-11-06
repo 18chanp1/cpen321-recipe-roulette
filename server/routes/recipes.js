@@ -5,24 +5,6 @@ var Models = require('../utils/db');
 const fs = require('fs');
 const apiKey = fs.readFileSync("api_key.txt", "utf8");
 
-//TODO not used
-//const { default: mongoose } = require('mongoose');
-
-//TODO not sure what thid does but it appears not be used anywhere
-// let submitReview = async (req) => {
-//   console.log(req.body);
-//   let newReview = new Models.Review({
-//     reviewId: new mongoose.Types.ObjectId(),
-//     userId: req.body.email,
-//     recipeName: req.body.recipeName,
-//     reviewTitle: req.body.title,
-//     reviewText: req.body.text,
-//     likes: 0
-//   })
-//   await newReview.save();
-//   return true;
-// }
-
 let getRecipes = async (req) => {
   //let ingredientList = url.parse(req.url, true).query.ingredients;
   //TODO test if this works
@@ -100,17 +82,14 @@ let saveRecipes = async (req) => {
 
 router.get('/', async function(req, res, next) {
   let recipes = await getRecipes(req);
+  res.status(200);
   res.send(recipes);
 });
 
 router.post('/', async function(req, res, next) {
   let result = await saveRecipes(req);
+  res.status(200);
   res.send(result);
 });
-
-// router.post('/submitreview', async function(req, res, next) {
-//   let result = await submitReview(req);
-//   res.send(result);
-// });
 
 module.exports = router;
