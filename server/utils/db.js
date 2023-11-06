@@ -8,7 +8,7 @@ const recipeSchema = new mongoose.Schema({
   recipeSummary: String,
   likes: Number
 })
-const recipe = mongoose.model('recipe', recipeSchema);
+const Recipe = mongoose.model('recipe', recipeSchema);
 
 const ingredientRequestSchema = new mongoose.Schema({
   reqId: mongoose.ObjectId,
@@ -17,7 +17,7 @@ const ingredientRequestSchema = new mongoose.Schema({
   ingredientCount: Number,
   fcmToken: String
 })
-const ingredientRequest = mongoose.model('ingredientRequest', ingredientRequestSchema);
+const IngredientRequest = mongoose.model('ingredientRequest', ingredientRequestSchema);
 
 const foodItemSchema = new mongoose.Schema({
   name: {type: String, required: true},
@@ -31,7 +31,7 @@ const foodItemsSchema = new mongoose.Schema({
 });
 
 // Create a model
-const ingredient = mongoose.model('foodItems', foodItemsSchema);
+const Ingredient = mongoose.model('foodItems', foodItemsSchema);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -47,6 +47,6 @@ const reviewSchema = new mongoose.Schema({
   reviewText: String,
   likes: Number
 })
-const review = mongoose.model('review', reviewSchema);
+const Review = mongoose.model('review', reviewSchema);
 
-module.exports = { recipe, ingredientRequest, ingredient, review };
+module.exports = { Recipe, IngredientRequest, Ingredient, Review };
