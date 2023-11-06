@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,11 +12,12 @@
         android:scaleType="centerCrop"
         android:src="@drawable/p"
         android:layout_width="400dp"
-        android:layout_height="400dp" />
+        android:layout_height="400dp"
+        android:contentDescription="@string/grocery_items_image_description" />
 
     <Button
         android:id="@+id/capture_image_btn"
-        android:text="Capture Image"
+        android:text="@string/capture_image"
         style="@style/Base.Theme.RecipeRoulette"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -26,19 +26,19 @@
         android:id="@+id/select_image_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select Photo from Camera Roll" />
+        android:text="@string/select_photo_from_camera_roll" />
 
     <Button
         android:id="@+id/send_image_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Send Image" />
+        android:text="@string/send_image" />
 
 
     <Button
         android:id="@+id/manual_entry_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Manually Enter Item" />
+        android:text="@string/manual_enter" />
 
 </LinearLayout>

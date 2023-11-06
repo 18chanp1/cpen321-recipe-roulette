@@ -13,13 +13,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class RecipeDisplay extends AppCompatActivity {
 
     /**
      * Save this here for to keep track of buttons
-     *
      * private Button recipeCompleteButton;
      */
 
@@ -45,7 +45,7 @@ public class RecipeDisplay extends AppCompatActivity {
         String[] ingredients = parseIngredients(responseBody);
         String[] steps = parseSteps(responseBody);
 
-        summary = convertToPlainText(summary);
+        summary = convertToPlainText(Objects.requireNonNull(summary));
 
         displayRecipe(recipeName, summary, ingredients, steps);
     }
@@ -70,8 +70,7 @@ public class RecipeDisplay extends AppCompatActivity {
         TextView stepsTextView = findViewById(R.id.recipe_steps);
         if (steps != null && steps.length > 0) {
             StringBuilder stepsBuilder = new StringBuilder("Steps:\n• ");
-            for (int i = 0; i < steps.length; i++) {
-                String step = steps[i];
+            for (String step : steps) {
                 stepsBuilder.append(step).append("\n");
             }
             stepsTextView.setText(stepsBuilder.toString());
@@ -83,8 +82,7 @@ public class RecipeDisplay extends AppCompatActivity {
     private String parseRecipeSummary(String jsonInput) {
         try {
             JSONObject recipeObject = new JSONObject(jsonInput);
-            String name = recipeObject.optString("recipeSummary");
-            return name;
+            return recipeObject.optString("recipeSummary");
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d("RECIPE", "Failed to parse recipe instructions");
