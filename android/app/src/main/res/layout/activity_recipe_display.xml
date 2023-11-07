@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -22,7 +21,7 @@
                 android:id="@+id/recipe_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="RECIPE NAME"
+                android:text="@string/recipe_name_filler"
                 android:textSize="24sp"
                 android:textColor="#000000"
                 android:padding="16dp"
@@ -35,7 +34,7 @@
                 android:id="@+id/recipe_summary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="RECIPE SUMMARY\n"
+                android:text="@string/recipe_summary_filler"
                 android:textSize="16sp"
                 android:textColor="#333333"
                 android:padding="12dp"
@@ -47,7 +46,7 @@
                 android:id="@+id/recipe_ingredients"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="INGREDIENTS\n- Ingredient 1\n- Ingredient 2\n- Ingredient 3"
+                android:text="@string/ingredients_name_filler"
                 android:textSize="18sp"
                 android:textColor="#333333"
                 android:padding="12dp"
@@ -59,7 +58,7 @@
                 android:id="@+id/recipe_steps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="STEPS\n- Step 1\n- Step 2\n- Step 3"
+                android:text="@string/recipe_steps_filler"
                 android:textSize="16sp"
                 android:textColor="#333333"
                 android:padding="12dp"
@@ -74,7 +73,7 @@
         android:id="@+id/recipe_complete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Recipe Complete!"
+        android:text="@string/recipe_complete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

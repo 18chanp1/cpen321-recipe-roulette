@@ -11,27 +11,27 @@ const recipeSchema = new mongoose.Schema({
 const Recipe = mongoose.model('recipe', recipeSchema);
 
 const ingredientRequestSchema = new mongoose.Schema({
-  reqID: mongoose.ObjectId,
+  reqId: mongoose.ObjectId,
   userId: String,
   ingredientName: String,
   ingredientCount: Number,
-  fcmTok: String
+  fcmToken: String
 })
 const IngredientRequest = mongoose.model('ingredientRequest', ingredientRequestSchema);
 
-const FoodItemSchema = new mongoose.Schema({
+const foodItemSchema = new mongoose.Schema({
   name: {type: String, required: true},
   count: {type: Number, min: 0, required: true},
   date: [{type: Date, required: true}]
 })
 
-const FoodItemsSchema = new mongoose.Schema({
+const foodItemsSchema = new mongoose.Schema({
   userId: {type: String, required: [true, 'Missing userId']},
-  ingredients: [FoodItemSchema]
+  ingredients: [foodItemSchema]
 });
 
 // Create a model
-const Ingredient = mongoose.model('food_items', FoodItemsSchema);
+const Ingredient = mongoose.model('foodItems', foodItemsSchema);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

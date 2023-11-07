@@ -1,6 +1,6 @@
 const { Models } = require("../utils/db");
 
-removeIngredients = async (userId, ingredientList) => {
+let removeIngredients = async (userId, ingredientList) => {
   let userIngredient = await Models.Ingredient.findOne({ userId });
   if (userIngredient == null) {
     return;

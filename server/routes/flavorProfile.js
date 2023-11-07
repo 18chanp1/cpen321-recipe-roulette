@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var Models = require('../utils/db');
-var url = require('url');
 
-getFlavourProfile = async (req) => {
+let getFlavourProfile = async (req) => {
   //let queriedUser = url.parse(req.url, true).query.email;
   let queriedUser = req.headers.email;
   console.log(queriedUser);
@@ -12,7 +11,8 @@ getFlavourProfile = async (req) => {
   let veggie = 0;
   let meat_indicators = ["meat", "beef", "pork", "chicken", "salmon"];
   // console.log(recipes);
-  if (recipes === undefined || recipes === null || recipes.length == 0) {
+  //TODO verify if functionality is the same
+  if (recipes === undefined || recipes === null || recipes.length === 0) {
     return "No Flavor Profile Available";
   }
   recipes.forEach(recipe => {
@@ -35,6 +35,7 @@ getFlavourProfile = async (req) => {
 
 router.get('/', async function(req, res, next) {
   let flavorProfile = await getFlavourProfile(req);
+  res.status(200);
   res.send(flavorProfile);
 });
 

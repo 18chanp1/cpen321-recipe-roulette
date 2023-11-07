@@ -1,16 +1,15 @@
-const ws = require("ws").Server
+const WS = require("ws").Server
 const uuidv4 = require("uuid").v4
 
 
 function setupWSS(httpsServer)
 {
-    let wss = new ws({server: httpsServer});
+    let wss = new WS({server: httpsServer});
     let requests = {};
 
     wss.on("connection", (ws) =>
     {
         console.log("connection");
-	testificate = 1;
 
         //send a sample message
         // msg = 
@@ -39,7 +38,7 @@ function setupWSS(httpsServer)
                 obj.type = obj.type.substring(3);
 
                 //announce it to everyone
-                ann = {}
+                let ann = {}
                 ann.entryID = uuidv4()
                 ann.name = obj.name
                 ann.details = obj.details
@@ -49,7 +48,6 @@ function setupWSS(httpsServer)
 
                 for(const e in requests)
                 {
-		    console.log(e)
                     requests[e].ws.send(JSON.stringify(ann))
                 }
 
@@ -69,18 +67,15 @@ function setupWSS(httpsServer)
            delete requests[id]
 
             //announce it to everyone else
-            ann = {
+            let ann = {
                 entryID: id,
                 type: "DEL"
             }
 
             for (const e in requests)
             {
-		console.log(e[requests])
                 requests[e].ws.send(JSON.stringify(ann))
             }
-
-            console.log(ann);
         })
     })
 

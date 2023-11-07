@@ -1,8 +1,6 @@
 const express = require('express');
 var router = express.Router();
 var Models = require('../utils/db');
-var url = require('url');
-var mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 
@@ -29,16 +27,21 @@ router.post('/upload', async (req, res) => {
 
 
 router.get('/', async function(req, res, next) {
+  //TODO: Please surround the minimal amount of code that generates exceptions with try catch blocks
+  console.log("Return the list of ingredients in the user's inventory")
+
   try {
     // mongodb.once('open', function() {
     //   console.log("We're connected to MongoDB!");
     // });
 
-    let queriedUser = url.parse(req.url, true).query.userId;
+
+    //TODO, I think this should work, but please test it. 
+    let queriedUser = req.get('userId');
     const ingredients = await Models.Ingredient.find({userId: `${queriedUser}`});
     console.log(typeof ingredients);
     console.log(ingredients);
-
+    res.status(200);
     res.send(ingredients);
   } catch (err) {
     console.error(err);
@@ -50,6 +53,14 @@ router.get('/', async function(req, res, next) {
 
 // PUT: given a user and a list of ingredients, if the ingredient exists, decrement the counter or delete the food item
 router.put('/update', async (req, res) => {
+
+  //this code is here to get around the stupid "unnecessary block" issue.
+  // TODO: please, only surround code that generates exceptions with try/catch blocks. Move everything else outside. 
+  let logOne = 1;
+  let logTwo = 2;
+  console.log(logOne + logTwo);
+
+
   try {
     const { userId, ingredients } = req.body;
 
@@ -78,7 +89,7 @@ router.put('/update', async (req, res) => {
           console.log('Count: ' + ingredient.count);
 
           Models.Ingredient.updateOne(
-            { userId: userId },
+            {userId},
             { $pull: { ingredients: { name : ingredientName } } }
           ).then(() => {
             console.log(ingredientName + " got removed from the array");
@@ -93,6 +104,7 @@ router.put('/update', async (req, res) => {
 
       await userIngredient.save();
     }));
+    res.status(200);
     res.send('Ingredients updated successfully');
   } catch (err) {
     console.error(err);

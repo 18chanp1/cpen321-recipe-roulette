@@ -6,7 +6,7 @@ plugins {
 
 
 android {
-    namespace = "com.beaker.recipeRoulette"
+    namespace = "com.beaker.reciperoulette"
     compileSdk = 33
 
     defaultConfig {
