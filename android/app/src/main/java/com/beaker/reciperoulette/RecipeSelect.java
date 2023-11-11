@@ -52,7 +52,7 @@ public class RecipeSelect extends AppCompatActivity {
         OkHttpClient client = new OkHttpClient();
 
         SharedPreferences sharedPref =
-                getSharedPreferences("com.beaker.recipeRoulette.TOKEN", Context.MODE_PRIVATE);
+                getSharedPreferences("com.beaker.reciperoulette.TOKEN", Context.MODE_PRIVATE);
         String tok = sharedPref.getString("TOKEN", "NOTOKEN");
         String email = sharedPref.getString("EMAIL", "NOEMAIL");
 
@@ -114,7 +114,7 @@ public class RecipeSelect extends AppCompatActivity {
                                     Toast.makeText(RecipeSelect.this, "Clicked " + localRecipe.name, Toast.LENGTH_SHORT).show();
 
                                     SharedPreferences sharedPref =
-                                            getSharedPreferences("com.beaker.recipeRoulette.TOKEN", Context.MODE_PRIVATE);
+                                            getSharedPreferences("com.beaker.reciperoulette.TOKEN", Context.MODE_PRIVATE);
                                     String tok = sharedPref.getString("TOKEN", "NOTOKEN");
                                     String email = sharedPref.getString("EMAIL", "NOEMAIL");
 

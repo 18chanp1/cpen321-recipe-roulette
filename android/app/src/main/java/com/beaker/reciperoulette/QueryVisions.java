@@ -89,7 +89,7 @@ public class QueryVisions {
                         descriptions.add(description);
                     }
                     SharedPreferences sharedPref =
-                            c.getSharedPreferences("com.beaker.recipeRoulette.TOKEN", Context.MODE_PRIVATE);
+                            c.getSharedPreferences("com.beaker.reciperoulette.TOKEN", Context.MODE_PRIVATE);
                     String tok = sharedPref.getString("TOKEN", "NOTOKEN");
                     String email = sharedPref.getString("EMAIL", "NOEMAIL");
 

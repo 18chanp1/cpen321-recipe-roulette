@@ -18,7 +18,7 @@
     <string name="like_info">Rating count is only updated upon refreshing the recipes activity.
     Please go to the main menu, and then reopen this review to see the count increase. </string>
 
-    <string name="shared_pref_filename">com.beaker.recipeRoulette.TOKEN</string>
+    <string name="shared_pref_filename">com.beaker.reciperoulette.TOKEN</string>
 
 
     <string name="req_ingred">Request Ingredients</string>

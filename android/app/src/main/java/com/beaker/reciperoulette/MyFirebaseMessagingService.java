@@ -33,7 +33,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                     //Writing token and credentials to settings file
                     SharedPreferences sharedPref =
-                            c.getSharedPreferences("com.beaker.recipeRoulette.TOKEN", Context.MODE_PRIVATE);
+                            c.getSharedPreferences("com.beaker.reciperoulette.TOKEN", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString("FCMTOKEN", token);
                     editor.apply();
@@ -54,7 +54,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         //Writing token and credentials to settings file
         SharedPreferences sharedPref =
-                getSharedPreferences("com.beaker.recipeRoulette.TOKEN", Context.MODE_PRIVATE);
+                getSharedPreferences("com.beaker.reciperoulette.TOKEN", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("FCMTOKEN", token);
         editor.apply();
