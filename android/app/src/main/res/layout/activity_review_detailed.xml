@@ -9,11 +9,13 @@
     tools:context=".ReviewDetailed">
 
     <ScrollView
+        android:id="@+id/review_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" >
+        android:layout_weight="1">
 
         <LinearLayout
+            android:id="@+id/review_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
