@@ -41,10 +41,10 @@ public class IngredientRequestView extends AppCompatActivity {
         setContentView(R.layout.ingredient_req_view);
 
         //setup buttons
-        Button requestIngredientButton = findViewById(R.id.req_ingred_but);
-        Button viewRequestButton = findViewById(R.id.view_req_but);
-        ingredientRequestText = findViewById(R.id.ingredient_entry);
-        phoneNumberText = findViewById(R.id.reqPhoneNo);
+        Button requestIngredientButton = findViewById(R.id.rq_ingredreq_but);
+        Button viewRequestButton = findViewById(R.id.rq_selfreq_but);
+        ingredientRequestText = findViewById(R.id.rq_ingredient_entry);
+        phoneNumberText = findViewById(R.id.rq_contact_entry);
 
 
         //get tokens
@@ -96,7 +96,7 @@ public class IngredientRequestView extends AppCompatActivity {
                                 ingredientRequests.add(r);
                             }
 
-                            RecyclerView recyclerView = findViewById(R.id.recyclerView);
+                            RecyclerView recyclerView = findViewById(R.id.rq_recycler);
                             recyclerView.setLayoutManager(new LinearLayoutManager(IngredientRequestView.this));
                             recyclerView.setAdapter(new IngredientRequestAdaptor(getApplicationContext(), ingredientRequests));
 
@@ -150,8 +150,8 @@ public class IngredientRequestView extends AppCompatActivity {
         //do not allow blank submissions
         if(foodReq.length() <= 0 || phoneNo.length() <=0)
         {
-            Toast toast = Toast.makeText(IngredientRequestView.this, "You must enter an ingredient and " +
-                    "a contact method", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(IngredientRequestView.this,
+                    getText(R.string.must_enter_contact), Toast.LENGTH_LONG);
             toast.show();
             return;
         }

@@ -12,17 +12,17 @@ public class IngredientRequest implements Parcelable {
     String ingredientID;
     String ingredientName;
     String requestor;
-    String requestorID;
+    String userId; //the requestor's ID
 
     String image;
-    public IngredientRequest(String reqID, String reqDate, String expiryDate, String ingredientID, String ingredientName, String requestor, String requestorID, String image) {
+    public IngredientRequest(String reqID, String reqDate, String expiryDate, String ingredientID, String ingredientName, String requestor, String userId, String image) {
         this.reqID = reqID;
         this.reqDate = reqDate;
         this.expiryDate = expiryDate;
         this.ingredientID = ingredientID;
         this.ingredientName = ingredientName;
         this.requestor = requestor;
-        this.requestorID = requestorID;
+        this.userId = userId;
         this.image = image;
     }
 
@@ -33,7 +33,7 @@ public class IngredientRequest implements Parcelable {
         ingredientID = in.readString();
         ingredientName = in.readString();
         requestor = in.readString();
-        requestorID = in.readString();
+        userId = in.readString();
         image = in.readString();
     }
 
@@ -97,12 +97,12 @@ public class IngredientRequest implements Parcelable {
         this.requestor = requestor;
     }
 
-    public String getRequestorID() {
-        return requestorID;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setRequestorID(String requestorID) {
-        this.requestorID = requestorID;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getImage() {
@@ -127,7 +127,7 @@ public class IngredientRequest implements Parcelable {
         parcel.writeString(ingredientID);
         parcel.writeString(ingredientName);
         parcel.writeString(requestor);
-        parcel.writeString(requestorID);
+        parcel.writeString(userId);
         parcel.writeString(image);
     }
 

@@ -43,7 +43,7 @@ public class IngredientRequestAdaptor extends RecyclerView.Adapter<IngredientReq
         IngredientRequest item = items.get(position);
 
         holder.nameView.setText(item.ingredientName);
-        holder.emailView.setText(item.getRequestor());
+        holder.emailView.setText(item.userId);
 
         String url = item.getImage();
         Picasso.with(this.context).load(url).into(holder.imageView);

@@ -25,7 +25,7 @@
         app:layout_constraintVertical_bias="0.468" />
 
     <EditText
-        android:id="@+id/ingredient_entry"
+        android:id="@+id/rq_ingredient_entry"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginTop="36dp"
@@ -38,11 +38,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.278"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/rq_title"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/yourRequestsTitle"
+        android:id="@+id/rq_donate_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/donate_ingred"
@@ -55,17 +55,17 @@
         app:layout_constraintVertical_bias="0.038" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/rq_recycler"
         android:layout_width="333dp"
         android:layout_height="300dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/yourRequestsTitle"
+        app:layout_constraintTop_toBottomOf="@+id/rq_donate_title"
         app:layout_constraintVertical_bias="0.448" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/rq_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/req_ingred"
@@ -77,7 +77,7 @@
         app:layout_constraintVertical_bias="0.083" />
 
     <Button
-        android:id="@+id/req_ingred_but"
+        android:id="@+id/rq_ingredreq_but"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/req_ingredient"
@@ -85,10 +85,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.231"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ingredient_entry" />
+        app:layout_constraintTop_toBottomOf="@+id/rq_ingredient_entry" />
 
     <Button
-        android:id="@+id/view_req_but"
+        android:id="@+id/rq_selfreq_but"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -98,21 +98,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.291"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/req_ingred_but"
+        app:layout_constraintTop_toBottomOf="@+id/rq_ingredreq_but"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/reqPhoneNo"
+        android:id="@+id/rq_contact_entry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Contact number"
+        android:hint="@string/contact_details"
         android:inputType="phone"
-        app:layout_constraintBottom_toTopOf="@+id/req_ingred_but"
+        app:layout_constraintBottom_toTopOf="@+id/rq_ingredreq_but"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.278"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ingredient_entry"
+        app:layout_constraintTop_toBottomOf="@+id/rq_ingredient_entry"
         app:layout_constraintVertical_bias="0.6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

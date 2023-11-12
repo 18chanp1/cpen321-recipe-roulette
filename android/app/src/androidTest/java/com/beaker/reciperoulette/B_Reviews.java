@@ -5,8 +5,6 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
-import static androidx.test.espresso.action.ViewActions.swipeDown;
-import static androidx.test.espresso.action.ViewActions.swipeUp;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -15,16 +13,14 @@ import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.fail;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 
-import androidx.test.espresso.ViewInteraction;
-import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -38,8 +34,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -50,17 +44,14 @@ import static com.beaker.reciperoulette.RecyclerViewActions.scrollToPosition;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class ReviewsTest {
-
-    private static boolean setup = false;
+public class B_Reviews {
 
     @Rule
-    public ActivityScenarioRule<MainMenu> mActivityScenarioRule =
-            new ActivityScenarioRule<>(MainMenu.class);
+    public ActivityScenarioRule<RecipeFacebook> mActivityScenarioRule =
+            new ActivityScenarioRule<>(RecipeFacebook.class);
 
     @Test
     public void testReviewsEntry() {
-        setup();
         RecyclerViewMatcher rvm = new RecyclerViewMatcher(R.id.recyclerView);
 
         //Get context
@@ -110,7 +101,6 @@ public class ReviewsTest {
 
     @Test
     public void testReviewsDetailed() {
-        setup();
         RecyclerViewMatcher rvm = new RecyclerViewMatcher(R.id.recyclerView);
 
         //Get context
@@ -176,7 +166,6 @@ public class ReviewsTest {
 
                     //go back to refresh item
                     pressBack();
-                    pressBack();
                     onView(withText("Recipe Reviews")).perform(click());
                     onView(withId(R.id.recyclerView))
                             .perform(scrollToPosition(i));
@@ -204,17 +193,5 @@ public class ReviewsTest {
         }
     }
 
-
-
-    private static void setup()
-    {
-        if(!setup)
-        {
-            ViewInteraction materialButton = onView(
-                    allOf(withId(R.id.menu5), withText("Recipe Reviews")));
-            materialButton.perform(click());
-        }
-
-    }
 
 }

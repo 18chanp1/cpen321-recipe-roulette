@@ -23,7 +23,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class MainMenuTest {
+public class B_MainMenuTest {
 
     /**
      * The following tests asserts that all the buttons can be found in the main menu.
