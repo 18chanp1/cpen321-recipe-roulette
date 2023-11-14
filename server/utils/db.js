@@ -6,6 +6,7 @@ const recipeSchema = new mongoose.Schema({
   recipeName: String,
   recipeId: String,
   recipeSummary: String,
+  numTimes: Number,
   likes: Number
 })
 const Recipe = mongoose.model('recipe', recipeSchema);
@@ -49,4 +50,21 @@ const reviewSchema = new mongoose.Schema({
 })
 const Review = mongoose.model('review', reviewSchema);
 
-module.exports = { Recipe, IngredientRequest, Ingredient, Review };
+const dbGetAllReviews = async () => {
+  let allRecipes = await Recipe.find().limit(30);
+  return allRecipes;
+}
+
+const dbFindRecipe = async (userId, recipeId) => {
+  let recipe = await Recipe.findOne({
+    userId,
+    recipeId
+  });
+  return recipe;
+}
+
+const dbSaveRecord = async (record) => {
+  await record.save();
+}
+
+module.exports = { Recipe, IngredientRequest, Ingredient, Review, dbGetAllReviews, dbFindRecipe, dbSaveRecord };

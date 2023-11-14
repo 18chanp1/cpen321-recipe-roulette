@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 8443 && node ./bin/www"
+    "start": "sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 8443 && node ./bin/www",
+    "test": "jest"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -13,9 +14,12 @@
     "firebase-admin": "^11.11.0",
     "http-errors": "~1.6.3",
     "jade": "^0.29.0",
-    "ws": "^8.14.2",
     "mongoose": "^7.6.3",
     "morgan": "~1.9.1",
-    "node-fetch": "^2.7.0"
+    "node-fetch": "^2.7.0",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }

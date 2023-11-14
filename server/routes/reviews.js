@@ -2,9 +2,10 @@ var express = require('express');
 var router = express.Router();
 var Models = require("../utils/db");
 
-let getAllReviews = async () => {
+/* GET users listing. */
+router.get('/', async function(req, res, next) {
   let response = [];
-  let allRecipes = await Models.Recipe.find().limit(20);
+  let allRecipes = await Models.dbGetAllReviews();
   allRecipes.forEach(recipe => {
     let review = {
       id: recipe.recipeId,
@@ -16,37 +17,16 @@ let getAllReviews = async () => {
     }
     response.push(review);
   })
-  console.log(response);
-  return response;
-}
-
-let likeRecipe = async (req) => {
-  //console.log(req.body);
-  let review = await Models.Recipe.findOne({
-    userId: `${req.body.email}`, 
-    recipeId: `${req.body.id}`
-  });
-  //console.log(review);
-  if (review !== null) {
-    review.likes++;
-    await review.save();
-    return true;
-  }
-  return false;
-}
-
-/* GET users listing. */
-router.get('/', async function(req, res, next) {
-  let reviews = await getAllReviews();
   res.status(200);
-  res.send(reviews);
+  res.send(response);
 });
 
 router.post("/like", async (req, res, next) =>
 {
-  console.log("like");
-  let result = await likeRecipe(req);
-  if (result) {
+  let review = await Models.dbFindRecipe(req.body.email, req.body.id);
+  if (review !== undefined) {
+    review.likes++;
+    await Models.dbSaveRecord(review);
     res.status(200);
     res.send("Recipe liked");
   } else {

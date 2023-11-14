@@ -40,6 +40,15 @@ let getRecipes = async (req) => {
 let saveRecipes = async (req) => {
   let userId = req.body.userId;
   let chosenRecipeId = req.body.recipeId;
+  let savedRecipe = await Models.Recipe.findOne({
+    userId: `${req.body.email}`, 
+    recipeId: `${req.body.id}`
+  });
+  if (savedRecipe !== undefined && savedRecipe.length) {
+    savedRecipe.numTimes++;
+    await savedRecipe.save();
+  }
+
   let summaryEndpoint = `https://api.spoonacular.com/recipes/${chosenRecipeId}/summary?apiKey=${apiKey}`;
   let summary = "";
   let name = "";
@@ -58,9 +67,10 @@ let saveRecipes = async (req) => {
     recipeId: chosenRecipeId,
     recipeSummary: summary,
     recipeName: name,
+    numTimes: 1,
     likes: 0
   }
-  let savedRecipe = new Models.Recipe(response);
+  savedRecipe = new Models.Recipe(response);
   await savedRecipe.save();
   // Get instructions
   let instrEndpoint = `https://api.spoonacular.com/recipes/${chosenRecipeId}/analyzedInstructions?apiKey=${apiKey}`;
@@ -87,9 +97,42 @@ router.get('/', async function(req, res, next) {
 });
 
 router.post('/', async function(req, res, next) {
-  let result = await saveRecipes(req);
+  let userId = req.body.userId;
+  let chosenRecipeId = req.body.recipeId;
+  let savedRecipe = await Models.Recipe.findOne({
+    userId: `${req.body.email}`, 
+    recipeId: `${req.body.id}`
+  });
+  if (savedRecipe !== undefined && savedRecipe.length) {
+    savedRecipe.numTimes++;
+    await savedRecipe.save();
+    res.status(200);
+    res.send(savedRecipe);
+  }
+
+  let summaryEndpoint = `https://api.spoonacular.com/recipes/${chosenRecipeId}/summary?apiKey=${apiKey}`;
+  let summary = "";
+  let name = "";
+  try {
+    let res = await fetch(summaryEndpoint);
+    console.log(res);
+    let resJson = await res.json();
+    console.log(resJson);
+    summary = resJson.summary;
+    name = resJson.title;
+  } catch (error) {
+    console.log(error);
+  }
+  let response = {
+    userId,
+    recipeId: chosenRecipeId,
+    recipeSummary: summary,
+    recipeName: name,
+    numTimes: 1,
+    likes: 0
+  }
   res.status(200);
-  res.send(result);
+  res.send(response);
 });
 
 module.exports = router;
