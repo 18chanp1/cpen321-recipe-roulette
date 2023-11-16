@@ -2,12 +2,14 @@ package com.beaker.reciperoulette;
 
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withHint;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -47,12 +49,15 @@ import okhttp3.Response;
 public class B_IngredientSharingTest {
 
     @Rule
-    public ActivityScenarioRule<IngredientRequestView> mActivityScenarioRule =
-            new ActivityScenarioRule<>(IngredientRequestView.class);
+    public ActivityScenarioRule<MainMenu> mActivityScenarioRule =
+            new ActivityScenarioRule<>(MainMenu.class);
 
     @Test
     public void allElementsPresent()
     {
+        onView(withText(R.string.req_ingredient))
+                .perform(click());
+
         onView(withId(R.id.rq_title))
                 .check(matches(allOf(
                         withText(R.string.req_ingred),
@@ -92,6 +97,9 @@ public class B_IngredientSharingTest {
 
     @Test
     public void testRequestsEntriesMatch() {
+        onView(withText(R.string.req_ingredient))
+                .perform(click());
+
         RecyclerViewMatcher rvm = new RecyclerViewMatcher(R.id.rq_recycler);
 
         //Get context
@@ -152,19 +160,22 @@ public class B_IngredientSharingTest {
 
     @Test
     public void makeRequest() throws InterruptedException {
+        onView(withText(R.string.req_ingredient))
+                .perform(click());
         String testFood = "Horse Testicles" + new Date().toString();
         String contactDet = "123 456";
 
-        onView(withId(R.id.rq_ingredient_entry))
+        onView(withHint(R.string.ingredient))
                 .perform(typeText(testFood));
 
-        onView(withId(R.id.rq_contact_entry))
+        onView(withHint(R.string.contact_details))
                 .perform(typeText(contactDet));
 
-        onView(withId(R.id.rq_ingredreq_but))
+        onView(allOf(withId(R.id.rq_ingredreq_but), withText(R.string.req_ingredient)))
                 .perform(click());
 
         //restart
+        pressBack();
         restartActivity();
 
         //iterate through recycler view
@@ -216,6 +227,9 @@ public class B_IngredientSharingTest {
                                         withText(R.string.donate),
                                         isDisplayed()))));
                         break;
+                    } else if (i == userArray.length - 1)
+                    {
+                        fail("Could not find the item");
                     }
                 }
             }
@@ -237,6 +251,9 @@ public class B_IngredientSharingTest {
     @Test
     public void testDonationButton()
     {
+        onView(withText(R.string.req_ingredient))
+                .perform(click());
+
         String testFood = "Horse Testicles" + new Date().toString();
         String contactDet = "123 456";
 
@@ -250,7 +267,12 @@ public class B_IngredientSharingTest {
                 .perform(click());
 
         //restart
-        restartActivity();
+//        restartActivity();
+
+        pressBack();
+        pressBack();
+        onView(withText(R.string.req_ingredient))
+                .perform(click());
 
         //iterate through recycler view
         RecyclerViewMatcher rvm = new RecyclerViewMatcher(R.id.rq_recycler);
@@ -291,10 +313,15 @@ public class B_IngredientSharingTest {
 
                         onView(allOf(
                                 withParent(currentMatch),
-                                withId(R.id.rq_donate_but)))
+                                withId(R.id.rq_donate_but),
+                                withText(R.string.donate))
+                        )
                                 .perform(click());
 
                         break;
+                    } else if (i == userArray.length - 1)
+                    {
+                        fail("Could not find the item");
                     }
                 }
 
@@ -331,11 +358,15 @@ public class B_IngredientSharingTest {
 
     public void restartActivity()
     {
-        ActivityScenario<IngredientRequestView> scenario =
-                mActivityScenarioRule.getScenario();
+        pressBack();
+        onView(withText(R.string.req_ingredient))
+                .perform(click());
 
-        scenario.moveToState(Lifecycle.State.RESUMED);
-        scenario.recreate();
+//        ActivityScenario<MainMenu> scenario =
+//                mActivityScenarioRule.getScenario();
+//
+//        scenario.moveToState(Lifecycle.State.RESUMED);
+//        scenario.recreate();
     }
 
 }

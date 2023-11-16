@@ -47,11 +47,14 @@ import static com.beaker.reciperoulette.RecyclerViewActions.scrollToPosition;
 public class B_Reviews {
 
     @Rule
-    public ActivityScenarioRule<RecipeFacebook> mActivityScenarioRule =
-            new ActivityScenarioRule<>(RecipeFacebook.class);
+    public ActivityScenarioRule<MainMenu> mActivityScenarioRule =
+            new ActivityScenarioRule<>(MainMenu.class);
 
     @Test
     public void testReviewsEntry() {
+        onView(withText(R.string.recipe_review))
+                .perform(click());
+
         RecyclerViewMatcher rvm = new RecyclerViewMatcher(R.id.recyclerView);
 
         //Get context
@@ -85,6 +88,9 @@ public class B_Reviews {
                     Matcher<View> currentMatch = new RecyclerViewMatcher(R.id.recyclerView).atPosition(i);
                     onView(currentMatch)
                             .check(matches(hasDescendant(withText(userArray[i].title))));
+
+                    onView(currentMatch)
+                            .check(matches(hasDescendant(withText(userArray[i].author))));
                 }
             }
             else
@@ -101,6 +107,8 @@ public class B_Reviews {
 
     @Test
     public void testReviewsDetailed() {
+        onView(withText(R.string.recipe_review))
+                .perform(click());
         RecyclerViewMatcher rvm = new RecyclerViewMatcher(R.id.recyclerView);
 
         //Get context

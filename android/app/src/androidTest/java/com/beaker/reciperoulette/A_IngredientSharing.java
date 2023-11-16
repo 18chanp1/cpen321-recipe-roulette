@@ -37,11 +37,13 @@ import static org.hamcrest.Matchers.not;
 public class A_IngredientSharing {
 
     @Rule
-    public ActivityScenarioRule<IngredientRequestView> mActivityScenarioRule =
-            new ActivityScenarioRule<>(IngredientRequestView.class);
+    public ActivityScenarioRule<MainMenu> mActivityScenarioRule =
+            new ActivityScenarioRule<>(MainMenu.class);
 
     @Test
     public void fieldBlank() throws InterruptedException {
+        onView(withText(R.string.req_ingredient))
+                .perform(click());
         Thread.sleep(1000);
         onView(withId(R.id.rq_ingredient_entry))
                 .perform(typeText(""));
