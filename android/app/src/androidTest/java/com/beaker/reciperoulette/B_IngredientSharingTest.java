@@ -15,14 +15,17 @@ import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.beaker.reciperoulette.RecyclerViewActions.scrollToPosition;
 import static org.hamcrest.Matchers.allOf;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.test.uiautomator.By;
+import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObject2;
+import android.support.test.uiautomator.Until;
 import android.view.View;
 
-import androidx.lifecycle.Lifecycle;
-import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -324,6 +327,17 @@ public class B_IngredientSharingTest {
                         fail("Could not find the item");
                     }
                 }
+
+
+                //check for notification
+                UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+                device.openNotification();
+                device.wait(Until.hasObject(By.textContains("fulfilled")), 5000);
+                UiObject2 notif = device.findObject(By.textContains("fulfilled"));
+                assertNotNull(notif);
+                device.pressBack();
+
+
 
                 restartActivity();
 

@@ -80,8 +80,9 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation("androidx.test:runner:1.4.0")
     androidTestImplementation("androidx.test:rules:1.4.0")
-
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.4.0")
+
+    androidTestImplementation("com.android.support.test.uiautomator:uiautomator-v18:2.1.3")
 
 
 }
