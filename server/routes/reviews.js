@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var Models = require("../utils/db");
+var dbFunctions = require("../utils/db").Functions;
+var dbModels = require("../utils/db").Models;
 
-/* GET users listing. */
 router.get('/', async function(req, res, next) {
   let response = [];
-  let allRecipes = await Models.dbGetAllReviews();
+  let allRecipes = await dbFunctions.dbGetAllReviews();
   allRecipes.forEach(recipe => {
     let review = {
       id: recipe.recipeId,
@@ -23,12 +23,17 @@ router.get('/', async function(req, res, next) {
 
 router.post("/like", async (req, res, next) =>
 {
-  let review = await Models.dbFindRecipe(req.body.email, req.body.id);
-  if (review !== undefined) {
+
+  let review = await dbFunctions.dbFindRecord(dbModels.Recipe, 
+    { 
+      userId: req.body.email, 
+      recipeId: req.body.id
+    });
+  if (review != null) {
     review.likes++;
-    await Models.dbSaveRecord(review);
+    await dbFunctions.dbSaveRecord(review);
     res.status(200);
-    res.send("Recipe liked");
+    res.send(review);
   } else {
     res.status(400);
     res.send("Failed to like");

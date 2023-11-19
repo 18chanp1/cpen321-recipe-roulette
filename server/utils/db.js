@@ -12,10 +12,9 @@ const recipeSchema = new mongoose.Schema({
 const Recipe = mongoose.model('recipe', recipeSchema);
 
 const ingredientRequestSchema = new mongoose.Schema({
-  reqId: mongoose.ObjectId,
+  requestId: mongoose.ObjectId,
   userId: String,
-  ingredientName: String,
-  ingredientCount: Number,
+  ingredientDescription: String,
   fcmToken: String
 })
 const IngredientRequest = mongoose.model('ingredientRequest', ingredientRequestSchema);
@@ -55,16 +54,34 @@ const dbGetAllReviews = async () => {
   return allRecipes;
 }
 
-const dbFindRecipe = async (userId, recipeId) => {
-  let recipe = await Recipe.findOne({
-    userId,
-    recipeId
-  });
-  return recipe;
+const dbFindRecord = async (model, filter) => {
+  let record = await model.findOne(filter);
+  return record;
 }
+
+const dbFindAllRecords = async (model, filter) => {
+  let records = await model.find(filter);
+  return records;
+}
+
 
 const dbSaveRecord = async (record) => {
   await record.save();
 }
 
-module.exports = { Recipe, IngredientRequest, Ingredient, Review, dbGetAllReviews, dbFindRecipe, dbSaveRecord };
+const dbDeleteRecord = async (record) => {
+  await record.deleteOne();
+}
+
+const dbGetObjectId = () => {
+  return new mongoose.Types.ObjectId();
+}
+
+module.exports = { 
+  Models: {
+    Recipe, IngredientRequest, Ingredient, Review, 
+  },
+  Functions: {
+    dbGetAllReviews, dbFindRecord, dbFindAllRecords, dbDeleteRecord, dbSaveRecord, dbGetObjectId
+  }
+};

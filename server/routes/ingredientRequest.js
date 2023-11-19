@@ -2,8 +2,8 @@
 // const { initializeApp } = require('firebase-admin/app');
 var admin = require("firebase-admin");
 var serviceAccount = require("../firebase_admin.json");
-var Models = require("../utils/db");
-const { default: mongoose } = require('mongoose');
+var dbModels = require("../utils/db").Models;
+var dbFunctions = require("../utils/db").Functions;
 
 const app = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -12,130 +12,108 @@ const app = admin.initializeApp({
 var express = require('express');
 var router = express.Router();
 
-// // Your web app's Firebase configuration
-// // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-// const firebaseConfig = {
-//     apiKey: "AIzaSyAF7p-BqV4LQIyDhHhFUMVFtpIBYRqKMi4",
-//     authDomain: "cpen321-recipe-roulette-401802.firebaseapp.com",
-//     projectId: "cpen321-recipe-roulette-401802",
-//     storageBucket: "cpen321-recipe-roulette-401802.appspot.com",
-//     messagingSenderId: "217153905955",
-//     appId: "1:217153905955:web:def5ae4f0059d5763d9896",
-//     measurementId: "G-MLT9C3GYJ1"
-//   };
-
-// // Initialize Firebase
-// const app = initializeApp(firebaseConfig);
-
-
 // Initialize Firebase Cloud Messaging and get a reference to the service
 const messaging = admin.messaging(app);
 
-// Send a message to the device corresponding to the provided
-// registration token.
-
-let deleteIngredientRequest = async (req) => {
-    console.log(req.body.reqID);
-    let ingredientRequest = Models.IngredientRequest.findOne({reqID: `${req.body.reqID}`});
-    console.log(ingredientRequest);
-    if (ingredientRequest != null) {
-        await ingredientRequest.deleteOne();
-    }
-}
-
-let requestIngredient = async (req) => {
-    // Get all info of ingredient and create new document in collection
-    console.log(req.body);
-    let user = req.body.email;
-    let ingredientName = req.body.requestItem;
-    let ingredientCount = 1;
-    let fcmTok = req.body.fcmtok;
-    let id = new mongoose.Types.ObjectId();
-    let newRequestIngredient = new Models.IngredientRequest({
-        reqID: id, 
-        userId: user, 
-        ingredientName, 
-        ingredientCount,
-        fcmTok
-    });
-    await newRequestIngredient.save();
-}
-
-let donateIngredient = async (req) => {
-    // This registration token comes from the client FCM SDKs.
-    console.log(req.body.reqID);
-    let ingredientRequest = await Models.IngredientRequest.findOne({reqID: `${req.body.reqID}`});
-    if (ingredientRequest == null) {
-        return null;
-    }
-    let fcmToken = ingredientRequest.fcmTok;
-    console.log(ingredientRequest);
-    console.log(fcmToken);
-    await ingredientRequest.deleteOne();
-    const message = {
-        data: {
-            text: `Request ID ${req.body.reqID} fulfilled`
-        },
-        token: fcmToken    
-    };
-
-    messaging.send(message).then((response) => {
-        // Response is a message ID string.
-        console.log('Successfully sent message:', response);
-    })
-    .catch((error) => {
-        console.log('Error sending message:', error);
-    });
-}
-
-let getAllRequests = async () => {
-    let allRequests = await Models.IngredientRequest.find();
-    console.log(allRequests);
-    return allRequests;
-}
-
-let getAllSelfRequests = async (req) => {
-    console.log(req.headers);
-    let userId = req.headers.email;
-    let allRequests = await Models.IngredientRequest.find({userId: `${userId}`});
-    console.log(allRequests);
-    return allRequests;
-}
-
 router.post('/new', async function(req, res, next) {
-    await requestIngredient(req);
-    res.status(200);
-    res.send('Request submitted');
-});
-
-router.get('/donate', async function(req, res, next) {
-    donateIngredient(req);
-    res.status(200);
-    res.send('Donate success');
+    // Get info of ingredient request and create new document in collection
+    let userId = req.body.email;
+    let ingredientDescription = req.body.requestItem;
+    let fcmToken = req.body.fcmtok;
+    if (userId && ingredientDescription && fcmToken) {
+        let requestId = dbFunctions.dbGetObjectId();
+        let newIngredientRequest = new dbModels.IngredientRequest({
+            requestId, 
+            userId, 
+            ingredientDescription,
+            fcmToken
+        });
+        await dbFunctions.dbSaveRecord(newIngredientRequest);
+        res.status(200);
+        res.send(newIngredientRequest);
+    } else {
+        res.status(400);
+        res.send("Body parameters must not be empty");
+    }
 });
 
 router.get('/self', async function(req, res, next) {
-    let allRequests = await getAllSelfRequests(req);
-    res.status(200);
-    res.send(allRequests);
+    let userId = req.headers.email;
+    if (userId) {
+        let allSelfRequests = await dbFunctions.dbFindAllRecords(dbModels.IngredientRequest, {userId: `${userId}`});
+        res.status(200);
+        res.send(allSelfRequests);
+    } else {
+        res.status(400);
+        res.send("User email must not be empty");
+    }
 });
 
 router.post('/self/delete', async function(req, res, next) {
-    await deleteIngredientRequest(req);
-    res.status(200);
-    res.send("Deleted");
+    let requestId = req.body.requestId;
+    if (requestId) {
+        let ingredientRequest = dbFunctions.dbFindRecord(
+            dbModels.IngredientRequest, 
+            {requestId: `${req.body.requestId}`}
+            );
+        if (ingredientRequest) {
+            await dbFunctions.dbDeleteRecord(ingredientRequest);
+            res.status(200);
+            res.send(`Request ID ${requestId} successfully deleted`);
+        } else {
+            res.status(400);
+            res.send(`Request ID ${requestId} does not exist`); 
+        }
+    } else {
+        res.status(400);
+        res.send("Missing Ingredient Request ID");
+    }
 });
 
 router.get('/', async function(req, res, next) {
-    let allRequests = await getAllRequests();
+    let allRequests = await dbFunctions.dbFindAllRecords(dbModels.IngredientRequest, {});
     res.status(200);
     res.send(allRequests);
 });
 
 router.post('/', async function(req, res, next) {
-    let allRequests = await donateIngredient(req);
+    // This registration token comes from the client FCM SDKs.
+    let requestId = req.body.requestId;
+    if (!requestId) {
+        res.status(400);
+        res.send("Missing Ingredient Request ID");
+        return;
+    }
+    let ingredientRequest = await dbFunctions.dbFindRecord(
+        dbModels.IngredientRequest, 
+        {requestId: `${requestId}`}
+    );
+
+    if (!ingredientRequest) {
+        res.status(400);
+        res.send(`Request ID ${requestId} does not exist`);
+        return;
+    }
+    let fcmToken = ingredientRequest.fcmToken;
+    await dbFunctions.dbDeleteRecord(ingredientRequest);
+    const message = {
+        data: {
+            text: `Request ID ${requestId} fulfilled`
+        },
+        token: fcmToken   
+    };
+
+    messaging.send(message)
+    // .then((response) => {
+    //     // Response is a message ID string.
+    //     console.log('Successfully sent message:', response);
+    // })
+    // .catch((error) => {
+    //     console.log('Error sending message:', error);
+    // });
+
     res.status(200);
-    res.send(allRequests);
+    res.send(`Donated to request ID ${requestId}`);
 });
   
 module.exports = router;
