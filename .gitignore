@@ -39,3 +39,6 @@ cpen321-recipe-roulette-401802-1ca843ff111a.json
 
 # Android Profiling
 *.hprof
+
+# Coverage folder
+coverage
