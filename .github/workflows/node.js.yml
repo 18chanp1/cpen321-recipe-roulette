@@ -10,7 +10,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  backend_test:
 
     runs-on: ubuntu-latest
 
@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up and run tests
+      - name: Set up node
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
@@ -29,3 +29,6 @@ jobs:
       - name: Install dependencies
         working-directory: ./server
         run: npm install
+      - name: Run tests
+        working-directory: ./server
+        run: npm test
