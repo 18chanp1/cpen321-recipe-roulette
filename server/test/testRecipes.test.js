@@ -83,7 +83,7 @@ describe("Get all available recipes", () => {
     test("Valid email and Ingredients saved", async () => {
         let expectedResponse = mockedRecipes;
         jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(baseMockedDbFindRecordGetResponse);
-        fetch.mockReturnValueOnce(Promise.resolve({ status: 201, json: () => Promise.resolve(mockedRecipes)}));
+        fetch.mockReturnValue(Promise.resolve({ status: 201, json: () => Promise.resolve(mockedRecipes)}));
         const res = await request(app).get("/recipes").set({email: "test@ubc.ca"});
         expect(res.status).toStrictEqual(200);
         expect(res.body).toEqual(expectedResponse);
@@ -160,7 +160,7 @@ describe("Save chosen recipe and return its details", () => {
         expectedResponse.numTimes++;
         jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(Object.assign({}, baseMockedDbFindRecordPostResponse));
         jest.spyOn(dbFunctions, "dbSaveRecord").mockReturnValue(null);
-        fetch.mockReturnValueOnce(Promise.resolve({ status: 201, json: () => Promise.resolve(mockedInstructions)}));
+        fetch.mockReturnValue(Promise.resolve({ status: 201, json: () => Promise.resolve(mockedInstructions)}));
         const res = await request(app).post("/recipes").send(baseMockedRequestBody);
         expect(res.status).toStrictEqual(200);
         expect(res.body.recipeId).toEqual(expectedResponse.recipeId);
