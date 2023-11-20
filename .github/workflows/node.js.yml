@@ -21,11 +21,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Set up and run tests
+      working-directory: ./server
       uses: actions/setup-node@v3
       with:
         node-version: '18.x'
         cache: 'npm'
-    - run: cd server
-    - run: npm install
-    - run: npm test
+    - run: |
+        npm install
+        npm test
