@@ -27,4 +27,5 @@ jobs:
           node-version: '18.x'
           cache: 'npm'
       - name: Install dependencies
+        working-directory: ./server
         run: npm install
