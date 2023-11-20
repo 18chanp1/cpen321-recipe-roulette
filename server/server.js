@@ -1,7 +1,8 @@
 const fs = require('fs');
 const http = require("http")
 const https = require("https")
-const app = require("./app");
+const app = require("./src/app");
+const mongoose = require("mongoose");
 
 // const privateKey = fs.readFileSync("/etc/letsencrypt/live/cpen321-reciperoulette.westus.cloudapp.azure.com/privkey.pem", "utf8")
 // const certificate = fs.readFileSync("/etc/letsencrypt/live/cpen321-reciperoulette.westus.cloudapp.azure.com/fullchain.pem", "utf8")
@@ -22,7 +23,6 @@ const app = require("./app");
 
 // // setup websocket server
 // app.wssServer = require("./wss/wss")(httpsServer); 
-
 
 let httpServer = http.createServer(app)
 httpServer.listen(8080, () => 

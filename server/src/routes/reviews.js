@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var dbFunctions = require("../db/db").Functions;
-var dbModels = require("../db/db").Models;
+var dbFunctions = require("../../db/db").Functions;
+var dbModels = require("../../db/db").Models;
 
 router.get('/', async function(req, res, next) {
   let response = [];

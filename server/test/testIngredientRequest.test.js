@@ -1,5 +1,5 @@
-var dbFunctions = require("../utils/db").Functions;
-var app = require("../app");
+var dbFunctions = require("../db/db").Functions;
+var app = require("../src/app");
 var request = require("supertest");
 const mongoose = require("mongoose");
 
@@ -29,6 +29,7 @@ describe("Get all ingredient requests", () => {
         expect(res.status).toStrictEqual(200);
         expect(res.body).toEqual(expectedResponse);
     });
+    
     // Input: None 
     // Expected status code: 200
     // Expected behavior: Ingredient requests fetched and returned
@@ -64,6 +65,7 @@ describe("Get all ingredient requests made by a specific user", () => {
         expect(res.text).toEqual(expectedResponse);
         expect(res.body).toEqual({});
     });
+
     // Input: None 
     // Expected status code: 200
     // Expected behavior: All Ingredient requests for user fetched and returned
@@ -101,6 +103,7 @@ describe("Post new ingredient request", () => {
         expect(res.text).toEqual(expectedResponse);
         expect(res.body).toEqual({});
     });
+
     // Input: Missing ingredient description 
     // Expected status code: 400
     // Expected behavior: Empty ingredient description detected and error returned
@@ -114,6 +117,7 @@ describe("Post new ingredient request", () => {
         expect(res.text).toEqual(expectedResponse);
         expect(res.body).toEqual({});
     });
+
     // Input: Missing fcm token
     // Expected status code: 400
     // Expected behavior: Empty fcm token detected and error returned
@@ -127,6 +131,7 @@ describe("Post new ingredient request", () => {
         expect(res.text).toEqual(expectedResponse);
         expect(res.body).toEqual({});
     });
+    
     // Input: Valid request
     // Expected status code: 200
     // Expected behavior: New ingredient request registered
@@ -157,6 +162,7 @@ describe("Donate to an ingredient request", () => {
         expect(res.text).toEqual(expectedResponse);
         expect(res.body).toEqual({});
     });
+
     // Input: Non-existent request ID
     // Expected status code: 400
     // Expected behavior: Non-existent ingredient request ID detected and error returned
@@ -170,6 +176,7 @@ describe("Donate to an ingredient request", () => {
         expect(res.text).toEqual(expectedResponse);
         expect(res.body).toEqual({});
     });
+
     // Input: Valid request ID
     // Expected status code: 200
     // Expected behavior: Request identified and deleted from database
@@ -199,6 +206,7 @@ describe("Delete an ingredient request", () => {
         expect(res.text).toEqual(expectedResponse);
         expect(res.body).toEqual({});
     });
+
     // Input: Non-existent request ID
     // Expected status code: 400
     // Expected behavior: Non-existent ingredient request ID detected and error returned
@@ -212,6 +220,7 @@ describe("Delete an ingredient request", () => {
         expect(res.text).toEqual(expectedResponse);
         expect(res.body).toEqual({});
     });
+
     // Input: Valid request ID
     // Expected status code: 200
     // Expected behavior: Request identified and deleted from database

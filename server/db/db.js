@@ -1,5 +1,13 @@
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://jaber:recipe@137.135.47.124:27017/Recipe_Roulette?authSource=admin", {useNewUrlParser: true, useUnifiedTopology: true});
+
+if (!process.env.APP_ENV == "TEST") {
+  mongoose.connect("mongodb://jaber:recipe@137.135.47.124:27017/Recipe_Roulette?authSource=admin", {useNewUrlParser: true, useUnifiedTopology: true});
+  const db = mongoose.connection;
+  db.on('error', console.error.bind(console, 'connection error:'));
+  db.once('open', function() {
+    console.log("We're connected to MongoDB!");
+  });
+}
 
 const recipeSchema = new mongoose.Schema({
   userId: String,
@@ -32,12 +40,6 @@ const foodItemsSchema = new mongoose.Schema({
 
 // Create a model
 const Ingredient = mongoose.model('foodItems', foodItemsSchema);
-
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  console.log("We're connected to MongoDB!");
-});
 
 const reviewSchema = new mongoose.Schema({
   reviewId: mongoose.ObjectId,

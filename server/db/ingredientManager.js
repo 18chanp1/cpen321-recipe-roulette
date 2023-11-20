@@ -1,4 +1,4 @@
-const { Models } = require("../utils/db");
+const { Models } = require("./db");
 
 let removeIngredients = async (userId, ingredientList) => {
   let userIngredient = await Models.Ingredient.findOne({ userId });

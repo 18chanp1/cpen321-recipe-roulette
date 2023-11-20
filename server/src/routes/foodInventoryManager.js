@@ -1,6 +1,6 @@
 const express = require('express');
 var router = express.Router();
-var Models = require('../utils/db');
+var Models = require('../../db/db');
 const bodyParser = require('body-parser');
 
 

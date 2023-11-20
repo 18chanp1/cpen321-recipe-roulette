@@ -1,5 +1,5 @@
-var dbFunctions = require("../utils/db").Functions;
-var app = require("../app");
+var dbFunctions = require("../db/db").Functions;
+var app = require("../src/app");
 var request = require("supertest");
 
 const mockedDbGetAllRecipesResponse = [
@@ -35,6 +35,7 @@ describe("Get all recipes", () => {
         expect(res.status).toStrictEqual(200);
         expect(res.body).toEqual(expectedResponse);
     });
+    
     // Input: None
     // Expected status code: 200
     // Expected behavior: Recipes are fetched and sent to frontend
@@ -57,6 +58,7 @@ describe("Get all recipes", () => {
         expect(res.status).toStrictEqual(200);
         expect(res.body).toEqual(expectedResponse);
     });
+
     // Input: None
     // Expected status code: 200
     // Expected behavior: Recipes are fetched and sent to frontend
@@ -112,6 +114,7 @@ describe("Liking a recipe", () => {
         expect(res.status).toStrictEqual(200);
         expect(res.body).toEqual(exepectedResponse);
     });
+
     // Input: combination of email and recipeId does not exist in db
     // Expected status code: 400
     // Expected behavior: No recipe is fetched and error is returned

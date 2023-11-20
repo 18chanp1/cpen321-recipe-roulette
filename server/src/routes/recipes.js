@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var fetch = require('node-fetch');
-var dbFunctions = require('../db/db').Functions;
-var dbModels = require('../db/db').Models;
+var dbFunctions = require('../../db/db').Functions;
+var dbModels = require('../../db/db').Models;
 const fs = require('fs');
-const apiKey = fs.readFileSync("api_key.txt", "utf8");
+const apiKey = fs.readFileSync("./secrets/api_key.txt", "utf8");
 
 router.get('/', async function(req, res, next) {
   let userId = req.headers.email;
