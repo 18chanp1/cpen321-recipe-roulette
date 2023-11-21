@@ -78,42 +78,35 @@ public class B_RecipeUploadTest {
 
     @Test
     public void enterGroceryItemInManualEntryDialog() {
-        // Click on the manual entry button
+        // Manual Entry
         Espresso.onView(ViewMatchers.withId(R.id.manual_entry_btn))
                 .perform(ViewActions.click());
 
-        // Check that the manual entry dialog is displayed
         Espresso.onView(withText("Enter Grocery Item"))
                 .check(matches(isDisplayed()));
 
-        // Enter a grocery item in the manual entry dialog
         Espresso.onView(ViewMatchers.withClassName(Matchers.equalTo(EditText.class.getName())))
                 .perform(ViewActions.typeText("Chicken"), ViewActions.closeSoftKeyboard());
 
-        // Click on the "Submit" button in the dialog
         Espresso.onView(withText("Submit"))
                 .perform(ViewActions.click());
 
-        // Check that the send button does not appear after canceling manual entry
         Espresso.onView(ViewMatchers.withId(R.id.send_image_btn))
                 .check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
     }
 
     @Test
     public void cancelManualEntryDialog() {
-        // Click on the manual entry button
+        // Cancelled Manual Entry
         Espresso.onView(ViewMatchers.withId(R.id.manual_entry_btn))
                 .perform(ViewActions.click());
 
-        // Check that the manual entry dialog is displayed
         Espresso.onView(withText("Enter Grocery Item"))
                 .check(matches(isDisplayed()));
 
-        // Click on the "Cancel" button in the dialog
         Espresso.onView(withText("Cancel"))
                 .perform(ViewActions.click());
 
-        // Check that the send button does not appear after canceling manual entry
         Espresso.onView(ViewMatchers.withId(R.id.send_image_btn))
                 .check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
     }
