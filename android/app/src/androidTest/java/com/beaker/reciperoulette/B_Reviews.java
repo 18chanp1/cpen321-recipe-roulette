@@ -182,6 +182,7 @@ public class B_Reviews {
 
                     //go back to refresh item
                     pressBack();
+                    pressBack();
                     onView(withText("Recipe Reviews")).perform(click());
                     onView(withId(R.id.recyclerView))
                             .perform(scrollToPosition(i));
