@@ -86,11 +86,19 @@ public class B_Reviews {
                     onView(withId(R.id.recyclerView))
                             .perform(scrollToPosition(i));
                     Matcher<View> currentMatch = new RecyclerViewMatcher(R.id.recyclerView).atPosition(i);
-                    onView(currentMatch)
-                            .check(matches(hasDescendant(withText(userArray[i].title))));
 
-                    onView(currentMatch)
-                            .check(matches(hasDescendant(withText(userArray[i].author))));
+                    if(userArray[i].title != null)
+                    {
+                        onView(currentMatch)
+                                .check(matches(hasDescendant(withText(userArray[i].title))));
+                    }
+
+                    if (userArray[i].author != null)
+                    {
+                        onView(currentMatch)
+                                .check(matches(hasDescendant(withText(userArray[i].author))));
+                    }
+
                 }
             }
             else

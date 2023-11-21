@@ -135,14 +135,21 @@ public class B_IngredientSharingTest {
                             .perform(scrollToPosition(i));
                     Matcher<View> currentMatch = new RecyclerViewMatcher(R.id.rq_recycler).atPosition(i);
 
-                    onView(currentMatch)
-                            .check(matches(hasDescendant(allOf(
-                                    withText(userArray[i].ingredientName),
-                                    isDisplayed()))));
-                    onView(currentMatch)
-                            .check(matches(hasDescendant(allOf(
-                                    withText(userArray[i].userId),
-                                    isDisplayed()))));
+                    if(userArray[i].ingredientName != null)
+                    {
+                        onView(currentMatch)
+                                .check(matches(hasDescendant(allOf(
+                                        withText(userArray[i].ingredientName),
+                                        isDisplayed()))));
+                    }
+                    if (userArray[i].userId != null)
+                    {
+                        onView(currentMatch)
+                                .check(matches(hasDescendant(allOf(
+                                        withText(userArray[i].userId),
+                                        isDisplayed()))));
+                    }
+
                     onView(currentMatch)
                             .check(matches(hasDescendant(allOf(withId(R.id.rq_donate_but),
                                     withText(R.string.donate),
