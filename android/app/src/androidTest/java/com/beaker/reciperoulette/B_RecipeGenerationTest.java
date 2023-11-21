@@ -39,4 +39,23 @@ public class B_RecipeGenerationTest {
 
     }
 
+    @Test
+    public void checkGenerateRecipesButtonAndVerifyResponseTime() {
+        long startTime = System.currentTimeMillis();
+
+        // Generate Recipes
+        Espresso.onView(ViewMatchers.withId(R.id.gen_recipes))
+                .perform(ViewActions.click());
+
+        // Check Recipe List
+        Espresso.onView(ViewMatchers.withId(R.id.recipeButtonLayout))
+                .check(matches(isDisplayed()));
+
+        long endTime = System.currentTimeMillis();
+
+        // Calculate the response time and verify <6 second response time
+        long responseTime = endTime - startTime;
+        assert(responseTime < 6000);
+    }
+
 }
