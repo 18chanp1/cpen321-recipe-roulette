@@ -1,7 +1,5 @@
 package com.beaker.reciperoulette;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -22,7 +20,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class RecipeUploadTest {
+public class B_RecipeUploadTest {
 
     @Rule
     public ActivityScenarioRule<TakePhoto> mActivityScenarioRule =
