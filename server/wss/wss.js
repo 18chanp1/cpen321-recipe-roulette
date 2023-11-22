@@ -53,11 +53,18 @@ function setupWSS(httpsServer)
 
                 console.log(ann);
 
+                //send users in room to originator. 
+                for(const e in requests)
+                {
+                    ws.send(requests[e])
+                }
+
                 //add to requests
                 obj.ws = ws
                 requests[ann.entryID] = obj
                 ws.entryID = ann.entryID
             }
+            
         })
 
         ws.on("close", () =>
