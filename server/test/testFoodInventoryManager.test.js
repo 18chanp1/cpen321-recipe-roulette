@@ -26,6 +26,10 @@ const mockPutRequest = {
     ingredients: baseMockedIngredientBodyArr
 }
 
+const mockGetRequest = {
+    userId: "test@ubc.ca"
+}
+
 // GET Ingredients based on user
 describe("Get food ingredients for a user", () => {
     // Input: User Id
@@ -34,9 +38,9 @@ describe("Get food ingredients for a user", () => {
     // Expected output: empty list
     test("No food ingredients returned", async () => {
         let expectedResponse = [];
-        jest.spyOn(dbFunctions, "dbFindAllRecords").mockReturnValue([]);
+        // jest.spyOn(dbFunctions, "dbFindAllRecords").mockReturnValue([]);
         const res = await request(app).get("/foodInventoryManager");
-        expect(res.status).toStrictEqual(200);
+        expect(res.status).toStrictEqual(400);
         expect(res.body).toEqual(expectedResponse);
     });
 
@@ -45,14 +49,21 @@ describe("Get food ingredients for a user", () => {
     // Expected behavior: Ingredient ingredients fetched and returned
     // Expected output: List of all ingredient requests
     test("All food ingredients returned", async () => {
+        // Build the mock request
+        let mockGetRequestCopy = Object.assign({}, mockGetRequest);
+
         // Build the expected response
-        let expectedResponse = baseMockedDbFindRecordResponse;
+        let expectedResponse = Object.assign({}, baseMockedDbFindRecordResponse);
+        
         let mockedDbFindAllRecordsResponse = [];
         for (i = 0; i < 20; i++) {
             mockedDbFindAllRecordsResponse.push(baseMockedDbFindRecordResponse);
         }
+
         jest.spyOn(dbFunctions, "dbFindAllRecords").mockReturnValue(mockedDbFindAllRecordsResponse);
-        const res = await request(app).get("/foodInventoryManager");
+
+        const res = await request(app).get("/foodInventoryManager").set('userId', 'test@ubc.ca');
+
         expect(res.status).toStrictEqual(200);
         for (i = 0; i < 20; i++) {
             expect(res.body[i].requestId).toBeDefined();
@@ -66,25 +77,19 @@ describe("Get food ingredients for a user", () => {
 // Interface POST /foodInventoryManager/upload
 describe("Post new ingredient request", () => {
     // Input: Missing email
-    // Expected status code: 500
+    // Expected status code: 400
     // Expected behavior: Empty user id and error returned
     // Expected output: "Body parameters must not be empty"
     test("POST invalid email", async () => {
         let mockedRequestBody = Object.assign({}, baseMockedDbFindRecordResponse);
         mockedRequestBody.userId = "";
 
-        //TODO: small hack
-        // let expectedResponse = "Error saving to database";
-        let expectedResponse = "Successfully saved to database";
-
-        jest.spyOn(dbFunctions, "dbSaveRecord").mockRejectedValue(new Error('User not found'));
-        // jest.spyOn(dbFunctions, "dbSaveRecord").mockImplementationOnce((mockedRequestBody) => Promise.reject(new Error('User not found')));
+        let expectedResponse = "Error saving to database";
+        jest.spyOn(dbFunctions, "dbSaveRecord").mockReturnValue(null);
 
         const res = await request(app).post("/foodInventoryManager/upload").send(mockedRequestBody);
         
-        //TODO: small hack
-        // expect(res.status).toStrictEqual(500);
-        expect(res.status).toStrictEqual(200);
+        expect(res.status).toStrictEqual(400);
         expect(res.text).toEqual(expectedResponse);
         expect(res.body).toEqual({});
     });
@@ -97,11 +102,7 @@ describe("Post new ingredient request", () => {
         let mockedRequestBody = Object.assign({}, baseMockedDbFindRecordResponse);
         let expectedResponse = "Successfully saved to database";
 
-        // jest.spyOn(dbFunctions, "dbSaveRecord").mockImplementation((baseMockedDbFindRecordResponse) => console.log("saved sucessfully"));
-        // jest.spyOn(dbFunctions, "dbSaveRecord").mockImplementation(() => console.log("saved sucessfully"));
         jest.spyOn(dbFunctions, "dbSaveRecord").mockReturnValue(null);
-
-        // const res = await request(app).post("/foodInventoryManager/upload").send(mockedRequestBody);
         const res = await request(app).post("/foodInventoryManager/upload").send(mockedRequestBody);
         expect(res.status).toStrictEqual(200);
         expect(res.text).toEqual(expectedResponse);

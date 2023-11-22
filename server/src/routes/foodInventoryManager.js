@@ -12,16 +12,16 @@ router.post('/upload', async (req, res) => {
   // Get the user ID token and ingredients from the request body
   const {userId, ingredients} = req.body;
 
-  // Create a new document
-  const ingredientDoc = new Models.Ingredient({ userId , ingredients });
+  console.log("/foodInventoryManager/upload userId: " + userId);
+  if (userId == null || userId == "") {
+    res.status(400).send('Error saving to database');
+  } else {
+    // Create a new document
+    const ingredientDoc = new Models.Ingredient({ userId , ingredients });
 
-  // Save the document to MongoDB
-  try {
+    // Save the document to MongoDB
     dbFunctions.dbSaveRecord(ingredientDoc);
     res.status(200).send('Successfully saved to database');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error saving to database');
   }
 
 });
@@ -31,24 +31,16 @@ router.get('/', async function(req, res, next) {
   //TODO: Please surround the minimal amount of code that generates exceptions with try catch blocks
   console.log("Return the list of ingredients in the user's inventory")
 
-  try {
-    // mongodb.once('open', function() {
-    //   console.log("We're connected to MongoDB!");
-    // });
-
-
-    //TODO, I think this should work, but please test it. 
-    let queriedUser = req.get('userId');
+  let queriedUser = req.get('userId');
+  console.log("Queried User: " + queriedUser);
+  if (queriedUser == null || queriedUser == "") {
+    res.status(400).send([]);
+  } else {
     const ingredients = dbFunctions.dbFindAllRecords(Models.Ingredient, {userId: `${queriedUser}`});
     console.log(typeof ingredients);
     console.log(ingredients);
     res.status(200);
     res.send(ingredients);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send(err.message);
-  } finally {
-    console.log('Finished processing request');
   }
 });
 
