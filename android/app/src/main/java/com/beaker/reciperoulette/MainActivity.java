@@ -210,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
                             activityResultLauncher.launch(intentSenderRequest);
                         }).addOnFailureListener(MainActivity.this, er ->
                         {
+                            Log.d(TAG, er.getMessage());
                             er.getCause();
                             Toast toast = Toast.makeText(MainActivity.this,"You must be logged into a google account on android first", Toast.LENGTH_LONG);
                             toast.show();

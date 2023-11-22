@@ -24,10 +24,12 @@
     <string name="req_ingred">Request Ingredients</string>
     <string name="donate_ingred">Donate Ingredients</string>
     <string name="donate">Donate</string>
+    <string name="contact">Contact Details</string>
     <string name="ingredient">Ingredient</string>
     <string name="view_prev_req">View outstanding requests</string>
 
     <string name="your_requests">Your Requests</string>
+    <string name="must_enter_contact">You must enter the ingredient and your contact details.</string>
 
     <string name="go_out_with_others">Go out with others</string>
     <string name="lonely">Don\'t see any entries? This feature is called cook with others, not cook with yourself.
