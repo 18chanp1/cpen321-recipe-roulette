@@ -76,7 +76,7 @@ public class IngredientRequestSelfView extends AppCompatActivity {
                             ingredientRequests.add(r);
                         }
 
-                        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+                        RecyclerView recyclerView = findViewById(R.id.rq_recycler);
                         recyclerView.setLayoutManager(new LinearLayoutManager(IngredientRequestSelfView.this));
                         recyclerView.setAdapter(new IngredientRequestSelfAdaptor(getApplicationContext(), ingredientRequests));
 

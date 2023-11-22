@@ -1,7 +1,5 @@
-// const { getMessaging } = require('firebase-admin/messaging');
-// const { initializeApp } = require('firebase-admin/app');
 var admin = require("firebase-admin");
-var serviceAccount = require("../../secrets/firebase_admin.json");
+var serviceAccount = require(process.env.FB_CRED);
 var dbModels = require("../../db/db").Models;
 var dbFunctions = require("../../db/db").Functions;
 
