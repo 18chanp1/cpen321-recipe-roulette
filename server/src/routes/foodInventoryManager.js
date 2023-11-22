@@ -53,22 +53,24 @@ router.put('/update', async (req, res) => {
   let logTwo = 2;
   console.log(logOne + logTwo);
 
-
-  try {
+  // try {
     const { userId, ingredients } = req.body;
 
     await Promise.all(ingredients.map(async (ingredientName) => {    
       // const userIngredient = await Models.Ingredient.findOne({ userId });
       const userIngredient = await dbFunctions.dbFindRecord(Models.Ingredient, { userId });
       
-      if (!userIngredient) {
+      if (!userIngredient || userIngredient == null) {
         console.log(`User with userId ${userId} not found`);
-        return res.status(404).send('User not found');
+        // return res.status(404).send('User not found');
+        return res.status(404).send();
+        // return res.status(404);
       } else {
         console.log("Get userId: " + userIngredient.userId);
       }
 
-      const ingredient = userIngredient.ingredients.find(ing => ing.name === ingredientName);
+      const ingredient = dbFunctions.dbFindAllRecords(userIngredient.ingredients, ing => ing.name === ingredientName)
+      // const ingredient = userIngredient.ingredients.find(ing => ing.name === ingredientName);
       
       if (ingredient) {
         if (ingredient.count > 1) {
@@ -81,29 +83,30 @@ router.put('/update', async (req, res) => {
           // Remove ingredient from user's ingredients array if count is 1 or less
           console.log('Ingredient Name: ' + ingredientName);
           console.log('Count: ' + ingredient.count);
-
-          Models.Ingredient.updateOne(
-            {userId},
-            { $pull: { ingredients: { name : ingredientName } } }
-          ).then(() => {
-            console.log(ingredientName + " got removed from the array");
-          }).catch((error) => {
-            console.error(error);
-          });
+          
+          dbFunctions.dbUpdateOne(Models.Ingredient, {userId}, { $pull: { ingredients: { name : ingredientName } } })
+          // Models.Ingredient.updateOne(
+          //   {userId},
+          //   { $pull: { ingredients: { name : ingredientName } } }
+          // ).then(() => {
+          //   console.log(ingredientName + " got removed from the array");
+          // }).catch((error) => {
+          //   console.error(error);
+          // });
         }
 
       } else {
         console.log(`Ingredient ${ingredientName} not found`);
       }
-
-      await userIngredient.save();
+      dbFunctions.dbSaveRecord(userIngredient);
     }));
-    res.status(200);
-    res.send('Ingredients updated successfully');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send(err.message);
-  }
+    // res.status(200);
+    // res.send('Ingredients updated successfully');
+    res.status(200).send();
+  // } catch (err) {
+  //   console.error(err);
+  //   res.status(500).send(err.message);
+  // }
 });
 
 module.exports = router;

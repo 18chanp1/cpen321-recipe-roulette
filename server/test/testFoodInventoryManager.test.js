@@ -9,6 +9,12 @@ const baseMockedIngredientBody = {
     date: 1698576656
 }
 
+const baseMockedIngredientBody2 = {
+    name: "beef",
+    count: 2,
+    date: 1698576656
+}
+
 const baseMockedIngredientBodyArr = [
     baseMockedIngredientBody,
     baseMockedIngredientBody,
@@ -23,7 +29,7 @@ const baseMockedDbFindRecordResponse = {
 
 const mockPutRequest = {
     userId: "test@ubc.ca", 
-    ingredients: baseMockedIngredientBodyArr
+    ingredients: ["pork", "beef", "chicken"]
 }
 
 const mockGetRequest = {
@@ -118,21 +124,32 @@ describe("Update user's ingredient", () => {
         let mockedRequestBody = Object.assign({}, mockPutRequest);
         mockedRequestBody.userId = "";
         let expectedResponse = "User not found";
-        const res = await request(app).post("/foodInventoryManager/update").send(mockPutRequest);
+
+        jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(null);
+        const res = await request(app).put("/foodInventoryManager/update").send(mockedRequestBody);
         expect(res.status).toStrictEqual(404);
         // expect(res.text).toEqual(expectedResponse); //res.text returning the entire html
+        expect(res.text).toEqual("");
         expect(res.body).toEqual({});
     });
 
     test("PUT valid entry", async () => {
+
+        let ingredientPork = Object.assign({}, baseMockedIngredientBody);
+        let ingredientBeef = Object.assign({}, baseMockedIngredientBody2);
+
         let mockedRequestBody = Object.assign({}, mockPutRequest);
 
-        jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(() => mockedRequestBody);
-        const res = await request(app).post("/foodInventoryManager/update").send(mockedRequestBody);
+        jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(mockedRequestBody);
+        jest.spyOn(dbFunctions, "dbFindAllRecords").mockReturnValueOnce(ingredientPork).mockReturnValueOnce(ingredientBeef).mockReturnValue(null);
+        jest.spyOn(dbFunctions, "dbUpdateOne").mockReturnValue(null);
+        jest.spyOn(dbFunctions, "dbSaveRecord").mockReturnValue(null);
+
+        const res = await request(app).put("/foodInventoryManager/update").send(mockedRequestBody);
         
         // TODO: small hack
-        // expect(res.status).toStrictEqual(200);
-        expect(res.status).toStrictEqual(404);
+        expect(res.status).toStrictEqual(200);
+        // expect(res.status).toStrictEqual(404);
         // expect(res.text).toEqual(expectedResponse);
         expect(res.body).toEqual({});
     })
