@@ -1,6 +1,7 @@
 const express = require('express');
 var router = express.Router();
-var Models = require('../../db/db');
+var Models = require('../../db/db').Models;
+var dbFunctions = require("../../db/db").Functions;
 const bodyParser = require('body-parser');
 
 
@@ -16,7 +17,7 @@ router.post('/upload', async (req, res) => {
 
   // Save the document to MongoDB
   try {
-    await ingredientDoc.save();
+    dbFunctions.dbSaveRecord(ingredientDoc);
     res.status(200).send('Successfully saved to database');
   } catch (err) {
     console.error(err);
@@ -38,7 +39,7 @@ router.get('/', async function(req, res, next) {
 
     //TODO, I think this should work, but please test it. 
     let queriedUser = req.get('userId');
-    const ingredients = await Models.Ingredient.find({userId: `${queriedUser}`});
+    const ingredients = dbFunctions.dbFindAllRecords(Models.Ingredient, {userId: `${queriedUser}`});
     console.log(typeof ingredients);
     console.log(ingredients);
     res.status(200);
@@ -65,7 +66,8 @@ router.put('/update', async (req, res) => {
     const { userId, ingredients } = req.body;
 
     await Promise.all(ingredients.map(async (ingredientName) => {    
-      const userIngredient = await Models.Ingredient.findOne({ userId });
+      // const userIngredient = await Models.Ingredient.findOne({ userId });
+      const userIngredient = await dbFunctions.dbFindRecord(Models.Ingredient, { userId });
       
       if (!userIngredient) {
         console.log(`User with userId ${userId} not found`);
