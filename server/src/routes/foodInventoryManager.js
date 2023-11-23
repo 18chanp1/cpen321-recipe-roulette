@@ -28,7 +28,6 @@ router.post('/upload', async (req, res) => {
 
 
 router.get('/', async function(req, res, next) {
-  //TODO: Please surround the minimal amount of code that generates exceptions with try catch blocks
   console.log("Return the list of ingredients in the user's inventory")
 
   let queriedUser = req.get('userId');
@@ -48,29 +47,24 @@ router.get('/', async function(req, res, next) {
 router.put('/update', async (req, res) => {
 
   //this code is here to get around the stupid "unnecessary block" issue.
-  // TODO: please, only surround code that generates exceptions with try/catch blocks. Move everything else outside. 
   let logOne = 1;
   let logTwo = 2;
   console.log(logOne + logTwo);
 
-  // try {
     const { userId, ingredients } = req.body;
 
     await Promise.all(ingredients.map(async (ingredientName) => {    
-      // const userIngredient = await Models.Ingredient.findOne({ userId });
       const userIngredient = await dbFunctions.dbFindRecord(Models.Ingredient, { userId });
       
       if (!userIngredient || userIngredient == null) {
         console.log(`User with userId ${userId} not found`);
-        // return res.status(404).send('User not found');
-        return res.status(404).send();
-        // return res.status(404);
+        res.status(404).send();
+        return;
       } else {
         console.log("Get userId: " + userIngredient.userId);
       }
 
-      const ingredient = dbFunctions.dbFindAllRecords(userIngredient.ingredients, ing => ing.name === ingredientName)
-      // const ingredient = userIngredient.ingredients.find(ing => ing.name === ingredientName);
+      const ingredient = dbFunctions.dbFindAllRecords(userIngredient.ingredients, ing => ing.name === ingredientName);
       
       if (ingredient) {
         if (ingredient.count > 1) {
@@ -85,14 +79,6 @@ router.put('/update', async (req, res) => {
           console.log('Count: ' + ingredient.count);
           
           dbFunctions.dbUpdateOne(Models.Ingredient, {userId}, { $pull: { ingredients: { name : ingredientName } } })
-          // Models.Ingredient.updateOne(
-          //   {userId},
-          //   { $pull: { ingredients: { name : ingredientName } } }
-          // ).then(() => {
-          //   console.log(ingredientName + " got removed from the array");
-          // }).catch((error) => {
-          //   console.error(error);
-          // });
         }
 
       } else {
@@ -100,13 +86,9 @@ router.put('/update', async (req, res) => {
       }
       dbFunctions.dbSaveRecord(userIngredient);
     }));
-    // res.status(200);
-    // res.send('Ingredients updated successfully');
     res.status(200).send();
-  // } catch (err) {
-  //   console.error(err);
-  //   res.status(500).send(err.message);
-  // }
+    return;
+
 });
 
 module.exports = router;

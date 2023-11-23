@@ -44,7 +44,6 @@ describe("Get food ingredients for a user", () => {
     // Expected output: empty list
     test("No food ingredients returned", async () => {
         let expectedResponse = [];
-        // jest.spyOn(dbFunctions, "dbFindAllRecords").mockReturnValue([]);
         const res = await request(app).get("/foodInventoryManager");
         expect(res.status).toStrictEqual(400);
         expect(res.body).toEqual(expectedResponse);
@@ -118,21 +117,26 @@ describe("Post new ingredient request", () => {
     
 })
 
+// Interface PUT /foodInventoryManager/update
 describe("Update user's ingredient", () => {
 
+    // Input: invalid userId
+    // Expected status code: 404
+    // Expected output: empty text and body
     test("PUT invalid userId", async () => {
         let mockedRequestBody = Object.assign({}, mockPutRequest);
         mockedRequestBody.userId = "";
-        let expectedResponse = "User not found";
 
         jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(null);
         const res = await request(app).put("/foodInventoryManager/update").send(mockedRequestBody);
         expect(res.status).toStrictEqual(404);
-        // expect(res.text).toEqual(expectedResponse); //res.text returning the entire html
         expect(res.text).toEqual("");
         expect(res.body).toEqual({});
     });
 
+    // Input: valid user id and ingredients
+    // Expected status code: 200
+    // Expected output: empty text and body
     test("PUT valid entry", async () => {
 
         let ingredientPork = Object.assign({}, baseMockedIngredientBody);
@@ -147,10 +151,8 @@ describe("Update user's ingredient", () => {
 
         const res = await request(app).put("/foodInventoryManager/update").send(mockedRequestBody);
         
-        // TODO: small hack
         expect(res.status).toStrictEqual(200);
-        // expect(res.status).toStrictEqual(404);
-        // expect(res.text).toEqual(expectedResponse);
+        expect(res.text).toEqual("");
         expect(res.body).toEqual({});
     })
    
