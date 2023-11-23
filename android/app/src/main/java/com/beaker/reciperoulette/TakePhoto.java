@@ -254,13 +254,3 @@ public class TakePhoto extends AppCompatActivity {
     }
 }
 
-class Ingredient {
-    String name;
-    int count;
-    long[] date;
-}
-
-class IngredientsRequest {
-    String userId;
-    List<Ingredient> ingredients;
-}
