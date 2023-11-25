@@ -26,6 +26,12 @@ public class IngredientRequest implements Parcelable {
         this.image = image;
     }
 
+    public IngredientRequest(String ingredientName, String userId)
+    {
+        this.ingredientName = ingredientName;
+        this.userId = userId;
+    }
+
     protected IngredientRequest(Parcel in) {
         reqID = in.readString();
         reqDate = in.readString();
