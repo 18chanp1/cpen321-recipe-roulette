@@ -26,6 +26,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.beaker.reciperoulette.RecipeFacebook.Review;
 import com.google.gson.Gson;
 
 import org.hamcrest.Matcher;
@@ -87,16 +88,16 @@ public class B_Reviews {
                             .perform(scrollToPosition(i));
                     Matcher<View> currentMatch = new RecyclerViewMatcher(R.id.recyclerView).atPosition(i);
 
-                    if(userArray[i].title != null)
+                    if(userArray[i].getTitle() != null)
                     {
                         onView(currentMatch)
-                                .check(matches(hasDescendant(withText(userArray[i].title))));
+                                .check(matches(hasDescendant(withText(userArray[i].getTitle()))));
                     }
 
-                    if (userArray[i].author != null)
+                    if (userArray[i].getAuthor() != null)
                     {
                         onView(currentMatch)
-                                .check(matches(hasDescendant(withText(userArray[i].author))));
+                                .check(matches(hasDescendant(withText(userArray[i].getAuthor()))));
                     }
 
                 }
@@ -152,20 +153,20 @@ public class B_Reviews {
                     //assert that the title is the same
                     onView(withId(R.id.detailed_title))
                             .check(matches(isDisplayed()))
-                            .check(matches(withText(userArray[i].title)));
+                            .check(matches(withText(userArray[i].getTitle())));
 
                     //assert that contact is the same
                     onView(withId(R.id.detailed_author))
                             .check(matches(isDisplayed()))
-                            .check(matches(withText(userArray[i].author)));
+                            .check(matches(withText(userArray[i].getAuthor())));
 
                     //assert that rating is the same
                     onView(withId(R.id.detailed_rating))
                             .check(matches(isDisplayed()))
-                            .check(matches(withText("Rating: " + userArray[i].rating)));
+                            .check(matches(withText("Rating: " + userArray[i].getRating())));
 
                     //assert that the review is the same
-                    String review = Html.fromHtml(userArray[i].review, Html.FROM_HTML_MODE_COMPACT).toString();
+                    String review = Html.fromHtml(userArray[i].getReview(), Html.FROM_HTML_MODE_COMPACT).toString();
                     onView(withId(R.id.detailed_text))
                             .check(matches(isDisplayed()))
                             .check(matches(withText(review)));
@@ -191,7 +192,7 @@ public class B_Reviews {
                             .perform(click());
 
                     //check that like count has increased
-                    String newRating = String.valueOf(Integer.valueOf(userArray[i].rating + 1)) ;
+                    String newRating = String.valueOf(Integer.valueOf(userArray[i].getRating() + 1)) ;
                     onView(withId(R.id.detailed_rating))
                             .check(matches(isDisplayed()))
                             .check(matches(withText("Rating: " + newRating)));

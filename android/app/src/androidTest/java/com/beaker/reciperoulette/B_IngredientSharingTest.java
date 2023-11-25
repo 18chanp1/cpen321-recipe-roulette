@@ -32,6 +32,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.beaker.reciperoulette.IngredientRequest.IngredientRequest;
 import com.google.gson.Gson;
 
 import org.hamcrest.Matcher;
@@ -135,18 +136,18 @@ public class B_IngredientSharingTest {
                             .perform(scrollToPosition(i));
                     Matcher<View> currentMatch = new RecyclerViewMatcher(R.id.rq_recycler).atPosition(i);
 
-                    if(userArray[i].ingredientName != null)
+                    if(userArray[i].getIngredientName() != null)
                     {
                         onView(currentMatch)
                                 .check(matches(hasDescendant(allOf(
-                                        withText(userArray[i].ingredientName),
+                                        withText(userArray[i].getIngredientName()),
                                         isDisplayed()))));
                     }
-                    if (userArray[i].userId != null)
+                    if (userArray[i].getUserId() != null)
                     {
                         onView(currentMatch)
                                 .check(matches(hasDescendant(allOf(
-                                        withText(userArray[i].userId),
+                                        withText(userArray[i].getUserId()),
                                         isDisplayed()))));
                     }
 
@@ -217,8 +218,8 @@ public class B_IngredientSharingTest {
 
                 for(int i = 0; i < userArray.length; i++)
                 {
-                    if(userArray[i].userId.equals(email) &&
-                            userArray[i].ingredientName.equals(testFood))
+                    if(userArray[i].getUserId().equals(email) &&
+                            userArray[i].getIngredientName().equals(testFood))
                     {
                         onView(withId(R.id.rq_recycler))
                                 .perform(scrollToPosition(i));
@@ -226,11 +227,11 @@ public class B_IngredientSharingTest {
 
                         onView(currentMatch)
                                 .check(matches(hasDescendant(allOf(
-                                        withText(userArray[i].ingredientName),
+                                        withText(userArray[i].getIngredientName()),
                                         isDisplayed()))));
                         onView(currentMatch)
                                 .check(matches(hasDescendant(allOf(
-                                        withText(userArray[i].userId),
+                                        withText(userArray[i].getUserId()),
                                         isDisplayed()))));
                         onView(currentMatch)
                                 .check(matches(hasDescendant(allOf(withId(R.id.rq_donate_but),
@@ -314,8 +315,8 @@ public class B_IngredientSharingTest {
                 //find the entry and remove it.
                 for(int i = 0; i < userArray.length; i++)
                 {
-                    if(userArray[i].userId.equals(email) &&
-                            userArray[i].ingredientName.equals(testFood))
+                    if(userArray[i].getUserId().equals(email) &&
+                            userArray[i].getIngredientName().equals(testFood))
                     {
                         onView(withId(R.id.rq_recycler))
                                 .perform(scrollToPosition(i));

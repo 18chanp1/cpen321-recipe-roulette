@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.beaker.reciperoulette.ChatRoom.EnterChatRoomView;
+import com.beaker.reciperoulette.IngredientRequest.IngredientRequestView;
+import com.beaker.reciperoulette.RecipeFacebook.RecipeFacebook;
+
 public class MainMenu extends AppCompatActivity {
     /*
     Save this stuff here just to keep track of buttons

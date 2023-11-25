@@ -24,10 +24,10 @@
             android:name="com.beaker.reciperoulette.FlavorProfile"
             android:exported="false" />
         <activity
-            android:name="com.beaker.reciperoulette.EnterChatRoomView"
+            android:name="com.beaker.reciperoulette.ChatRoom.EnterChatRoomView"
             android:exported="false" />
         <activity
-            android:name="com.beaker.reciperoulette.ChatRoomLiveView"
+            android:name="com.beaker.reciperoulette.ChatRoom.ChatRoomLiveView"
             android:exported="false" />
         <activity
             android:name="com.beaker.reciperoulette.RecipeSelect"
@@ -36,17 +36,17 @@
             android:name="com.beaker.reciperoulette.RecipeDisplay"
             android:exported="false" />
         <activity
-            android:name="com.beaker.reciperoulette.IngredientRequestSelfView"
+            android:name="com.beaker.reciperoulette.IngredientRequest.IngredientRequestSelfView"
             android:exported="false" />
         <activity
-            android:name="com.beaker.reciperoulette.IngredientRequestView"
+            android:name="com.beaker.reciperoulette.IngredientRequest.IngredientRequestView"
             android:exported="false"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name="com.beaker.reciperoulette.ReviewDetailed"
+            android:name="com.beaker.reciperoulette.RecipeFacebook.ReviewDetailed"
             android:exported="false" />
         <activity
-            android:name="com.beaker.reciperoulette.RecipeFacebook"
+            android:name="com.beaker.reciperoulette.RecipeFacebook.RecipeFacebook"
             android:exported="false" />
         <activity
             android:name="com.beaker.reciperoulette.TakePhoto"

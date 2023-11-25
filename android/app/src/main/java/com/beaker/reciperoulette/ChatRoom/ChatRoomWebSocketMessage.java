@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette;
+package com.beaker.reciperoulette.ChatRoom;
 
 public class ChatRoomWebSocketMessage {
     String tok;

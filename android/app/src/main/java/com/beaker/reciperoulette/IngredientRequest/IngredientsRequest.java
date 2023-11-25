@@ -1,16 +1,18 @@
-package com.beaker.reciperoulette;
+package com.beaker.reciperoulette.IngredientRequest;
+
+import com.beaker.reciperoulette.IngredientRequest.Ingredient;
 
 import java.util.List;
 
 public class IngredientsRequest {
-    String userId;
+    public String userId;
 
 
     public IngredientsRequest(String userId) {
         this.userId = userId;
     }
 
-    List<Ingredient> ingredients;
+    public List<Ingredient> ingredients;
 
     public IngredientsRequest(String userId, List<Ingredient> ingredients) {
         this.userId = userId;

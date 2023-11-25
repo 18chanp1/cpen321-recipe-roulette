@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette;
+package com.beaker.reciperoulette.IngredientRequest;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.beaker.reciperoulette.MainMenu;
+import com.beaker.reciperoulette.R;
 import com.google.gson.Gson;
 
 import java.io.IOException;

@@ -1,12 +1,17 @@
-package com.beaker.reciperoulette;
+package com.beaker.reciperoulette.IngredientRequest;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.beaker.reciperoulette.R;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -15,32 +20,44 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.MediaType;
 import okhttp3.Response;
 
-public class IngredientRequestSelfAdaptor
-extends IngredientRequestAdaptor{
+public class IngredientRequestAdaptor extends RecyclerView.Adapter<IngredientRequestHolder> {
+    Context context;
+    IngredientRequestView ingredientRequestView;
+    List<? extends IngredientRequest> items;
 
-    public IngredientRequestSelfAdaptor(Context context, List<IngredientRequestSelf> items) {
-        super(context, items);
+    public IngredientRequestAdaptor(Context context, List<? extends IngredientRequest> items) {
+        this.context = context;
+        this.items = items;
     }
 
+    public IngredientRequestAdaptor(Context context, IngredientRequestView ingredientRequestView, List<? extends IngredientRequest> items) {
+        this.context = context;
+        this.ingredientRequestView = ingredientRequestView;
+        this.items = items;
+    }
 
+    @NonNull
     @Override
-    public void onBindViewHolder (@NonNull IngredientRequestHolder holder, int position) {
-        IngredientRequestSelf item = (IngredientRequestSelf) items.get(position);
+    public IngredientRequestHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new IngredientRequestHolder(LayoutInflater.from(context).inflate(R.layout.ingredient_req_item, parent, false));
+    }
+    @Override
+    public void onBindViewHolder(@NonNull IngredientRequestHolder holder, int position) {
+        IngredientRequest item = items.get(position);
 
         holder.nameView.setText(item.ingredientName);
-        holder.emailView.setText(item.donationDetails);
+        holder.emailView.setText(item.userId);
 
         String url = item.getImage();
         Picasso.with(this.context).load(url).into(holder.imageView);
 
         //buttons
-        holder.donateIngredientView.setText("Cancel");
         holder.donateIngredientView.setOnClickListener(view ->
         {
             //send an http request.
@@ -57,13 +74,12 @@ extends IngredientRequestAdaptor{
 
             MediaType JSON = MediaType.get("application/json; charset=utf-8");
             RequestBody body = RequestBody.create(json, JSON);
-            String acceptUrl = "https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests/self/delete";
+            String acceptUrl = "https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests";
 
             Request req = new Request.Builder()
                     .url(acceptUrl)
                     .addHeader("userToken", tok)
                     .addHeader("reqID", item.reqID)
-                    .addHeader("loc", "donate ingredients")
                     .addHeader("email", email)
                     .post(body)
                     .build();
@@ -72,7 +88,7 @@ extends IngredientRequestAdaptor{
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
                     e.printStackTrace();
-                    ContextCompat.getMainExecutor(IngredientRequestSelfAdaptor.this.context).execute(() ->
+                    ContextCompat.getMainExecutor(IngredientRequestAdaptor.this.context).execute(() ->
                     {
                         Toast toast = Toast.makeText(context, "Unable to donate, try again later.", Toast.LENGTH_LONG);
                         toast.show();
@@ -88,23 +104,40 @@ extends IngredientRequestAdaptor{
                         CharSequence s = "Exit the app and try again";
 
                         ContextCompat.getMainExecutor(context).execute(()  -> {
-                                    Toast t = Toast.makeText(context, s, Toast.LENGTH_SHORT);
-                                    t.show();
+                            Toast t = Toast.makeText(context, s, Toast.LENGTH_SHORT);
+                            t.show();
                         });
 
                     }
                     else if (response.isSuccessful())
                     {
-                        ContextCompat.getMainExecutor(IngredientRequestSelfAdaptor.this.context).execute(() ->
+                        ContextCompat.getMainExecutor(IngredientRequestAdaptor.this.context).execute(() ->
                         {
 
                             Toast toast = Toast.makeText(context, response.message(), Toast.LENGTH_LONG);
                             toast.show();
                         });
+                        //TODO need to add display for trade details.
+
+                        //reload the donations on the view
+                        Handler mainHandler = new Handler(context.getMainLooper());
+
+                        // This is your code
+                        Runnable myRunnable = () -> {
+                            ingredientRequestView.loadDonations();
+                        };
+
+                        mainHandler.post(myRunnable);
+
                     }
                 }
             });
         });
+    }
 
+
+    @Override
+    public int getItemCount() {
+        return items.size();
     }
 }

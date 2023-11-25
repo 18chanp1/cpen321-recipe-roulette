@@ -1,9 +1,9 @@
-package com.beaker.reciperoulette;
+package com.beaker.reciperoulette.IngredientRequest;
 
-class Ingredient {
-    String name;
-    int count;
-    long[] date;
+public class Ingredient {
+    public String name;
+    public int count;
+    public long[] date;
 
     public Ingredient()
     {
