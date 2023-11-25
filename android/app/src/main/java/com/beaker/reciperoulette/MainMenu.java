@@ -61,5 +61,12 @@ public class MainMenu extends AppCompatActivity {
             startActivity(cookWithOthersIntent);
         });
 
+        Button signOutButton = findViewById(R.id.menu7);
+        signOutButton.setOnClickListener(view -> {
+            Intent signOutIntent = new Intent(MainMenu.this, MainActivity.class);
+            signOutIntent.putExtra("SIGNOUT", true);
+            startActivity(signOutIntent);
+        });
+
     }
 }

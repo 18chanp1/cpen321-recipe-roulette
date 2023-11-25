@@ -1,7 +1,12 @@
 package com.beaker.reciperoulette;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -18,37 +23,40 @@ import org.junit.runner.RunWith;
 public class B_RecipeGenerationTest {
 
     @Rule
-    public ActivityScenarioRule<RecipeSelect> mActivityScenarioRule =
-            new ActivityScenarioRule<>(RecipeSelect.class);
+    public ActivityScenarioRule<MainMenu> mActivityScenarioRule =
+            new ActivityScenarioRule<>(MainMenu.class);
 
     @Test
     public void checkGenerateRecipesButtonVisible() {
-        Espresso.onView(ViewMatchers.withId(R.id.gen_recipes))
+        gotoGenerateRecipe();
+        onView(ViewMatchers.withId(R.id.gen_recipes))
                 .check(matches(isDisplayed()));
     }
 
     @Test
     public void clickGenerateRecipesButtonAndCheckRecipeList() {
+        gotoGenerateRecipe();
         // Generate Recipes
-        Espresso.onView(ViewMatchers.withId(R.id.gen_recipes))
-                .perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.gen_recipes))
+                .perform(click());
 
         // Checks Recipe Display
-        Espresso.onView(ViewMatchers.withId(R.id.recipeButtonLayout))
+        onView(ViewMatchers.withId(R.id.recipeButtonLayout))
                 .check(matches(isDisplayed()));
 
     }
 
     @Test
     public void checkGenerateRecipesButtonAndVerifyResponseTime() {
+        gotoGenerateRecipe();
         long startTime = System.currentTimeMillis();
 
         // Generate Recipes
-        Espresso.onView(ViewMatchers.withId(R.id.gen_recipes))
-                .perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.gen_recipes))
+                .perform(click());
 
         // Check Recipe List
-        Espresso.onView(ViewMatchers.withId(R.id.recipeButtonLayout))
+        onView(ViewMatchers.withId(R.id.recipeButtonLayout))
                 .check(matches(isDisplayed()));
 
         long endTime = System.currentTimeMillis();
@@ -56,6 +64,11 @@ public class B_RecipeGenerationTest {
         // Calculate the response time and verify <6 second response time
         long responseTime = endTime - startTime;
         assert(responseTime < 6000);
+    }
+
+    private void gotoGenerateRecipe()
+    {
+        onView(withText("Recipe Engine")).perform(click());
     }
 
 }
