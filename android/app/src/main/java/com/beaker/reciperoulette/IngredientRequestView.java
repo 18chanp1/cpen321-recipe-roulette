@@ -34,6 +34,8 @@ public class IngredientRequestView extends AppCompatActivity {
     //private Button viewRequestButton; //Put this for reference to ensure that we know all buttons used.
     private EditText ingredientRequestText;
     private EditText phoneNumberText;
+    private List<IngredientRequest> ingredientRequests;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,14 +91,14 @@ public class IngredientRequestView extends AppCompatActivity {
                             //TODO add expiry logic
                             IngredientRequest[] userArray = new Gson().fromJson(res, IngredientRequest[].class);
 
-                            List<IngredientRequest> ingredientRequests = new ArrayList<IngredientRequest>();
+                            ingredientRequests = new ArrayList<IngredientRequest>();
 
                             for(IngredientRequest r : userArray)
                             {
                                 ingredientRequests.add(r);
                             }
 
-                            RecyclerView recyclerView = findViewById(R.id.rq_recycler);
+                            recyclerView = findViewById(R.id.rq_recycler);
                             recyclerView.setLayoutManager(new LinearLayoutManager(IngredientRequestView.this));
                             recyclerView.setAdapter(new IngredientRequestAdaptor(getApplicationContext(), ingredientRequests));
 
@@ -119,15 +121,6 @@ public class IngredientRequestView extends AppCompatActivity {
             Intent selfReqI = new Intent(IngredientRequestView.this, IngredientRequestSelfView.class);
             startActivity(selfReqI);
         });
-
-
-//        ingredientRequestText.setOnKeyListener((view, i, keyEvent) -> {
-//            if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER){
-//                submitRequestHandler();
-//            }
-//            return super;
-//        });
-
     }
 
     private void submitRequestHandler()
@@ -200,6 +193,9 @@ public class IngredientRequestView extends AppCompatActivity {
 
                         phoneNumberText.setText("");
                         ingredientRequestText.setText("");
+
+                        ingredientRequests.add(new IngredientRequest(foodReq, email));
+                        recyclerView.getAdapter().notifyItemInserted(ingredientRequests.size() - 1);
                     }
                 });
             }
