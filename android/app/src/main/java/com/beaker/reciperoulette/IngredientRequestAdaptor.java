@@ -2,6 +2,7 @@ package com.beaker.reciperoulette;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -26,10 +27,17 @@ import okhttp3.Response;
 
 public class IngredientRequestAdaptor extends RecyclerView.Adapter<IngredientRequestHolder> {
     Context context;
+    IngredientRequestView ingredientRequestView;
     List<? extends IngredientRequest> items;
 
     public IngredientRequestAdaptor(Context context, List<? extends IngredientRequest> items) {
         this.context = context;
+        this.items = items;
+    }
+
+    public IngredientRequestAdaptor(Context context, IngredientRequestView ingredientRequestView, List<? extends IngredientRequest> items) {
+        this.context = context;
+        this.ingredientRequestView = ingredientRequestView;
         this.items = items;
     }
 
@@ -109,6 +117,17 @@ public class IngredientRequestAdaptor extends RecyclerView.Adapter<IngredientReq
                             toast.show();
                         });
                         //TODO need to add display for trade details.
+
+                        //reload the donations on the view
+                        Handler mainHandler = new Handler(context.getMainLooper());
+
+                        // This is your code
+                        Runnable myRunnable = () -> {
+                            ingredientRequestView.loadDonations();
+                        };
+
+                        mainHandler.post(myRunnable);
+
                     }
                 }
             });

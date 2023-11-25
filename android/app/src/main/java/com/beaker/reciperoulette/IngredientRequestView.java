@@ -48,67 +48,7 @@ public class IngredientRequestView extends AppCompatActivity {
         ingredientRequestText = findViewById(R.id.rq_ingredient_entry);
         phoneNumberText = findViewById(R.id.rq_contact_entry);
 
-
-        //get tokens
-        SharedPreferences sharedPref =
-                this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
-        String tok = sharedPref.getString("TOKEN", "NOTOKEN");
-        String email = sharedPref.getString("EMAIL", "NOEMAIL");
-
-        //get requests from server
-        Request req = new Request.Builder()
-                .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests")
-                .addHeader("email", email)
-                .addHeader("userToken", tok)
-                .build();
-
-        OkHttpClient client = new OkHttpClient();
-
-        client.newCall(req).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.code() == 511)
-                {
-
-                    CharSequence s = "Exit the app and try again";
-
-                    Toast t = Toast.makeText(IngredientRequestView.this, s, Toast.LENGTH_SHORT);
-                    t.show();
-                }
-                else if(response.isSuccessful())
-                {
-                    String res = response.body().string();
-
-                    IngredientRequestView.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            //TODO add expiry logic
-                            IngredientRequest[] userArray = new Gson().fromJson(res, IngredientRequest[].class);
-
-                            ingredientRequests = new ArrayList<IngredientRequest>();
-
-                            for(IngredientRequest r : userArray)
-                            {
-                                ingredientRequests.add(r);
-                            }
-
-                            recyclerView = findViewById(R.id.rq_recycler);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(IngredientRequestView.this));
-                            recyclerView.setAdapter(new IngredientRequestAdaptor(getApplicationContext(), ingredientRequests));
-
-                        }
-                    });
-
-
-                }
-            }
-        });
+        loadDonations();
 
         //setup the listener to submit requests
 
@@ -194,10 +134,74 @@ public class IngredientRequestView extends AppCompatActivity {
                         phoneNumberText.setText("");
                         ingredientRequestText.setText("");
 
-                        ingredientRequests.add(new IngredientRequest(foodReq, email));
-                        recyclerView.getAdapter().notifyItemInserted(ingredientRequests.size() - 1);
+                        //reload donations list
+                        loadDonations();
                     }
                 });
+            }
+        });
+    }
+
+    public void loadDonations()
+    {
+        //get tokens
+        SharedPreferences sharedPref =
+                this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
+        String tok = sharedPref.getString("TOKEN", "NOTOKEN");
+        String email = sharedPref.getString("EMAIL", "NOEMAIL");
+
+        //get requests from server
+        Request req = new Request.Builder()
+                .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests")
+                .addHeader("email", email)
+                .addHeader("userToken", tok)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        client.newCall(req).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.code() == 511)
+                {
+
+                    CharSequence s = "Exit the app and try again";
+
+                    Toast t = Toast.makeText(IngredientRequestView.this, s, Toast.LENGTH_SHORT);
+                    t.show();
+                }
+                else if(response.isSuccessful())
+                {
+                    String res = response.body().string();
+
+                    IngredientRequestView.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            //TODO add expiry logic
+                            IngredientRequest[] userArray = new Gson().fromJson(res, IngredientRequest[].class);
+
+                            ingredientRequests = new ArrayList<IngredientRequest>();
+
+                            for(IngredientRequest r : userArray)
+                            {
+                                ingredientRequests.add(r);
+                            }
+
+                            recyclerView = findViewById(R.id.rq_recycler);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(IngredientRequestView.this));
+                            recyclerView.setAdapter(new IngredientRequestAdaptor(getApplicationContext(), IngredientRequestView.this, ingredientRequests));
+
+                        }
+                    });
+
+
+                }
             }
         });
     }
