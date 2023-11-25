@@ -36,9 +36,10 @@ public class ReviewDetailed extends AppCompatActivity {
      *     private ImageView image;
      */
 
+    private TextView ratingText;
     private TextView authorText;
     private Button like_but;
-    private Button dislike_but;
+    private Review review;
 
 
     @Override
@@ -48,14 +49,14 @@ public class ReviewDetailed extends AppCompatActivity {
 
         TextView titleText = findViewById(R.id.detailed_title);
         TextView reviewText = findViewById(R.id.detailed_text);
-        TextView ratingText = findViewById(R.id.detailed_rating);
         ImageView image = findViewById(R.id.detailed_image);
 
         authorText = findViewById(R.id.detailed_author);
         like_but = findViewById(R.id.like_button);
-        dislike_but = findViewById(R.id.dislike_but);
+        ratingText = findViewById(R.id.detailed_rating);
 
         Intent in = getIntent();
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             Review r = in.getParcelableExtra("REVIEW", Review.class);
@@ -64,6 +65,8 @@ public class ReviewDetailed extends AppCompatActivity {
             reviewText.setText(Html.fromHtml(r.getReview(), Html.FROM_HTML_MODE_COMPACT));
             ratingText.setText(r.getRating());
             Picasso.with(this).load(r.getImage()).into(image);
+
+            review = r;
         } else {
             Review r = in.getParcelableExtra("REVIEW");
 
@@ -73,13 +76,10 @@ public class ReviewDetailed extends AppCompatActivity {
             ratingText.setText("Rating: " + String.valueOf(r.getRating()));
             Picasso.with(this).load(r.getImage()).into(image);
 
+            review = r;
+
             like_but.setOnClickListener(view -> {
                 likeListener(true, r.getId());
-            });
-
-            dislike_but.setOnClickListener(view ->
-            {
-                likeListener(false, r.getId());
             });
         }
 
@@ -138,12 +138,14 @@ public class ReviewDetailed extends AppCompatActivity {
                 {
                     if(like) {
                         like_but.setBackgroundColor(Color.GREEN);
-                        dislike_but.setBackgroundColor(Color.rgb(92,70,154));
+                        review.rating++;
+                        runOnUiThread(() -> ratingText.setText("Rating: " + String.valueOf(review.rating)));
+
+
                     }
 
                     else {
                         like_but.setBackgroundColor(Color.rgb(92,70,154));
-                        dislike_but.setBackgroundColor(Color.GREEN);
                     }
 
                 }

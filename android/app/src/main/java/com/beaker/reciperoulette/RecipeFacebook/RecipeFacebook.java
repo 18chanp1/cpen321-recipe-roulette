@@ -30,6 +30,18 @@ public class RecipeFacebook extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_facebook);
 
+        loadReviews();
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        loadReviews();
+    }
+
+    private void loadReviews()
+    {
         //get token
         SharedPreferences sharedPref =
                 this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
@@ -87,7 +99,7 @@ public class RecipeFacebook extends AppCompatActivity {
                         @Override
                         public void run() {
 
-                           Review[] userArray = new Gson().fromJson(res, Review[].class);
+                            Review[] userArray = new Gson().fromJson(res, Review[].class);
 
                             List<Review> reviews = new ArrayList<Review>();
 
@@ -105,8 +117,5 @@ public class RecipeFacebook extends AppCompatActivity {
                 }
             }
         });
-
-
-
     }
 }

@@ -77,12 +77,6 @@
                     android:layout_weight="1"
                     android:text="@string/like" />
 
-                <Button
-                    android:id="@+id/dislike_but"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Dislike" />
             </LinearLayout>
 
             <TextView
