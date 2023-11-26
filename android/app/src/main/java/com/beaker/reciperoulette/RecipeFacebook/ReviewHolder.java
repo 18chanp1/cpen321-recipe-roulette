@@ -18,9 +18,9 @@ public class ReviewHolder extends RecyclerView.ViewHolder {
 
     public ReviewHolder(@NonNull View itemView) {
         super(itemView);
-        imageView = itemView.findViewById(R.id.imageview);
-        nameView = itemView.findViewById(R.id.name);
-        emailView = itemView.findViewById(R.id.email);
-        readMoreView = itemView.findViewById(R.id.readmore_but);
+        imageView = itemView.findViewById(R.id.img);
+        nameView = itemView.findViewById(R.id.item);
+        emailView = itemView.findViewById(R.id.expiry);
+        readMoreView = itemView.findViewById(R.id.eat_but);
     }
 }

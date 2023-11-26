@@ -1,9 +1,4 @@
-package com.beaker.reciperoulette.RecipeFacebook;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package com.beaker.reciperoulette.Inventory;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,6 +6,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.beaker.reciperoulette.IngredientRequest.Ingredient;
 import com.beaker.reciperoulette.R;
 import com.google.gson.Gson;
 
@@ -24,11 +25,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class RecipeFacebook extends AppCompatActivity {
+public class InventoryView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe_facebook);
+        setContentView(R.layout.inv_view);
 
         loadReviews();
 
@@ -50,8 +51,8 @@ public class RecipeFacebook extends AppCompatActivity {
 
         //Get from web server
         Request req = new Request.Builder()
-                .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/reviews")
-                .addHeader("email", email)
+                .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/foodInventoryManager")
+                .addHeader("userID", email)
                 .addHeader("userToken", tok)
                 .build();
 
@@ -67,22 +68,11 @@ public class RecipeFacebook extends AppCompatActivity {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.code() == 511)
                 {
-//                    Intent mainMenuIntent = new Intent(RecipeFacebook.this, MainActivity.class);
-//                    mainMenuIntent.putExtra("REFRESHSIGNIN", "RECIPEFACEBOOK");
-//
-//                    startActivity(mainMenuIntent);
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            recreate();
-//                        }
-//                    });
-
                     CharSequence s = "Exit the app and try again";
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast t = Toast.makeText(RecipeFacebook.this, s, Toast.LENGTH_SHORT);
+                            Toast t = Toast.makeText(InventoryView.this, s, Toast.LENGTH_SHORT);
                             t.show();
                         }
                     });
@@ -95,24 +85,23 @@ public class RecipeFacebook extends AppCompatActivity {
 
                     Log.d("RecipeFacebook", res);
 
-                    RecipeFacebook.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+                    InventoryView.this.runOnUiThread(() -> {
 
-                            Review[] userArray = new Gson().fromJson(res, Review[].class);
+                        IngredientRequestResult[] ingredientsArr= new Gson().fromJson(res, IngredientRequestResult[].class);
 
-                            List<Review> reviews = new ArrayList<Review>();
+                        List<IngredientV2> invList= new ArrayList<IngredientV2>();
 
-                            for(Review r : userArray)
+                        for(IngredientRequestResult ingredientRequestResult : ingredientsArr)
+                        {
+                            for(IngredientV2 ingredient : ingredientRequestResult.ingredients)
                             {
-                                reviews.add(r);
+                                invList.add(ingredient);
                             }
-
-                            RecyclerView recyclerView = findViewById(R.id.rev_recycler);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(RecipeFacebook.this));
-                            recyclerView.setAdapter(new ReviewAdaptor(getApplicationContext(), reviews));
-
                         }
+
+                        RecyclerView recyclerView = findViewById(R.id.inv_recycler);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(InventoryView.this));
+                        recyclerView.setAdapter(new InventoryAdapter(getApplicationContext(), invList));
                     });
                 }
             }

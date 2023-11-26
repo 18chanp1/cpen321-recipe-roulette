@@ -18,10 +18,10 @@ public class ChatRoomLiveHolder extends RecyclerView.ViewHolder {
 
     public ChatRoomLiveHolder(@NonNull View itemView) {
         super(itemView);
-        this.imageView = itemView.findViewById(R.id.imageview);
-        this.nameView = itemView.findViewById(R.id.name);
-        this.detailedView = itemView.findViewById(R.id.email);
-        Details = itemView.findViewById(R.id.readmore_but);
+        this.imageView = itemView.findViewById(R.id.img);
+        this.nameView = itemView.findViewById(R.id.item);
+        this.detailedView = itemView.findViewById(R.id.expiry);
+        Details = itemView.findViewById(R.id.eat_but);
     }
 
 }

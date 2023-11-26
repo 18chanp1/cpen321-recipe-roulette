@@ -56,5 +56,7 @@
     <string name="generate_recipes">Generate Recipes</string>
     <string name="scrollable_recipe">Scrollable Recipe</string>
 
+    <string name="inventory">Inventory</string>
+    <string name="consume">Consume</string>
 
 </resources>

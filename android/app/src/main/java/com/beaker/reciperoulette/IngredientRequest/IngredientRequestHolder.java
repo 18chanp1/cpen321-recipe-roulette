@@ -18,7 +18,7 @@ public class IngredientRequestHolder extends RecyclerView.ViewHolder {
 
     public IngredientRequestHolder(@NonNull View itemView) {
         super(itemView);
-        imageView = itemView.findViewById(R.id.imageview);
+        imageView = itemView.findViewById(R.id.img);
         nameView = itemView.findViewById(R.id.rq_entry_name);
         emailView = itemView.findViewById(R.id.rq_entry_eml);
         donateIngredientView = itemView.findViewById(R.id.rq_donate_but);
