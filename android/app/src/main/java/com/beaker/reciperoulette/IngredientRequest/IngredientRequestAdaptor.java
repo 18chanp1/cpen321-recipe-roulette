@@ -70,7 +70,7 @@ public class IngredientRequestAdaptor extends RecyclerView.Adapter<IngredientReq
             OkHttpClient client = new OkHttpClient();
 
             Gson gson = new Gson();
-            String json = gson.toJson(new IngredientRequestAcceptTicket(tok, item.reqID, email));
+            String json = gson.toJson(new IngredientRequestAcceptTicket(tok, item.requestId, email));
 
             MediaType JSON = MediaType.get("application/json; charset=utf-8");
             RequestBody body = RequestBody.create(json, JSON);
@@ -79,7 +79,7 @@ public class IngredientRequestAdaptor extends RecyclerView.Adapter<IngredientReq
             Request req = new Request.Builder()
                     .url(acceptUrl)
                     .addHeader("userToken", tok)
-                    .addHeader("reqID", item.reqID)
+                    .addHeader("reqID", item.requestId)
                     .addHeader("email", email)
                     .post(body)
                     .build();
