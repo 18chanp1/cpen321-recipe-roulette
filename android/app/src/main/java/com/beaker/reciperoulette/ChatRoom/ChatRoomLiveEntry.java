@@ -6,6 +6,9 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+/**
+ * Represents each entry in the food radar
+ */
 public class ChatRoomLiveEntry implements Parcelable {
     String entryID;
     String name;
@@ -50,6 +53,9 @@ public class ChatRoomLiveEntry implements Parcelable {
     }
 
     @Override
+    /*
+      Override equals method to only compare the entryID.
+     */
     public boolean equals(@Nullable Object obj) {
         if(!(obj instanceof ChatRoomLiveEntry))
             return false;
