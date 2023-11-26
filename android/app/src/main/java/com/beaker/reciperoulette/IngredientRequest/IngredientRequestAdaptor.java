@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.beaker.Utilities;
 import com.beaker.reciperoulette.R;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -115,7 +116,7 @@ public class IngredientRequestAdaptor extends RecyclerView.Adapter<IngredientReq
 
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response) {
-                    if (response.code() == 511)
+                    if (response.code() == Utilities.HTTP_511)
                     {
                         CharSequence s = context.getString(R.string.msg_token_expired);
 

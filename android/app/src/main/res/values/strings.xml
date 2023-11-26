@@ -88,6 +88,9 @@
     <string name="cht_req_det">DETAILS</string>
     <string name="cht_req_cont">CONTACT</string>
 
+<!--    Constants for keys transferred from up-->
+    <string name="inv_fromupload">FROMUPLOAD</string>
+
     <!--    Server Details-->
     <string name="server_wss_url">wss://cpen321-reciperoulette.westus.cloudapp.azure.com</string>
 
@@ -105,14 +108,20 @@
     <!-- HTTP URLs   -->
     <string name="http_inred_req_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests</string>
     <string name="http_ingred_req_new_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests/new</string>
+    <string name="http_inv_update_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/foodInventoryManager/update</string>
+    <string name="http_inv_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/foodInventoryManager</string>
 
     <!--    HTTP Arguments-->
     <string name="http_args_userToken">userToken</string>
     <string name="http_args_email">email</string>
+    <!-- Alias for email, because server can't write consistent code-->
+    <string name="http_args_userid">userID</string>
     <string name="http_args_requestItem">requestItem</string>
     <string name="http_args_phoneno">phoneNo</string>
     <string name="http_args_fcmtok">fcmTok</string>
 
+    <!--    Date Format from server-->
+    <string name="sdf_server">yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'</string>
 
 
 </resources>

@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
+import com.beaker.Utilities;
 import com.beaker.reciperoulette.R;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -84,7 +85,7 @@ extends IngredientRequestAdaptor{
 
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    if (response.code() == 511)
+                    if (response.code() == Utilities.HTTP_511)
                     {
 
                         CharSequence s = "Exit the app and try again";

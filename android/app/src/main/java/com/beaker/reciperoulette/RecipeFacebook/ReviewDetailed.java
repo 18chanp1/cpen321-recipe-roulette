@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beaker.Utilities;
 import com.beaker.reciperoulette.R;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -125,7 +126,7 @@ public class ReviewDetailed extends AppCompatActivity {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.code() == 511)
+                if (response.code() == Utilities.HTTP_511)
                 {
 
                     CharSequence s = "Exit the app and try again";

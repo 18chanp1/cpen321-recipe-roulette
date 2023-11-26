@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.beaker.Utilities;
 import com.beaker.reciperoulette.R;
 import com.google.gson.Gson;
 
@@ -71,19 +72,8 @@ public class RecipeFacebook extends AppCompatActivity {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.code() == 511)
+                if (response.code() == Utilities.HTTP_511)
                 {
-//                    Intent mainMenuIntent = new Intent(RecipeFacebook.this, MainActivity.class);
-//                    mainMenuIntent.putExtra("REFRESHSIGNIN", "RECIPEFACEBOOK");
-//
-//                    startActivity(mainMenuIntent);
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            recreate();
-//                        }
-//                    });
-
                     CharSequence s = "Exit the app and try again";
                     runOnUiThread(new Runnable() {
                         @Override

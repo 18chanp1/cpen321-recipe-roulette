@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.beaker.Utilities;
 import com.beaker.reciperoulette.MainMenu;
 import com.beaker.reciperoulette.R;
 import com.google.gson.Gson;
@@ -126,7 +127,7 @@ public class IngredientRequestView extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) {
                 IngredientRequestView.this.runOnUiThread(() -> {
-                    if (response.code() == 511)
+                    if (response.code() == Utilities.HTTP_511)
                     {
 
                         CharSequence s = getString(R.string.msg_token_expired);
@@ -176,7 +177,7 @@ public class IngredientRequestView extends AppCompatActivity {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.code() == 511)
+                if (response.code() == Utilities.HTTP_511)
                 {
 
                     CharSequence s = getString(R.string.prf_token);

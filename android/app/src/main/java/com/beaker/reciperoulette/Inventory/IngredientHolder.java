@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.beaker.reciperoulette.R;
 
 public class IngredientHolder extends RecyclerView.ViewHolder {
-    ImageView imageView;
-    TextView itemTitleView;
-    TextView expiryDateView;
-    TextView newItemView;
-    Button consumeButtonView;
+    private final ImageView imageView;
+    private final TextView itemTitleView;
+    private final TextView expiryDateView;
+    private final TextView newItemView;
+    private final Button consumeButtonView;
 
 
 

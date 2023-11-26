@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beaker.Utilities;
+
 import java.io.IOException;
 import java.util.Objects;
 
@@ -51,7 +53,7 @@ public class FlavorProfile extends AppCompatActivity {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) {
-                if (response.code() == 511)
+                if (response.code() == Utilities.HTTP_511)
                 {
 
                     CharSequence s = "Exit the app and try again";
