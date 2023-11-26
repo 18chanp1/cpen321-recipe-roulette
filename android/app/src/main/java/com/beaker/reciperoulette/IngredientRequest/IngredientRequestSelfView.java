@@ -23,6 +23,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+//mark for deletion
 public class IngredientRequestSelfView extends AppCompatActivity {
 
     @Override

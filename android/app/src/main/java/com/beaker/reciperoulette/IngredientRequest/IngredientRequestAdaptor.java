@@ -34,12 +34,17 @@ public class IngredientRequestAdaptor extends RecyclerView.Adapter<IngredientReq
     public IngredientRequestAdaptor(Context context, List<? extends IngredientRequest> items) {
         this.context = context;
         this.items = items;
+
+        if(this.context == null || this.items == null) throw new IllegalArgumentException();
     }
 
     public IngredientRequestAdaptor(Context context, IngredientRequestView ingredientRequestView, List<? extends IngredientRequest> items) {
         this.context = context;
         this.ingredientRequestView = ingredientRequestView;
         this.items = items;
+
+        if(this.context == null || this.items == null || this.ingredientRequestView == null)
+            throw new IllegalArgumentException();
     }
 
     @NonNull
@@ -51,11 +56,17 @@ public class IngredientRequestAdaptor extends RecyclerView.Adapter<IngredientReq
     public void onBindViewHolder(@NonNull IngredientRequestHolder holder, int position) {
         IngredientRequest item = items.get(position);
 
+        if(item.ingredientName == null) item.ingredientName = "";
+        if(item.userId == null) item.userId = "";
+
         holder.nameView.setText(item.ingredientName);
         holder.emailView.setText(item.userId);
 
-        String url = item.getImage();
-        Picasso.with(this.context).load(url).into(holder.imageView);
+        if(item.getImage() != null)
+        {
+            String url = item.getImage();
+            Picasso.with(this.context).load(url).into(holder.imageView);
+        }
 
         //buttons
         holder.donateIngredientView.setOnClickListener(view ->
@@ -64,23 +75,29 @@ public class IngredientRequestAdaptor extends RecyclerView.Adapter<IngredientReq
             //get token
             SharedPreferences sharedPref =
                     this.context.getSharedPreferences(this.context.getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
-            String tok = sharedPref.getString("TOKEN", "NOTOKEN");
-            String email = sharedPref.getString("EMAIL", "NOEMAIL");
+            String tok = sharedPref.getString(context.getString(R.string.prf_token), context.getString(R.string.prf_token_def));
+            String email = sharedPref.getString(context.getString(R.string.prf_eml), context.getString(R.string.prf_eml_def));
+
+            if(tok.equals(context.getString(R.string.prf_token_def)) ||
+            email.equals(context.getString(R.string.prf_eml_def)))
+            {
+                throw new IllegalStateException();
+            }
 
             OkHttpClient client = new OkHttpClient();
 
             Gson gson = new Gson();
             String json = gson.toJson(new IngredientRequestAcceptTicket(tok, item.reqID, email));
 
-            MediaType JSON = MediaType.get("application/json; charset=utf-8");
+            MediaType JSON = MediaType.get(context.getString(R.string.http_json_type));
             RequestBody body = RequestBody.create(json, JSON);
-            String acceptUrl = "https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests";
+            String acceptUrl = context.getString(R.string.http_inred_req_url);
 
             Request req = new Request.Builder()
                     .url(acceptUrl)
-                    .addHeader("userToken", tok)
-                    .addHeader("reqID", item.reqID)
-                    .addHeader("email", email)
+                    .addHeader(context.getString(R.string.http_args_userToken), tok)
+                    .addHeader(context.getString(R.string.http_args_userToken), item.reqID)
+                    .addHeader(context.getString(R.string.http_args_email), email)
                     .post(body)
                     .build();
 
@@ -90,18 +107,17 @@ public class IngredientRequestAdaptor extends RecyclerView.Adapter<IngredientReq
                     e.printStackTrace();
                     ContextCompat.getMainExecutor(IngredientRequestAdaptor.this.context).execute(() ->
                     {
-                        Toast toast = Toast.makeText(context, "Unable to donate, try again later.", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(context, context.getString(R.string.cannot_donate), Toast.LENGTH_LONG);
                         toast.show();
                     });
 
                 }
 
                 @Override
-                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                public void onResponse(@NonNull Call call, @NonNull Response response) {
                     if (response.code() == 511)
                     {
-
-                        CharSequence s = "Exit the app and try again";
+                        CharSequence s = context.getString(R.string.msg_token_expired);
 
                         ContextCompat.getMainExecutor(context).execute(()  -> {
                             Toast t = Toast.makeText(context, s, Toast.LENGTH_SHORT);
@@ -111,9 +127,9 @@ public class IngredientRequestAdaptor extends RecyclerView.Adapter<IngredientReq
                     }
                     else if (response.isSuccessful())
                     {
+                        //Toast the response
                         ContextCompat.getMainExecutor(IngredientRequestAdaptor.this.context).execute(() ->
                         {
-
                             Toast toast = Toast.makeText(context, response.message(), Toast.LENGTH_LONG);
                             toast.show();
                         });
@@ -121,12 +137,7 @@ public class IngredientRequestAdaptor extends RecyclerView.Adapter<IngredientReq
 
                         //reload the donations on the view
                         Handler mainHandler = new Handler(context.getMainLooper());
-
-                        // This is your code
-                        Runnable myRunnable = () -> {
-                            ingredientRequestView.loadDonations();
-                        };
-
+                        Runnable myRunnable = () -> ingredientRequestView.loadDonations();
                         mainHandler.post(myRunnable);
 
                     }

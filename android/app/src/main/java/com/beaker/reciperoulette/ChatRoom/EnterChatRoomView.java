@@ -26,6 +26,12 @@ public class EnterChatRoomView extends AppCompatActivity {
         Button goCookBut = findViewById(R.id.ecc_gocook_but);
         Button goShopBut = findViewById(R.id.ecc_goshop_but);
 
+        if (nameEntry == null ||
+        detailEntry == null ||
+        contactEntry == null ||
+        goCookBut == null ||
+        goShopBut == null) throw new IllegalStateException();
+
         goCookBut.setOnClickListener(view -> {
             Intent i = new Intent(EnterChatRoomView.this, ChatRoomLiveView.class);
             i.putExtra("NAME", nameEntry.getText().toString());

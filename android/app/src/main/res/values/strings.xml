@@ -63,6 +63,11 @@
     <string name="consume">Consume</string>
     <string name="inv_new">New!</string>
 
+    <string name="cannot_donate">Unable to donate, please try again later!</string>
+    <string name="msg_token_expired">Exit the app and try again</string>
+
+    <string name="rq_msg_req_successful">Request successful!</string>
+
 <!--Constants-->
 
     <!-- Chatroom type related constants   -->
@@ -83,6 +88,23 @@
 
     <!--    Server Details-->
     <string name="server_wss_url">wss://cpen321-reciperoulette.westus.cloudapp.azure.com</string>
+
+    <!--Shared Preferences-->
+    <string name="prf_token">TOKEN</string>
+    <string name="prf_eml">EMAIL</string>
+
+    <string name="prf_token_def">NOTOKEN</string>
+    <string name="prf_eml_def">NOEMAIL</string>
+
+    <!--    HTTP Requests JSON type-->
+    <string name="http_json_type">application/json; charset=utf-8</string>
+
+    <!-- HTTP URLs   -->
+    <string name="http_inred_req_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests</string>
+
+    <!--    HTTP Arguments-->
+    <string name="http_args_userToken">userToken</string>
+    <string name="http_args_email">email</string>
 
 
 

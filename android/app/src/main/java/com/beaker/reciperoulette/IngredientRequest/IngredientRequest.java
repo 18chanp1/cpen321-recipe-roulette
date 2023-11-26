@@ -11,17 +11,17 @@ public class IngredientRequest implements Parcelable {
     String expiryDate;
     String ingredientID;
     String ingredientName;
-    String requestor;
-    String userId; //the requestor's ID
+    String requester;
+    String userId; //the requester ID
 
     String image;
-    public IngredientRequest(String reqID, String reqDate, String expiryDate, String ingredientID, String ingredientName, String requestor, String userId, String image) {
+    public IngredientRequest(String reqID, String reqDate, String expiryDate, String ingredientID, String ingredientName, String requester, String userId, String image) {
         this.reqID = reqID;
         this.reqDate = reqDate;
         this.expiryDate = expiryDate;
         this.ingredientID = ingredientID;
         this.ingredientName = ingredientName;
-        this.requestor = requestor;
+        this.requester = requester;
         this.userId = userId;
         this.image = image;
     }
@@ -38,7 +38,7 @@ public class IngredientRequest implements Parcelable {
         expiryDate = in.readString();
         ingredientID = in.readString();
         ingredientName = in.readString();
-        requestor = in.readString();
+        requester = in.readString();
         userId = in.readString();
         image = in.readString();
     }
@@ -55,68 +55,16 @@ public class IngredientRequest implements Parcelable {
         }
     };
 
-    public String getReqID() {
-        return reqID;
-    }
-
-    public void setReqID(String reqID) {
-        this.reqID = reqID;
-    }
-
-    public String getReqDate() {
-        return reqDate;
-    }
-
-    public void setReqDate(String reqDate) {
-        this.reqDate = reqDate;
-    }
-
-    public String getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(String expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
-    public String getIngredientID() {
-        return ingredientID;
-    }
-
-    public void setIngredientID(String ingredientID) {
-        this.ingredientID = ingredientID;
-    }
-
     public String getIngredientName() {
         return ingredientName;
-    }
-
-    public void setIngredientName(String ingredientName) {
-        this.ingredientName = ingredientName;
-    }
-
-    public String getRequestor() {
-        return requestor;
-    }
-
-    public void setRequestor(String requestor) {
-        this.requestor = requestor;
     }
 
     public String getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public String getImage() {
         return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     @Override
@@ -132,7 +80,7 @@ public class IngredientRequest implements Parcelable {
         parcel.writeString(expiryDate);
         parcel.writeString(ingredientID);
         parcel.writeString(ingredientName);
-        parcel.writeString(requestor);
+        parcel.writeString(requester);
         parcel.writeString(userId);
         parcel.writeString(image);
     }

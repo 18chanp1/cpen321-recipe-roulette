@@ -31,6 +31,9 @@ public class ChatRoomLiveView extends AppCompatActivity {
         entries = new ArrayList<>();
 
         recyclerView = findViewById(R.id.goOutList);
+
+        if(recyclerView == null) throw new IllegalStateException();
+
         recyclerView.setLayoutManager(new LinearLayoutManager(ChatRoomLiveView.this));
         recyclerView.setAdapter(new ChatRoomLiveAdaptor(ChatRoomLiveView.this, entries));
 

@@ -2,6 +2,7 @@ package com.beaker.reciperoulette.IngredientRequest;
 
 import android.os.Parcel;
 
+//Mark for deletion
 public class IngredientRequestSelf extends IngredientRequest{
 
 

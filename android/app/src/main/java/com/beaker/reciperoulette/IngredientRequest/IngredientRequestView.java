@@ -1,12 +1,5 @@
 package com.beaker.reciperoulette.IngredientRequest;
 
-import static android.app.PendingIntent.getActivity;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,12 +10,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.beaker.reciperoulette.MainMenu;
 import com.beaker.reciperoulette.R;
 import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import okhttp3.Call;
@@ -34,8 +33,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class IngredientRequestView extends AppCompatActivity {
-    //private Button requestIngredientButton;
-    //private Button viewRequestButton; //Put this for reference to ensure that we know all buttons used.
     private EditText ingredientRequestText;
     private EditText phoneNumberText;
     private List<IngredientRequest> ingredientRequests;
@@ -52,13 +49,17 @@ public class IngredientRequestView extends AppCompatActivity {
         ingredientRequestText = findViewById(R.id.rq_ingredient_entry);
         phoneNumberText = findViewById(R.id.rq_contact_entry);
 
+        if(requestIngredientButton == null ||
+                viewRequestButton == null ||
+                ingredientRequestText == null ||
+                phoneNumberText == null)
+            throw new IllegalStateException();
+
         loadDonations();
 
         //setup the listener to submit requests
 
-        requestIngredientButton.setOnClickListener(view -> {
-            submitRequestHandler();
-        });
+        requestIngredientButton.setOnClickListener(view -> submitRequestHandler());
 
         viewRequestButton.setOnClickListener(view ->
         {
@@ -85,7 +86,7 @@ public class IngredientRequestView extends AppCompatActivity {
         String json = gson.toJson(new IngredientRequestTicket(tok, foodReq, phoneNo, fcmtok, email));
 
         //do not allow blank submissions
-        if(foodReq.length() <= 0 || phoneNo.length() <=0)
+        if(foodReq.length() == 0 || phoneNo.length() == 0)
         {
             Toast toast = Toast.makeText(IngredientRequestView.this,
                     getText(R.string.must_enter_contact), Toast.LENGTH_LONG);
@@ -119,7 +120,7 @@ public class IngredientRequestView extends AppCompatActivity {
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
                 IngredientRequestView.this.runOnUiThread(() -> {
                     if (response.code() == 511)
                     {
@@ -181,27 +182,22 @@ public class IngredientRequestView extends AppCompatActivity {
                 }
                 else if(response.isSuccessful())
                 {
+                    assert response.body() != null;
                     String res = response.body().string();
 
-                    IngredientRequestView.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+                    IngredientRequestView.this.runOnUiThread(() -> {
 
-                            //TODO add expiry logic
-                            IngredientRequest[] userArray = new Gson().fromJson(res, IngredientRequest[].class);
+                        //TODO add expiry logic
+                        IngredientRequest[] userArray = new Gson().fromJson(res, IngredientRequest[].class);
 
-                            ingredientRequests = new ArrayList<IngredientRequest>();
+                        ingredientRequests = new ArrayList<>();
 
-                            for(IngredientRequest r : userArray)
-                            {
-                                ingredientRequests.add(r);
-                            }
+                        ingredientRequests.addAll(Arrays.asList(userArray));
 
-                            recyclerView = findViewById(R.id.rq_recycler);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(IngredientRequestView.this));
-                            recyclerView.setAdapter(new IngredientRequestAdaptor(IngredientRequestView.this, IngredientRequestView.this, ingredientRequests));
+                        recyclerView = findViewById(R.id.rq_recycler);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(IngredientRequestView.this));
+                        recyclerView.setAdapter(new IngredientRequestAdaptor(IngredientRequestView.this, IngredientRequestView.this, ingredientRequests));
 
-                        }
                     });
 
 
