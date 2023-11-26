@@ -56,32 +56,93 @@ public class ReviewDetailed extends AppCompatActivity {
         like_but = findViewById(R.id.like_button);
         ratingText = findViewById(R.id.detailed_rating);
 
+        assert titleText != null;
+        assert reviewText != null;
+        assert image != null;
+        assert authorText != null;
+        assert like_but != null;
+        assert ratingText != null;
+
         Intent in = getIntent();
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            Review r = in.getParcelableExtra("REVIEW", Review.class);
-            titleText.setText(r.getTitle());
-            authorText.setText(r.getAuthor());
-            reviewText.setText(Html.fromHtml(r.getReview(), Html.FROM_HTML_MODE_COMPACT));
+            Review r = in.getParcelableExtra(getString(R.string.rev_fromrev), Review.class);
+            assert r != null;
+            if (r.getTitle() == null || r.getTitle().length() == 0)
+            {
+                titleText.setText(getString(R.string.rev_msg_no_title));
+            } else
+            {
+                titleText.setText(r.getTitle());
+            }
+
+            if(r.getAuthor() == null)
+            {
+                authorText.setText("");
+            } else
+            {
+                authorText.setText(r.getAuthor());
+            }
+
+            if(r.getReview() == null)
+            {
+                reviewText.setText("");
+            }
+            else
+            {
+                reviewText.setText(Html.fromHtml(r.getReview(), Html.FROM_HTML_MODE_COMPACT));
+            }
+
             ratingText.setText(r.getRating());
-            Picasso.with(this).load(r.getImage()).into(image);
+
+            if(r.getImage() != null && r.getImage().length() != 0)
+            {
+                Picasso.with(this).load(r.getImage()).into(image);
+            }
+
+
+            like_but.setOnClickListener(view -> likeListener(r.getId()));
 
             review = r;
         } else {
             Review r = in.getParcelableExtra("REVIEW");
 
-            titleText.setText(r.getTitle());
-            authorText.setText(r.getAuthor());
-            reviewText.setText(Html.fromHtml(r.getReview(), Html.FROM_HTML_MODE_COMPACT));
-            ratingText.setText("Rating: " + String.valueOf(r.getRating()));
-            Picasso.with(this).load(r.getImage()).into(image);
+            assert r != null;
+            if (r.getTitle() == null || r.getTitle().length() == 0)
+            {
+                titleText.setText(getString(R.string.rev_msg_no_title));
+            } else
+            {
+                titleText.setText(r.getTitle());
+            }
 
+            if(r.getAuthor() == null)
+            {
+                authorText.setText("");
+            } else
+            {
+                authorText.setText(r.getAuthor());
+            }
+
+            if(r.getReview() == null)
+            {
+                reviewText.setText("");
+            }
+            else
+            {
+                reviewText.setText(Html.fromHtml(r.getReview(), Html.FROM_HTML_MODE_COMPACT));
+            }
+
+            ratingText.setText(r.getRating());
+
+            if(r.getImage() != null && r.getImage().length() != 0)
+            {
+                Picasso.with(this).load(r.getImage()).into(image);
+            }
             review = r;
 
-            like_but.setOnClickListener(view -> {
-                likeListener(true, r.getId());
-            });
+            like_but.setOnClickListener(view -> likeListener(r.getId()));
         }
 
 
@@ -93,26 +154,26 @@ public class ReviewDetailed extends AppCompatActivity {
 
     }
 
-    private void likeListener(boolean like, int id)
+    private void likeListener(int id)
     {
         //get tokens
         SharedPreferences sharedPref =
                 this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
-        String tok = sharedPref.getString("TOKEN", "NOTOKEN");
+        String tok = sharedPref.getString(getString(R.string.prf_token), getString(R.string.prf_token_def));
 
         Gson gson = new Gson();
-        String json = gson.toJson(new LikeTicket(tok, id, like, authorText.getText().toString()));
+        String json = gson.toJson(new LikeTicket(tok, id, true, authorText.getText().toString()));
 
-        MediaType JSON = MediaType.get("application/json; charset=utf-8");
+        MediaType JSON = MediaType.get(getString(R.string.http_json_type));
         RequestBody body = RequestBody.create(json, JSON);
 
         //get requests from server
         Request req = new Request.Builder()
-                .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/reviews/like")
-                .addHeader("userToken", tok)
-                .addHeader("id", String.valueOf(id))
-                .addHeader("email", authorText.getText().toString())
-                .addHeader("like", String.valueOf(like))
+                .url(getString(R.string.http_rev_like))
+                .addHeader(getString(R.string.http_args_userToken), tok)
+                .addHeader(getString(R.string.http_args_id), String.valueOf(id))
+                .addHeader(getString(R.string.http_args_email), authorText.getText().toString())
+                .addHeader(getString(R.string.http_args_like), String.valueOf(true))
                 .post(body)
                 .build();
 
@@ -125,11 +186,11 @@ public class ReviewDetailed extends AppCompatActivity {
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
                 if (response.code() == Utilities.HTTP_511)
                 {
 
-                    CharSequence s = "Exit the app and try again";
+                    CharSequence s = getString(R.string.msg_token_expired);
 
                     Toast t = Toast.makeText(ReviewDetailed.this, s, Toast.LENGTH_SHORT);
                     t.show();
@@ -137,17 +198,10 @@ public class ReviewDetailed extends AppCompatActivity {
                 }
                 else if(response.isSuccessful())
                 {
-                    if(like) {
-                        like_but.setBackgroundColor(Color.GREEN);
-                        review.rating++;
-                        runOnUiThread(() -> ratingText.setText("Rating: " + String.valueOf(review.rating)));
-
-
-                    }
-
-                    else {
-                        like_but.setBackgroundColor(Color.rgb(92,70,154));
-                    }
+                    like_but.setBackgroundColor(Color.GREEN);
+                    review.rating++;
+                    String newRatingText = getString(R.string.rev_rating_pref) + review.rating;
+                    runOnUiThread(() -> ratingText.setText(newRatingText));
 
                 }
             }

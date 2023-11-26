@@ -15,16 +15,6 @@ public class Review implements Parcelable {
     String publishDate;
     String image;
 
-    public Review(int id, int rating, String author, String title, String review, String publishDate, String image) {
-        this.id = id;
-        this.rating = rating;
-        this.author = author;
-        this.title = title;
-        this.review = review;
-        this.publishDate = publishDate;
-        this.image = image;
-    }
-
     protected Review(Parcel in) {
         id = in.readInt();
         rating = in.readInt();
@@ -66,48 +56,16 @@ public class Review implements Parcelable {
         return rating;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
     public String getAuthor() {
         return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getReview() {
         return review;
-    }
-
-    public void setReview(String review) {
-        this.review = review;
-    }
-
-    public String getPublishDate() {
-        return publishDate;
-    }
-
-    public void setPublishDate(String publishDate) {
-        this.publishDate = publishDate;
-    }
-
-    public String getStringDate() {
-        return stringDate;
-    }
-
-    public void setStringDate(String stringDate) {
-        this.stringDate = stringDate;
     }
 
     @Override

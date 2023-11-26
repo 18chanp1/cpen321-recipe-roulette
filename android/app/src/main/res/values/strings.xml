@@ -70,6 +70,8 @@
 
     <string name="rq_msg_req_successful">Request successful!</string>
 
+    <string name="rev_msg_no_title">No title</string>
+
 <!--Constants-->
 
     <!-- Chatroom type related constants   -->
@@ -80,6 +82,7 @@
     <string name="cht_type_del">DEL</string>
     <string name="cht_contact_head">Contact: </string>
 
+    <string name="cht_anon">Anonymous</string>
 
     <!-- Constants for keys in information transferred
     from EnterChatRoomView to ChatRoomLiveView -->
@@ -88,8 +91,16 @@
     <string name="cht_req_det">DETAILS</string>
     <string name="cht_req_cont">CONTACT</string>
 
+    <!-- Prefix for rating -->
+    <string name="rev_rating_pref">Rating: </string>
+
+
+
 <!--    Constants for keys transferred from up-->
     <string name="inv_fromupload">FROMUPLOAD</string>
+
+<!--    Constants for keys transferred from review to detailed-->
+    <string name="rev_fromrev">REVIEW</string>
 
     <!--    Server Details-->
     <string name="server_wss_url">wss://cpen321-reciperoulette.westus.cloudapp.azure.com</string>
@@ -110,6 +121,8 @@
     <string name="http_ingred_req_new_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests/new</string>
     <string name="http_inv_update_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/foodInventoryManager/update</string>
     <string name="http_inv_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/foodInventoryManager</string>
+    <string name="http_rev_like">https://cpen321-reciperoulette.westus.cloudapp.azure.com/reviews/like</string>
+
 
     <!--    HTTP Arguments-->
     <string name="http_args_userToken">userToken</string>
@@ -119,6 +132,8 @@
     <string name="http_args_requestItem">requestItem</string>
     <string name="http_args_phoneno">phoneNo</string>
     <string name="http_args_fcmtok">fcmTok</string>
+    <string name="http_args_like">like</string>
+    <string name="http_args_id">id</string>
 
     <!--    Date Format from server-->
     <string name="sdf_server">yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'</string>

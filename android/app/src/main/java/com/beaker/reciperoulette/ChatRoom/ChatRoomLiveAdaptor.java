@@ -38,8 +38,14 @@ public class ChatRoomLiveAdaptor extends RecyclerView.Adapter<ChatRoomLiveHolder
             return;
         }
 
+        if(item.name.length() == 0)
+        {
+            holder.nameView.setText(context.getString(R.string.cht_anon));
+        } else
+        {
+            holder.nameView.setText(item.name);
+        }
 
-        holder.nameView.setText(item.name);
 
         String displayedContact = context.getString(R.string.cht_contact_head) + item.contact;
         holder.detailedView.setText(displayedContact);

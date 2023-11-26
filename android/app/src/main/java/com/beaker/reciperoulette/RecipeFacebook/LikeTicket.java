@@ -1,8 +1,8 @@
 package com.beaker.reciperoulette.RecipeFacebook;
 
 public class LikeTicket {
-    private String userToken;
-    private int id;
+    String userToken;
+    int id;
     boolean like;
     String email;
 
@@ -27,14 +27,6 @@ public class LikeTicket {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public boolean isLike() {
-        return like;
-    }
-
-    public void setLike(boolean like) {
-        this.like = like;
     }
 
     public String getEmail() {

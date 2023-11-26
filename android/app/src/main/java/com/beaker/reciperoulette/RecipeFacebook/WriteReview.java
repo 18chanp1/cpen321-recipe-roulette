@@ -22,7 +22,9 @@ public class WriteReview extends AppCompatActivity {
         reviewText = findViewById(R.id.rev_writereview_body);
         submitButton = findViewById(R.id.rev_writereview_submit);
 
-        
+       assert titleText != null;
+       assert reviewText != null;
+       assert submitButton != null;
 
     }
 }
