@@ -15,6 +15,8 @@ public class ChatRoomLiveEntry implements Parcelable {
     String details;
     String contact;
     String image;
+
+    /* The type of request, either SHOPREQ or COOKREQ */
     String type;
 
     public ChatRoomLiveEntry(String entryID, String name, String details, String contact, String image, String type) {
