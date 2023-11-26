@@ -31,7 +31,7 @@ public class ChatRoomLiveView extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.goOutList);
         recyclerView.setLayoutManager(new LinearLayoutManager(ChatRoomLiveView.this));
-        recyclerView.setAdapter(new ChatRoomLiveAdaptor(getApplicationContext(), entries));
+        recyclerView.setAdapter(new ChatRoomLiveAdaptor(ChatRoomLiveView.this ,entries));
 
 
         //get intent

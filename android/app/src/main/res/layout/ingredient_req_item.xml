@@ -13,24 +13,21 @@
         android:id="@+id/img"/>
 
 
-
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/rq_entry_name"
-        android:layout_toEndOf="@id/img"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        tools:text="Name"/>
-
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rq_entry_eml"
         android:layout_toEndOf="@id/img"
+        android:textSize="20dp"
+        tools:text="Name" />
+
+    <TextView
+        android:id="@+id/rq_entry_eml"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/rq_entry_name"
-        android:textColor="@color/black"
-        tools:text="email@email.com"/>
+        android:layout_toEndOf="@id/img"
+        tools:text="email@email.com" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -110,7 +110,7 @@ public class RecipeFacebook extends AppCompatActivity {
 
                             RecyclerView recyclerView = findViewById(R.id.rev_recycler);
                             recyclerView.setLayoutManager(new LinearLayoutManager(RecipeFacebook.this));
-                            recyclerView.setAdapter(new ReviewAdaptor(getApplicationContext(), reviews));
+                            recyclerView.setAdapter(new ReviewAdaptor(RecipeFacebook.this, reviews));
 
                         }
                     });

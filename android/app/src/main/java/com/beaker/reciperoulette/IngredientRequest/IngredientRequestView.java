@@ -1,5 +1,7 @@
 package com.beaker.reciperoulette.IngredientRequest;
 
+import static android.app.PendingIntent.getActivity;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -197,7 +199,7 @@ public class IngredientRequestView extends AppCompatActivity {
 
                             recyclerView = findViewById(R.id.rq_recycler);
                             recyclerView.setLayoutManager(new LinearLayoutManager(IngredientRequestView.this));
-                            recyclerView.setAdapter(new IngredientRequestAdaptor(getApplicationContext(), IngredientRequestView.this, ingredientRequests));
+                            recyclerView.setAdapter(new IngredientRequestAdaptor(IngredientRequestView.this, IngredientRequestView.this, ingredientRequests));
 
                         }
                     });

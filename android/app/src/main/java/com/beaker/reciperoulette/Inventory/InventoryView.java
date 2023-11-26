@@ -101,7 +101,7 @@ public class InventoryView extends AppCompatActivity {
 
                         RecyclerView recyclerView = findViewById(R.id.inv_recycler);
                         recyclerView.setLayoutManager(new LinearLayoutManager(InventoryView.this));
-                        recyclerView.setAdapter(new InventoryAdapter(getApplicationContext(), InventoryView.this, invList));
+                        recyclerView.setAdapter(new InventoryAdapter(InventoryView.this, InventoryView.this, invList));
                     });
                 }
             }

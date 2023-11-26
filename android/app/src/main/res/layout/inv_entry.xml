@@ -18,7 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/img"
-        android:textColor="@color/black"
         android:textSize="20dp"
         tools:text="Food Item" />
 
@@ -28,7 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/item"
         android:layout_toEndOf="@id/img"
-        android:textColor="@color/black"
         tools:text="2023-11-25" />
 
     <LinearLayout
