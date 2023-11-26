@@ -31,17 +31,17 @@ public class InventoryView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inv_view);
 
-        loadReviews();
+        loadInventory();
 
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        loadReviews();
+        loadInventory();
     }
 
-    private void loadReviews()
+    public void loadInventory()
     {
         //get token
         SharedPreferences sharedPref =
@@ -101,7 +101,7 @@ public class InventoryView extends AppCompatActivity {
 
                         RecyclerView recyclerView = findViewById(R.id.inv_recycler);
                         recyclerView.setLayoutManager(new LinearLayoutManager(InventoryView.this));
-                        recyclerView.setAdapter(new InventoryAdapter(getApplicationContext(), invList));
+                        recyclerView.setAdapter(new InventoryAdapter(getApplicationContext(), InventoryView.this, invList));
                     });
                 }
             }
