@@ -16,14 +16,16 @@ const messaging = admin.messaging(app);
 router.post('/new', async function(req, res, next) {
     // Get info of ingredient request and create new document in collection
     let userId = req.body.email;
-    let ingredientDescription = req.body.requestItem;
+    let ingredientName = req.body.requestItem;
     let fcmToken = req.body.fcmtok;
-    if (userId && ingredientDescription && fcmToken) {
+    let phoneNo = req.body.phoneNo;
+    if (userId && ingredientName && fcmToken) {
         let requestId = dbFunctions.dbGetObjectId();
         let newIngredientRequest = new dbModels.IngredientRequest({
             requestId, 
-            userId, 
-            ingredientDescription,
+            userId,
+            phoneNo,
+            ingredientName,
             fcmToken
         });
         await dbFunctions.dbSaveRecord(newIngredientRequest);
@@ -77,6 +79,12 @@ router.get('/', async function(req, res, next) {
 router.post('/', async function(req, res, next) {
     // This registration token comes from the client FCM SDKs.
     let requestId = req.body.requestId;
+    let donatorId = req.body.email;
+    if (!donatorId) {
+        res.status(400);
+        res.send("Missing donator ID");
+        return;
+    }
     if (!requestId) {
         res.status(400);
         res.send("Missing Ingredient Request ID");
@@ -96,7 +104,8 @@ router.post('/', async function(req, res, next) {
     await dbFunctions.dbDeleteRecord(ingredientRequest);
     const message = {
         data: {
-            text: `Request ID ${requestId} fulfilled`
+            text: `${donatorId} has fulfilled your request for ${ingredientRequest.ingredientName}. 
+                Please call ${ingredientRequest.phoneNo} to pick up your ingredients!`
         },
         token: fcmToken   
     };

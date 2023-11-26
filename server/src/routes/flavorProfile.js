@@ -20,22 +20,90 @@ router.get('/', async function(req, res, next) {
   let meat = 0;
   let veggie = 0;
   let pastry = 0;
-  let meat_indicators = ["meat", "beef", "pork", "chicken", "salmon"];
-  let pastry_indicators = ["pie", "strudel", "pastry", "croissant", "dessert"];
+  let meat_indicators = [
+    "quiddity",
+    "haecceity",
+    "stuff",
+    "quintessence",
+    "bare bones",
+    "hypostasis",
+    "fowl",
+    "game",
+    "cut of meat",
+    "halal",
+    "stew",
+    "pepperoni",
+    "bird",
+    "veal",
+    "veau",
+    "escargot",
+    "horseflesh",
+    "horsemeat",
+    "cut",
+    "jerk",
+    "jerky",
+    "lamb",
+    "cold cuts",
+    "mouton",
+    "mutton",
+    "organs",
+    "pemican",
+    "pemmican",
+    "porc",
+    "pork",
+    "carbonado",
+    "boeuf",
+    "sausage",
+    "sausage meat",
+    "snail",
+    "beef",
+    "chicken",
+    "duck",
+    "pate"
+  ];
+  let pastry_indicators = [
+    "pate feuillete",
+    "frangipane",
+    "pastry",
+    "pandowdy",
+    "patty shell",
+    "pie",
+    "pie crust",
+    "pie shell",
+    "profiterole",
+    "puff",
+    "rugelach",
+    "ruggelach",
+    "rugulah",
+    "sausage roll",
+    "streusel",
+    "strudel",
+    "tart",
+    "timbale",
+    "timbale case",
+    "toad-in-the-hole",
+    "vol-au-vent",
+    "baklava",
+    "bouchee",
+    "dowdy",
+    "baked"
+  ];
+
   recipes.forEach(recipe => {
     veggie++;
     for (let i = 0; i < meat_indicators.length; i++) {
-      if (recipe.recipeName.toLowerCase().includes(meat_indicators[i])) {
-        meat++;
+      if (recipe.recipeName.toLowerCase().includes(pastry_indicators[i])) {
+        pastry++;
         veggie--;
         break;
-      } else if (recipe.recipeName.toLowerCase().includes(pastry_indicators[i])) {
-        pastry++;
+      } else if (recipe.recipeName.toLowerCase().includes(meat_indicators[i])) {
+        meat++;
         veggie--;
         break;
       }
     }
   });
+
   if (meat >= veggie && meat >= pastry) {
     flavorProfile = "Meat Lover";
   } else if (pastry >= veggie && pastry >= meat) {

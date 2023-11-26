@@ -22,7 +22,8 @@ const Recipe = mongoose.model('recipe', recipeSchema);
 const ingredientRequestSchema = new mongoose.Schema({
   requestId: mongoose.ObjectId,
   userId: String,
-  ingredientDescription: String,
+  phoneNo: String,
+  ingredientName: String,
   fcmToken: String
 })
 const IngredientRequest = mongoose.model('ingredientRequest', ingredientRequestSchema);
