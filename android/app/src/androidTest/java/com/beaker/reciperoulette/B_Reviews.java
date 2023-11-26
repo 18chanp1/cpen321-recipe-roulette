@@ -56,7 +56,7 @@ public class B_Reviews {
         onView(withText(R.string.recipe_review))
                 .perform(click());
 
-        RecyclerViewMatcher rvm = new RecyclerViewMatcher(R.id.recyclerView);
+        RecyclerViewMatcher rvm = new RecyclerViewMatcher(R.id.rev_recycler);
 
         //Get context
         Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
@@ -84,9 +84,9 @@ public class B_Reviews {
 
                 for(int i = 0; i < userArray.length; i++)
                 {
-                    onView(withId(R.id.recyclerView))
+                    onView(withId(R.id.rev_recycler))
                             .perform(scrollToPosition(i));
-                    Matcher<View> currentMatch = new RecyclerViewMatcher(R.id.recyclerView).atPosition(i);
+                    Matcher<View> currentMatch = new RecyclerViewMatcher(R.id.rev_recycler).atPosition(i);
 
                     if(userArray[i].getTitle() != null)
                     {
@@ -118,7 +118,7 @@ public class B_Reviews {
     public void testReviewsDetailed() {
         onView(withText(R.string.recipe_review))
                 .perform(click());
-        RecyclerViewMatcher rvm = new RecyclerViewMatcher(R.id.recyclerView);
+        RecyclerViewMatcher rvm = new RecyclerViewMatcher(R.id.rev_recycler);
 
         //Get context
         Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
@@ -143,11 +143,11 @@ public class B_Reviews {
                 Review[] userArray = new Gson().fromJson(res, Review[].class);
 
                 for (int i = 0; i < userArray.length; i++) {
-                    onView(withId(R.id.recyclerView))
+                    onView(withId(R.id.rev_recycler))
                             .perform(scrollToPosition(i));
-                    Matcher<View> currentMatch = new RecyclerViewMatcher(R.id.recyclerView).atPosition(i);
+                    Matcher<View> currentMatch = new RecyclerViewMatcher(R.id.rev_recycler).atPosition(i);
                     //click the read more button;
-                    onView(allOf(withParent(currentMatch), withId(R.id.readmore_but)))
+                    onView(allOf(withParent(currentMatch), withId(R.id.rev_but)))
                             .perform(click());
 
                     //assert that the title is the same
@@ -185,10 +185,10 @@ public class B_Reviews {
                     pressBack();
                     pressBack();
                     onView(withText("Recipe Reviews")).perform(click());
-                    onView(withId(R.id.recyclerView))
+                    onView(withId(R.id.rev_recycler))
                             .perform(scrollToPosition(i));
-                    currentMatch = new RecyclerViewMatcher(R.id.recyclerView).atPosition(i);
-                    onView(allOf(withParent(currentMatch), withId(R.id.readmore_but)))
+                    currentMatch = new RecyclerViewMatcher(R.id.rev_recycler).atPosition(i);
+                    onView(allOf(withParent(currentMatch), withId(R.id.rev_but)))
                             .perform(click());
 
                     //check that like count has increased

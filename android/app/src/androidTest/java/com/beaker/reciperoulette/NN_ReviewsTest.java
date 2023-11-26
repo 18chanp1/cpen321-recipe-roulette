@@ -39,7 +39,7 @@ public class NN_ReviewsTest {
 
     @Test
     public void testReviewsEntry() throws InterruptedException {
-        RecyclerViewMatcher rvm = new RecyclerViewMatcher(R.id.recyclerView);
+        RecyclerViewMatcher rvm = new RecyclerViewMatcher(R.id.rev_recycler);
 
         onView(withId(R.id.menu5)).perform(click());
 
@@ -47,14 +47,14 @@ public class NN_ReviewsTest {
         Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         Thread.sleep(100);
-        onView(withId(R.id.recyclerView))
+        onView(withId(R.id.rev_recycler))
                 .perform(scrollToPosition(0));
 
         for(int i = 0; i < 50; i++)
         {
-            onView(withId(R.id.recyclerView))
+            onView(withId(R.id.rev_recycler))
                     .perform(scrollToPosition(i));
-            Matcher<View> currentMatch = new RecyclerViewMatcher(R.id.recyclerView).atPosition(i);
+            Matcher<View> currentMatch = new RecyclerViewMatcher(R.id.rev_recycler).atPosition(i);
             onView(currentMatch)
                     .check(doesNotExist());
         }
