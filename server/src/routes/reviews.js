@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var dbFunctions = require("../../db/db").Functions;
 var dbModels = require("../../db/db").Models;
+const { randomUUID } = require('crypto');
 
 router.get('/', async function(req, res, next) {
   let response = [];
@@ -38,6 +39,30 @@ router.post("/like", async (req, res, next) =>
     res.status(400);
     res.send("Failed to like");
   }
+})
+
+router.post("/custom", async (req, res, next) =>
+{
+  let recipeName = req.body.recipeName;
+  let userId = req.body.email;
+  let recipeSummary = req.body.recipeSummary;
+  if (!recipeName || !userId || !recipeSummary) {
+    res.status(400);
+    res.send("Body parameters must not be empty");
+    return;
+  }
+  let recipeId = randomUUID();
+  let savedRecipe = new dbModels.Recipe({ 
+    userId,
+    recipeId,
+    recipeSummary,
+    recipeName,
+    numTimes: 1,
+    likes: 0
+  });
+  await dbFunctions.dbSaveRecord(savedRecipe);
+  res.status(200);
+  res.send(savedRecipe);
 })
 
 

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-if (!process.env.APP_ENV == "TEST") {
+if (process.env.APP_ENV != "TEST") {
   mongoose.connect("mongodb://jaber:recipe@137.135.47.124:27017/Recipe_Roulette?authSource=admin", {useNewUrlParser: true, useUnifiedTopology: true});
   const db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error:'));

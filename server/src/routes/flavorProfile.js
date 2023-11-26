@@ -132,26 +132,26 @@ router.get('/', async function(req, res, next) {
     ]
   ]
   recipes.forEach(recipe => {
-    let localScore = [0, 0, 0, 1];
+    let localScore = [0, 0, 0, recipe.numTimes];
     for (let i = 0; i < pastry_indicators.length; i++) {
       if (recipe.recipeName.toLowerCase().includes(pastry_indicators[i])) {
-        localScore[pastry]++;
+        localScore[pastry] += recipe.numTimes;
       }
     }
     for (let i = 0; i < cheese_indicators.length; i++) {
       if (recipe.recipeName.toLowerCase().includes(cheese_indicators[i])) {
-        localScore[cheese]++;
+        localScore[cheese] += recipe.numTimes;
         break;
       }
     }
     for (let i = 0; i < meat_indicators.length; i++) {
       if (recipe.recipeName.toLowerCase().includes(meat_indicators[i])) {
-        localScore[meat]++;
+        localScore[meat] += recipe.numTimes;
         break;
       }
     }
     let winner = localScore.indexOf(Math.max(...localScore));
-    globalScore[winner]++;
+    globalScore[winner] += recipe.numTimes;
   });
 
   let winner = globalScore.indexOf(Math.max(...globalScore));

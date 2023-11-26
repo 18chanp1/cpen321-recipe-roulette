@@ -31,3 +31,5 @@ if (!process.env.APP_ENV == "TEST") {
 		}
 	)
 }
+
+module.exports = app
