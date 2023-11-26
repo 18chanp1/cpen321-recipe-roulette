@@ -39,6 +39,37 @@ const pastryRecipe = {
     recipeSummary: "It's a pie"
 }
 
+const cheeseRecipe = {
+    userId: 'test@ubc.ca',
+    recipeId: '795512',
+    recipeName: 'Gouda Cheese Puffs',
+    numTimes: 1,
+    likes: 0,
+    recipeSummary: "It's a cheesy puff"
+}
+
+const flavorProfiles = [
+    [
+      "Carnivore Crusader",
+      "Protein Paladin",
+      "Savory Samurai"
+    ],
+    [
+      "Cheese Connoisseur",
+      "Dairy Dandy",
+      "Fromage Fanatic",
+    ],
+    [
+      "Diva Dough",
+      "Sweet Swirler",
+      "Bakery Buff"
+    ],
+    [
+      "Green Gourmet",
+      "Veggie Virtuoso",
+      "Plant-based Picasso"
+    ]
+  ]
 
 // Interface GET /flavourprofile
 describe("Get user flavor profile", () => {
@@ -76,28 +107,45 @@ describe("Get user flavor profile", () => {
         addRecipe(mockedDbResponse, 5, meatRecipe);
         addRecipe(mockedDbResponse, 4, veggieRecipe);
         addRecipe(mockedDbResponse, 4, pastryRecipe);
-        let expectedResponse = "Meat Lover";
+        addRecipe(mockedDbResponse, 4, cheeseRecipe);
         jest.spyOn(dbFunctions, "dbFindAllRecords").mockReturnValue(mockedDbResponse);
         const res = await request(app).get("/flavourprofile").set(mockedRequestHeader);
         expect(res.status).toStrictEqual(200);
-        expect(res.text).toEqual(expectedResponse);
+        expect(flavorProfiles[0]).toContain(res.text);
+        expect(res.body).toEqual({});
+    });
+
+    // Input: User with a lot of cheese recipes saved
+    // Expected status code: 200
+    // Expected behavior: Cheese Lover Flavour Profile generated
+    // Expected output: A cheese lover title
+    test("Cheese heavy recipes saved", async () => {
+        let mockedDbResponse = [];
+        addRecipe(mockedDbResponse, 5, cheeseRecipe);
+        addRecipe(mockedDbResponse, 4, veggieRecipe);
+        addRecipe(mockedDbResponse, 4, meatRecipe);
+        addRecipe(mockedDbResponse, 4, pastryRecipe);
+        jest.spyOn(dbFunctions, "dbFindAllRecords").mockReturnValue(mockedDbResponse);
+        const res = await request(app).get("/flavourprofile").set(mockedRequestHeader);
+        expect(res.status).toStrictEqual(200);
+        expect(flavorProfiles[1]).toContain(res.text);
         expect(res.body).toEqual({});
     });
 
     // Input: User with a lot of pastry recipes saved
     // Expected status code: 200
     // Expected behavior: Pastry Lover Flavour Profile generated
-    // Expected output: "Pastry Lover"
+    // Expected output: A pastry lover title
     test("Pastry heavy recipes saved", async () => {
         let mockedDbResponse = [];
         addRecipe(mockedDbResponse, 5, pastryRecipe);
         addRecipe(mockedDbResponse, 4, veggieRecipe);
         addRecipe(mockedDbResponse, 4, meatRecipe);
-        let expectedResponse = "Pastry Lover";
+        addRecipe(mockedDbResponse, 4, cheeseRecipe);
         jest.spyOn(dbFunctions, "dbFindAllRecords").mockReturnValue(mockedDbResponse);
         const res = await request(app).get("/flavourprofile").set(mockedRequestHeader);
         expect(res.status).toStrictEqual(200);
-        expect(res.text).toEqual(expectedResponse);
+        expect(flavorProfiles[2]).toContain(res.text);
         expect(res.body).toEqual({});
     });
 
@@ -110,11 +158,11 @@ describe("Get user flavor profile", () => {
         addRecipe(mockedDbResponse, 5, veggieRecipe);
         addRecipe(mockedDbResponse, 4, pastryRecipe);
         addRecipe(mockedDbResponse, 4, meatRecipe);
-        let expectedResponse = "Veggie Lover";
+        addRecipe(mockedDbResponse, 4, cheeseRecipe);
         jest.spyOn(dbFunctions, "dbFindAllRecords").mockReturnValue(mockedDbResponse);
         const res = await request(app).get("/flavourprofile").set(mockedRequestHeader);
         expect(res.status).toStrictEqual(200);
-        expect(res.text).toEqual(expectedResponse);
+        expect(flavorProfiles[3]).toContain(res.text);
         expect(res.body).toEqual({});
     });
 })
