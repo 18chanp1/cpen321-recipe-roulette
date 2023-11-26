@@ -32,7 +32,7 @@ public class ChatRoomLiveView extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.goOutList);
         recyclerView.setLayoutManager(new LinearLayoutManager(ChatRoomLiveView.this));
-        recyclerView.setAdapter(new ChatRoomLiveAdaptor(ChatRoomLiveView.this ,entries));
+        recyclerView.setAdapter(new ChatRoomLiveAdaptor(ChatRoomLiveView.this, entries));
 
 
         //get intent
@@ -43,6 +43,10 @@ public class ChatRoomLiveView extends AppCompatActivity {
         name = i.getStringExtra(getString(R.string.cht_req_name));
         details = i.getStringExtra(getString(R.string.cht_req_det));
         contact = i.getStringExtra(getString(R.string.cht_req_cont));
+
+        if(name == null) name = "";
+        if(details == null) details = "";
+        if(contact == null) contact = "";
 
         ws = new ChatRoomWebSocket(this, isCookingRequest, name, details, contact);
     }

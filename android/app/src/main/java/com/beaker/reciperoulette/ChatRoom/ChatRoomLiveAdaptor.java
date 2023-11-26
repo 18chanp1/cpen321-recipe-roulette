@@ -12,8 +12,8 @@ import com.beaker.reciperoulette.R;
 import java.util.List;
 
 public class ChatRoomLiveAdaptor extends RecyclerView.Adapter<ChatRoomLiveHolder> {
-    Context context;
-    List<ChatRoomLiveEntry> items;
+    private final Context context;
+    private final List<ChatRoomLiveEntry> items;
     public ChatRoomLiveAdaptor(Context c, List<ChatRoomLiveEntry> items) {
         this.context = c;
         this.items = items;

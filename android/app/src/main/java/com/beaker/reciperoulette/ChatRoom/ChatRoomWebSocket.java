@@ -1,7 +1,5 @@
 package com.beaker.reciperoulette.ChatRoom;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -17,32 +15,37 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
-import okio.ByteString;
 
 public class ChatRoomWebSocket extends WebSocketListener {
-    private ChatRoomLiveView c;
-    private WebSocket ws;
-    private final static String TAG = "Websocket";
-    private boolean isCookingRequest;
+    private final ChatRoomLiveView context;
+    private final WebSocket ws;
+    private final static String TAG = "ChatRoomWebSocket";
+    private final boolean isCookingRequest;
     private String name;
     private String details;
     private String contact;
 
-    public ChatRoomWebSocket(ChatRoomLiveView c, boolean isCookingRequest, String name,
+    public ChatRoomWebSocket(ChatRoomLiveView context, boolean isCookingRequest, String name,
                              String details, String contact) {
         super();
-        this.c = c;
+        this.context = context;
         this.isCookingRequest = isCookingRequest;
         this.name = name;
         this.details = details;
         this.contact = contact;
 
+        if(this.context == null) throw new IllegalArgumentException();
+        if(this.name == null) this.name = "";
+        if(this.details == null) this.details = "";
+        if(this.contact == null) this.contact = "";
+
         OkHttpClient client = new OkHttpClient.Builder()
+                //0 is default values, don't know what it does
                 .readTimeout(0, TimeUnit.MILLISECONDS)
                 .build();
 
         Request req = new Request.Builder()
-                .url("wss://cpen321-reciperoulette.westus.cloudapp.azure.com")
+                .url(context.getString(R.string.server_wss_url))
                 .build();
 
         ws = client.newWebSocket(req, this);
@@ -57,10 +60,12 @@ public class ChatRoomWebSocket extends WebSocketListener {
         ChatRoomLiveEntry c;
 
         if(isCookingRequest) {
-            c = new ChatRoomLiveEntry("", name, details, contact, "", "NEWCOOKREQ");
+            c = new ChatRoomLiveEntry("", name, details,
+                    contact, "", context.getString(R.string.cht_type_newcookreq));
         }
         else {
-            c = new ChatRoomLiveEntry("", name, details, contact, "", "NEWSHOPREQ");
+            c = new ChatRoomLiveEntry("", name, details,
+                    contact, "", context.getString(R.string.cht_type_newshopreq));
         }
 
         String msg = new Gson().toJson(c);
@@ -78,7 +83,6 @@ public class ChatRoomWebSocket extends WebSocketListener {
         super.onClosing(webSocket, code, reason);
         webSocket.close(1000, null);
         Log.d(TAG, "Closing: " + reason);
-
     }
 
     @Override
@@ -91,69 +95,31 @@ public class ChatRoomWebSocket extends WebSocketListener {
     public void onMessage(@NonNull WebSocket webSocket, @NonNull String text) {
         super.onMessage(webSocket, text);
         Log.d(TAG, "Incoming msg: " + text);
-        //TODO handle incoming msgs here
 
         ChatRoomLiveEntry item = new Gson().fromJson(text, ChatRoomLiveEntry.class);
 
-        if(item.type.equals("SHOPREQ"))
-        {
-            c.runOnUiThread(() -> c.addItemToList(item));
+        //do nothing if illegal type.
+        if(item.type == null) return;
 
+        if(item.type.equals(context.getString(R.string.cht_type_shopreq)))
+        {
+            context.runOnUiThread(() -> context.addItemToList(item));
             Log.d(TAG, "Added to list: " + item.name);
         }
-        else if(item.type.equals("COOKREQ"))
+        else if(item.type.equals(context.getString(R.string.cht_type_cookreq)))
         {
-            c.runOnUiThread(() -> c.addItemToList(item));
-
-            Log.d(TAG, "Added to list: " + item.name);
-        }
-
-        if(item.type.equals("DEL"))
-        {
-            c.runOnUiThread(() -> c.removeItemFromList(item));
-
+            context.runOnUiThread(() -> context.addItemToList(item));
             Log.d(TAG, "Added to list: " + item.name);
         }
 
 
+        if(item.type.equals(context.getString(R.string.cht_type_del)))
+        {
+            context.runOnUiThread(() -> context.removeItemFromList(item));
 
-
-
-
+            Log.d(TAG, "Removed from list: " + item.name);
+        }
     }
-
-    @Override
-    public void onMessage(@NonNull WebSocket webSocket, @NonNull ByteString bytes) {
-        super.onMessage(webSocket, bytes);
-
-        Log.d(TAG, "Incoming msg: " + bytes.hex());
-        //TODO handle incoming msgs here
-
-        //first deserialize
-
-
-    }
-
-    private String serializeMsg(String type, String msg)
-    {
-        //get token
-        SharedPreferences sharedPref =
-                c.getSharedPreferences(c.getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
-        String tok = sharedPref.getString("TOKEN", "NOTOKEN");
-        Log.d("TAG", tok);
-
-        ChatRoomWebSocketMessage socketMessage = new ChatRoomWebSocketMessage(tok, type, msg);
-
-        return new Gson().toJson(socketMessage);
-    }
-
-    public void sendAString(String type, String msg)
-    {
-        String serialized = serializeMsg(type, msg);
-        Log.d(TAG, serialized);
-        ws.send(serialized);
-    }
-
     public void close()
     {
         ws.close(1000, "Socket is closed by client");

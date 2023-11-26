@@ -11,11 +11,10 @@ import com.beaker.reciperoulette.R;
 
 public class EnterChatRoomView extends AppCompatActivity {
 
-    EditText nameEntry;
-    EditText detailEntry;
-    EditText contactEntry;
-    Button goCookBut;
-    Button goShopBut;
+    private EditText nameEntry;
+    private EditText detailEntry;
+    private EditText contactEntry;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,8 +23,8 @@ public class EnterChatRoomView extends AppCompatActivity {
         nameEntry = findViewById(R.id.ecc_name);
         detailEntry = findViewById(R.id.ecc_details);
         contactEntry = findViewById(R.id.ecc_contact);
-        goCookBut = findViewById(R.id.ecc_gocook_but);
-        goShopBut = findViewById(R.id.ecc_goshop_but);
+        Button goCookBut = findViewById(R.id.ecc_gocook_but);
+        Button goShopBut = findViewById(R.id.ecc_goshop_but);
 
         goCookBut.setOnClickListener(view -> {
             Intent i = new Intent(EnterChatRoomView.this, ChatRoomLiveView.class);
