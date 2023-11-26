@@ -14,7 +14,10 @@ public class IngredientHolder extends RecyclerView.ViewHolder {
     ImageView imageView;
     TextView itemTitleView;
     TextView expiryDateView;
+    TextView newItemView;
     Button consumeButtonView;
+
+
 
     public IngredientHolder(@NonNull View itemView) {
         super(itemView);
@@ -22,6 +25,11 @@ public class IngredientHolder extends RecyclerView.ViewHolder {
         itemTitleView = itemView.findViewById(R.id.item);
         expiryDateView = itemView.findViewById(R.id.expiry);
         consumeButtonView = itemView.findViewById(R.id.eat_but);
+        newItemView = itemView.findViewById(R.id.inv_new);
+    }
+
+    public TextView getNewItemView() {
+        return newItemView;
     }
 
     public ImageView getImageView() {

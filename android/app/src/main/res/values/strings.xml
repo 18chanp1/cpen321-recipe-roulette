@@ -58,5 +58,6 @@
 
     <string name="inventory">Inventory</string>
     <string name="consume">Consume</string>
+    <string name="inv_new">New!</string>
 
 </resources>
