@@ -33,7 +33,7 @@ public class ChatRoomLiveAdaptor extends RecyclerView.Adapter<ChatRoomLiveHolder
         boolean contactValid = item.contact != null;
         boolean typeValid = item.type != null;
 
-        if(!nameValid || !contactValid || typeValid)
+        if(!nameValid || !contactValid || !typeValid)
         {
             return;
         }
