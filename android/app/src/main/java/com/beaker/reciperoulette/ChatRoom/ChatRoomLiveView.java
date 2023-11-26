@@ -11,6 +11,7 @@ import com.beaker.reciperoulette.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ChatRoomLiveView extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -36,10 +37,12 @@ public class ChatRoomLiveView extends AppCompatActivity {
 
         //get intent
         Intent i = getIntent();
-        isCookingRequest = i.getBooleanExtra("COOK", true);
-        name = i.getStringExtra("NAME");
-        details = i.getStringExtra("DETAILS");
-        contact = i.getStringExtra("CONTACT");
+
+        //check whether the user selected "cook" or "shop" in EnterChatRoomView
+        isCookingRequest = i.getBooleanExtra(getString(R.string.cht_req_type), true);
+        name = i.getStringExtra(getString(R.string.cht_req_name));
+        details = i.getStringExtra(getString(R.string.cht_req_det));
+        contact = i.getStringExtra(getString(R.string.cht_req_cont));
 
         ws = new ChatRoomWebSocket(this, isCookingRequest, name, details, contact);
     }
@@ -50,7 +53,7 @@ public class ChatRoomLiveView extends AppCompatActivity {
         super.onStop();
         int sz = entries.size();
         entries.clear();
-        recyclerView.getAdapter().notifyItemRangeRemoved(0, sz);
+        Objects.requireNonNull(recyclerView.getAdapter()).notifyItemRangeRemoved(0, sz);
         ws.close();
     }
 
@@ -64,14 +67,14 @@ public class ChatRoomLiveView extends AppCompatActivity {
 
     protected void addItemToList(ChatRoomLiveEntry c) {
         entries.add(0, c);
-        recyclerView.getAdapter().notifyItemInserted(0);
+        Objects.requireNonNull(recyclerView.getAdapter()).notifyItemInserted(0);
     }
 
     protected void removeItemFromList(ChatRoomLiveEntry c) {
         int index = entries.indexOf(c);
         if (index >= 0) {
             entries.remove(c);
-            recyclerView.getAdapter().notifyItemRemoved(index);
+            Objects.requireNonNull(recyclerView.getAdapter()).notifyItemRemoved(index);
         }
     }
 

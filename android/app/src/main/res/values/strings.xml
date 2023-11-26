@@ -64,8 +64,19 @@
     <string name="inv_new">New!</string>
 
 <!--Constants-->
+
+    <!-- Chatroom type related constants   -->
     <string name="cht_type_shopreq">SHOPREQ</string>
     <string name="cht_type_cookreq">COOKREQ</string>
     <string name="cht_contact_head">Contact: </string>
+
+    <!-- Constants for keys in information transferred
+    from EnterChatRoomView to ChatRoomLiveView -->
+    <string name="cht_req_type">COOK</string>
+    <string name="cht_req_name">NAME</string>
+    <string name="cht_req_det">DETAILS</string>
+    <string name="cht_req_cont">CONTACT</string>
+
+
 
 </resources>
