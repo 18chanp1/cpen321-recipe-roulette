@@ -39,32 +39,35 @@ function setupWSS(httpsServer)
 
                 //announce it to everyone
                 let ann = {}
-                ann.entryID = uuidv4()
+                let randID = uuidv4()
+                ann.entryID = randID
                 ann.name = obj.name
                 ann.details = obj.details
                 ann.contact = obj.contact
                 ann.image = obj.image
                 ann.type = obj.type
+                ann.ws = ws
 
                 for(const e in requests)
                 {
+		            //send new user to all active users
                     requests[e].ws.send(JSON.stringify(ann))
                 }
 
                 console.log(ann);
 
-                //send users in room to originator. 
-                for(const e in requests)
-                {
-                    ws.send(requests[e])
+		        //tell the respondee everyone who is online
+                for (const e in requests)
+		        {
+		            ws.send(JSON.stringify(requests[e]))
                 }
 
+	        
+		    
                 //add to requests
-                obj.ws = ws
-                requests[ann.entryID] = obj
-                ws.entryID = ann.entryID
+                requests[randID] = ann
+                ws.entryID = randID
             }
-            
         })
 
         ws.on("close", () =>
