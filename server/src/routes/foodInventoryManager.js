@@ -16,12 +16,30 @@ router.post('/upload', async (req, res) => {
   if (userId == null || userId == "") {
     res.status(400).send('Error saving to database');
   } else {
-    // Create a new document
-    const ingredientDoc = new Models.Ingredient({ userId , ingredients });
+    const ingredientRecord = dbFunctions.dbFindRecord(Models.Ingredient, {userId});
+    if (ingredientRecord == null) {
+      // Create a new document
+      const ingredientDoc = new Models.Ingredient({ userId , ingredients });
 
-    // Save the document to MongoDB
-    dbFunctions.dbSaveRecord(ingredientDoc);
-    res.status(200).send('Successfully saved to database');
+      // Save the document to MongoDB
+      dbFunctions.dbSaveRecord(ingredientDoc);
+      res.status(200).send('Successfully saved to database');
+    } else {
+      // the userID record exists
+      for (let newItem of ingredients) {
+        //find the index
+        index = ingredientRecord.ingredients.findIndex(item => item.name === newItem.name);
+
+        if (index !== -1) {
+          //Item exists, update the value
+          ingredientRecord.ingredients[index].count += newItem.count;
+          ingredientRecord.ingredients[index].date.push(...newItem.date);
+        } else {
+          //Item does not exist
+          ingredientRecord.push(newItem);
+        }
+      }
+    }
   }
 
 });
