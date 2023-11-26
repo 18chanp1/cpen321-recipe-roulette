@@ -11,13 +11,17 @@ router.use(bodyParser.json());
 router.post('/upload', async (req, res) => {
   // Get the user ID token and ingredients from the request body
   const {userId, ingredients} = req.body;
-
+  console.log(req.body);
   console.log("/foodInventoryManager/upload userId: " + userId);
   if (userId == null || userId == "") {
     res.status(400).send('Error saving to database');
   } else {
-    const ingredientRecord = dbFunctions.dbFindRecord(Models.Ingredient, {userId});
+    const ingredientRecord = await dbFunctions.dbFindRecord(Models.Ingredient, {userId});
+    console.log("Print the ingredient record contents")
+    console.log(ingredientRecord);
+
     if (ingredientRecord == null) {
+      console.log("userID record does not exist");
       // Create a new document
       const ingredientDoc = new Models.Ingredient({ userId , ingredients });
 
@@ -26,19 +30,27 @@ router.post('/upload', async (req, res) => {
       res.status(200).send('Successfully saved to database');
     } else {
       // the userID record exists
+      console.log("userID record exists");
       for (let newItem of ingredients) {
         //find the index
+        // console.log(ingredientRecord);
+        // console.log(ingredientRecord.ingredients);
         index = ingredientRecord.ingredients.findIndex(item => item.name === newItem.name);
+        console.log("index: " + index);
 
         if (index !== -1) {
           //Item exists, update the value
+          console.log("Item exists, update the value");
           ingredientRecord.ingredients[index].count += newItem.count;
           ingredientRecord.ingredients[index].date.push(...newItem.date);
         } else {
           //Item does not exist
-          ingredientRecord.push(newItem);
+          console.log("Item does not exist")
+          ingredientRecord.ingredients.push(newItem);
         }
       }
+      dbFunctions.dbSaveRecord(ingredientRecord);
+      res.status(200).send('Successfully saved to database');
     }
   }
 
