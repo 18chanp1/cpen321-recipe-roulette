@@ -66,6 +66,8 @@
     <string name="cannot_donate">Unable to donate, please try again later!</string>
     <string name="msg_token_expired">Exit the app and try again</string>
 
+    <string name="cannot_req">Unable to request, please try again later</string>
+
     <string name="rq_msg_req_successful">Request successful!</string>
 
 <!--Constants-->
@@ -92,6 +94,7 @@
     <!--Shared Preferences-->
     <string name="prf_token">TOKEN</string>
     <string name="prf_eml">EMAIL</string>
+    <string name="prf_fcmtoken">FCMTOKEN</string>
 
     <string name="prf_token_def">NOTOKEN</string>
     <string name="prf_eml_def">NOEMAIL</string>
@@ -101,10 +104,14 @@
 
     <!-- HTTP URLs   -->
     <string name="http_inred_req_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests</string>
+    <string name="http_ingred_req_new_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests/new</string>
 
     <!--    HTTP Arguments-->
     <string name="http_args_userToken">userToken</string>
     <string name="http_args_email">email</string>
+    <string name="http_args_requestItem">requestItem</string>
+    <string name="http_args_phoneno">phoneNo</string>
+    <string name="http_args_fcmtok">fcmTok</string>
 
 
 

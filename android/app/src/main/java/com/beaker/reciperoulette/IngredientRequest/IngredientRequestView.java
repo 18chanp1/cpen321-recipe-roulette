@@ -60,7 +60,6 @@ public class IngredientRequestView extends AppCompatActivity {
         //setup the listener to submit requests
 
         requestIngredientButton.setOnClickListener(view -> submitRequestHandler());
-
         viewRequestButton.setOnClickListener(view ->
         {
             Intent selfReqI = new Intent(IngredientRequestView.this, IngredientRequestSelfView.class);
@@ -73,15 +72,20 @@ public class IngredientRequestView extends AppCompatActivity {
 
         SharedPreferences sharedPref =
                 this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
-        String tok = sharedPref.getString("TOKEN", "NOTOKEN");
-        String email = sharedPref.getString("EMAIL", "NOEMAIL");
-        String fcmtok = sharedPref.getString("FCMTOKEN","NOTOKEN");
+        String tok = sharedPref.getString(getString(R.string.prf_token), getString(R.string.prf_token_def));
+        String email = sharedPref.getString(getString(R.string.prf_eml), getString(R.string.prf_eml_def));
+        String fcmtok = sharedPref.getString(getString(R.string.prf_fcmtoken),getString(R.string.prf_token_def));
 
+        if(tok.equals(getString(R.string.prf_token_def)) ||
+            email.equals(getString(R.string.prf_eml_def)) ||
+            fcmtok.equals(getString(R.string.prf_token_def)))
+            throw new IllegalStateException();
 
         OkHttpClient client = new OkHttpClient();
 
         String foodReq = String.valueOf(ingredientRequestText.getText());
         String phoneNo = String.valueOf(phoneNumberText.getText());
+
         Gson gson = new Gson();
         String json = gson.toJson(new IngredientRequestTicket(tok, foodReq, phoneNo, fcmtok, email));
 
@@ -95,16 +99,16 @@ public class IngredientRequestView extends AppCompatActivity {
         }
 
 
-        MediaType JSON = MediaType.get("application/json; charset=utf-8");
+        MediaType JSON = MediaType.get(getString(R.string.http_json_type));
         RequestBody body = RequestBody.create(json, JSON);
 
         Request postNewReq = new Request.Builder()
-                .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests/new")
-                .addHeader("userToken", tok)
-                .addHeader("requestItem", foodReq)
-                .addHeader("phoneNo", phoneNo)
-                .addHeader("email", email)
-                .addHeader("fcmTok", fcmtok)
+                .url(getString(R.string.http_ingred_req_new_url))
+                .addHeader(getString(R.string.http_args_userToken), tok)
+                .addHeader(getString(R.string.http_args_requestItem), foodReq)
+                .addHeader(getString(R.string.http_args_phoneno), phoneNo)
+                .addHeader(getString(R.string.http_args_email), email)
+                .addHeader(getString(R.string.http_args_fcmtok), fcmtok)
                 .post(body)
                 .build();
 
@@ -114,7 +118,7 @@ public class IngredientRequestView extends AppCompatActivity {
                 e.printStackTrace();
 
                 IngredientRequestView.this.runOnUiThread(() -> {
-                    Toast toast = Toast.makeText(IngredientRequestView.this, "Request failed", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(IngredientRequestView.this, getString(R.string.cannot_req), Toast.LENGTH_LONG);
                     toast.show();
                 });
             }
@@ -125,7 +129,7 @@ public class IngredientRequestView extends AppCompatActivity {
                     if (response.code() == 511)
                     {
 
-                        CharSequence s = "Exit the app and try again";
+                        CharSequence s = getString(R.string.msg_token_expired);
 
                         Toast t = Toast.makeText(IngredientRequestView.this, s, Toast.LENGTH_SHORT);
                         t.show();
@@ -133,7 +137,7 @@ public class IngredientRequestView extends AppCompatActivity {
                     }
                     else if(response.isSuccessful()) {
                         Log.d("test", "call ok");
-                        Toast toast = Toast.makeText(IngredientRequestView.this, "Request made", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(IngredientRequestView.this, getString(R.string.rq_msg_req_successful), Toast.LENGTH_LONG);
                         toast.show();
 
                         phoneNumberText.setText("");
@@ -152,14 +156,14 @@ public class IngredientRequestView extends AppCompatActivity {
         //get tokens
         SharedPreferences sharedPref =
                 this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
-        String tok = sharedPref.getString("TOKEN", "NOTOKEN");
-        String email = sharedPref.getString("EMAIL", "NOEMAIL");
+        String tok = sharedPref.getString(getString(R.string.prf_token), getString(R.string.prf_token_def));
+        String email = sharedPref.getString(getString(R.string.prf_eml), getString(R.string.prf_eml_def));
 
         //get requests from server
         Request req = new Request.Builder()
-                .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests")
-                .addHeader("email", email)
-                .addHeader("userToken", tok)
+                .url(getString(R.string.http_inred_req_url))
+                .addHeader(getString(R.string.http_args_email), email)
+                .addHeader(getString(R.string.http_args_userToken), tok)
                 .build();
 
         OkHttpClient client = new OkHttpClient();
@@ -175,7 +179,7 @@ public class IngredientRequestView extends AppCompatActivity {
                 if (response.code() == 511)
                 {
 
-                    CharSequence s = "Exit the app and try again";
+                    CharSequence s = getString(R.string.prf_token);
 
                     Toast t = Toast.makeText(IngredientRequestView.this, s, Toast.LENGTH_SHORT);
                     t.show();
