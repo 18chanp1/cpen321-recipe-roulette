@@ -12,7 +12,6 @@ import com.beaker.reciperoulette.R;
 import java.util.List;
 
 public class ChatRoomLiveAdaptor extends RecyclerView.Adapter<ChatRoomLiveHolder> {
-
     Context context;
     List<ChatRoomLiveEntry> items;
     public ChatRoomLiveAdaptor(Context c, List<ChatRoomLiveEntry> items) {
@@ -30,14 +29,28 @@ public class ChatRoomLiveAdaptor extends RecyclerView.Adapter<ChatRoomLiveHolder
     public void onBindViewHolder(@NonNull ChatRoomLiveHolder holder, int position) {
         ChatRoomLiveEntry item = items.get(position);
 
-        holder.nameView.setText(item.name);
-        holder.detailedView.setText("Contact: " + item.contact);
+        boolean nameValid = item.name != null;
+        boolean contactValid = item.contact != null;
+        boolean typeValid = item.type != null;
 
-        if (item.type.equals("SHOPREQ"))
+        if(!nameValid || !contactValid || typeValid)
+        {
+            return;
+        }
+
+
+        holder.nameView.setText(item.name);
+
+        String displayedContact = context.getString(R.string.cht_contact_head) + item.contact;
+        holder.detailedView.setText(displayedContact);
+
+        String shopreqType = context.getString(R.string.cht_type_shopreq);
+        String cookreqType = context.getString(R.string.cht_type_cookreq);
+        if (item.type.equals(shopreqType))
         {
             holder.imageView.setImageResource(R.drawable.shopping_cart);
         }
-        else if (item.type.equals("COOKREQ"))
+        else if (item.type.equals(cookreqType))
         {
             holder.imageView.setImageResource(R.drawable.frying_pan);
         }

@@ -63,4 +63,9 @@
     <string name="consume">Consume</string>
     <string name="inv_new">New!</string>
 
+<!--Constants-->
+    <string name="cht_type_shopreq">SHOPREQ</string>
+    <string name="cht_type_cookreq">COOKREQ</string>
+    <string name="cht_contact_head">Contact: </string>
+
 </resources>
