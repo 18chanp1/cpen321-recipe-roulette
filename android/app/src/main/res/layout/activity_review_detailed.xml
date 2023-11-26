@@ -12,6 +12,7 @@
         android:id="@+id/review_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="30dp"
         android:layout_weight="1">
 
         <LinearLayout
@@ -27,7 +28,7 @@
                 android:id="@+id/detailed_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="0dp"
                 android:layout_weight="1"
                 android:text="@string/Loremipsum"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
