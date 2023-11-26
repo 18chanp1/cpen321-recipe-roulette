@@ -73,12 +73,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         signInButton = findViewById(R.id.sign_in_button);
-        setupSignIn();
 
-        //setup login state
-        askNotificationPermission();
-        MyFirebaseMessagingService.saveFCMTokentoSharedPref(this);
+        boolean isSignOut = getIntent().getBooleanExtra("SIGNOUT", false);
+        if(!isSignOut)
+        {
+            setupSignIn();
+            setupSignInButton();
 
+            //setup login state
+            askNotificationPermission();
+            MyFirebaseMessagingService.saveFCMTokentoSharedPref(this);
+        } else {
+
+            setupSignInButton();
+        }
     }
 
     private void setupSignIn()
@@ -222,18 +230,22 @@ public class MainActivity extends AppCompatActivity {
                         Toast toast = Toast.makeText(MainActivity.this,"You declined to sign in. You have to wait " + timeDiff + " minutes", Toast.LENGTH_LONG);
                         toast.show();
                     }});
+    }
 
-
+    private void setupSignInButton()
+    {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
 
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
+        mGoogleSignInClient.signOut();
+
         ActivityResultLauncher<Intent> arl = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
+                result -> {
+                    if(result.getResultCode() == Activity.RESULT_OK)
+                    {
                         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
 
                         String tok = task.getResult().getIdToken();
@@ -252,6 +264,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent mainMenuIntent = new Intent(MainActivity.this, MainMenu.class);
                         startActivity(mainMenuIntent);
                     }
+
                 });
 
         signInButton.setOnClickListener(view ->
@@ -260,8 +273,8 @@ public class MainActivity extends AppCompatActivity {
             arl.launch(signInIntent);
         });
 
-
     }
+
 
     private void askNotificationPermission() {
         // This is only necessary for API level >= 33 (TIRAMISU)

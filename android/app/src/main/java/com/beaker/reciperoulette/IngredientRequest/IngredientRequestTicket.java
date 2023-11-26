@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette;
+package com.beaker.reciperoulette.IngredientRequest;
 
 public class IngredientRequestTicket {
     String fcmtok;

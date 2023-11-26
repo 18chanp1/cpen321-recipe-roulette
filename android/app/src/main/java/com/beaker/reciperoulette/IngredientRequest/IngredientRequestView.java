@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette;
+package com.beaker.reciperoulette.IngredientRequest;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.beaker.reciperoulette.MainMenu;
+import com.beaker.reciperoulette.R;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -34,6 +36,8 @@ public class IngredientRequestView extends AppCompatActivity {
     //private Button viewRequestButton; //Put this for reference to ensure that we know all buttons used.
     private EditText ingredientRequestText;
     private EditText phoneNumberText;
+    private List<IngredientRequest> ingredientRequests;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,67 +50,7 @@ public class IngredientRequestView extends AppCompatActivity {
         ingredientRequestText = findViewById(R.id.rq_ingredient_entry);
         phoneNumberText = findViewById(R.id.rq_contact_entry);
 
-
-        //get tokens
-        SharedPreferences sharedPref =
-                this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
-        String tok = sharedPref.getString("TOKEN", "NOTOKEN");
-        String email = sharedPref.getString("EMAIL", "NOEMAIL");
-
-        //get requests from server
-        Request req = new Request.Builder()
-                .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests")
-                .addHeader("email", email)
-                .addHeader("userToken", tok)
-                .build();
-
-        OkHttpClient client = new OkHttpClient();
-
-        client.newCall(req).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.code() == 511)
-                {
-
-                    CharSequence s = "Exit the app and try again";
-
-                    Toast t = Toast.makeText(IngredientRequestView.this, s, Toast.LENGTH_SHORT);
-                    t.show();
-                }
-                else if(response.isSuccessful())
-                {
-                    String res = response.body().string();
-
-                    IngredientRequestView.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            //TODO add expiry logic
-                            IngredientRequest[] userArray = new Gson().fromJson(res, IngredientRequest[].class);
-
-                            List<IngredientRequest> ingredientRequests = new ArrayList<IngredientRequest>();
-
-                            for(IngredientRequest r : userArray)
-                            {
-                                ingredientRequests.add(r);
-                            }
-
-                            RecyclerView recyclerView = findViewById(R.id.rq_recycler);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(IngredientRequestView.this));
-                            recyclerView.setAdapter(new IngredientRequestAdaptor(getApplicationContext(), ingredientRequests));
-
-                        }
-                    });
-
-
-                }
-            }
-        });
+        loadDonations();
 
         //setup the listener to submit requests
 
@@ -119,15 +63,6 @@ public class IngredientRequestView extends AppCompatActivity {
             Intent selfReqI = new Intent(IngredientRequestView.this, IngredientRequestSelfView.class);
             startActivity(selfReqI);
         });
-
-
-//        ingredientRequestText.setOnKeyListener((view, i, keyEvent) -> {
-//            if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER){
-//                submitRequestHandler();
-//            }
-//            return super;
-//        });
-
     }
 
     private void submitRequestHandler()
@@ -200,8 +135,75 @@ public class IngredientRequestView extends AppCompatActivity {
 
                         phoneNumberText.setText("");
                         ingredientRequestText.setText("");
+
+                        //reload donations list
+                        loadDonations();
                     }
                 });
+            }
+        });
+    }
+
+    public void loadDonations()
+    {
+        //get tokens
+        SharedPreferences sharedPref =
+                this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
+        String tok = sharedPref.getString("TOKEN", "NOTOKEN");
+        String email = sharedPref.getString("EMAIL", "NOEMAIL");
+
+        //get requests from server
+        Request req = new Request.Builder()
+                .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests")
+                .addHeader("email", email)
+                .addHeader("userToken", tok)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        client.newCall(req).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.code() == 511)
+                {
+
+                    CharSequence s = "Exit the app and try again";
+
+                    Toast t = Toast.makeText(IngredientRequestView.this, s, Toast.LENGTH_SHORT);
+                    t.show();
+                }
+                else if(response.isSuccessful())
+                {
+                    String res = response.body().string();
+
+                    IngredientRequestView.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            //TODO add expiry logic
+                            IngredientRequest[] userArray = new Gson().fromJson(res, IngredientRequest[].class);
+
+                            ingredientRequests = new ArrayList<IngredientRequest>();
+
+                            for(IngredientRequest r : userArray)
+                            {
+                                ingredientRequests.add(r);
+                            }
+
+                            recyclerView = findViewById(R.id.rq_recycler);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(IngredientRequestView.this));
+                            recyclerView.setAdapter(new IngredientRequestAdaptor(getApplicationContext(), IngredientRequestView.this, ingredientRequests));
+
+                        }
+                    });
+
+
+                }
             }
         });
     }

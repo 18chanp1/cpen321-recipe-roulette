@@ -26,6 +26,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.beaker.reciperoulette.IngredientRequest.Ingredient;
+import com.beaker.reciperoulette.IngredientRequest.IngredientsRequest;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -254,13 +256,3 @@ public class TakePhoto extends AppCompatActivity {
     }
 }
 
-class Ingredient {
-    String name;
-    int count;
-    long[] date;
-}
-
-class IngredientsRequest {
-    String userId;
-    List<Ingredient> ingredients;
-}

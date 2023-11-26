@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette;
+package com.beaker.reciperoulette.ChatRoom;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.beaker.reciperoulette.R;
 import com.google.gson.Gson;
 
 import java.util.concurrent.TimeUnit;

@@ -67,6 +67,10 @@ const dbFindAllRecords = async (model, filter) => {
   return records;
 }
 
+const dbUpdateOne = async (model, filter, update) => {
+  let record = await model.updateOne(filter, update);
+  return record;
+}
 
 const dbSaveRecord = async (record) => {
   await record.save();
@@ -85,6 +89,6 @@ module.exports = {
     Recipe, IngredientRequest, Ingredient, Review, 
   },
   Functions: {
-    dbGetAllReviews, dbFindRecord, dbFindAllRecords, dbDeleteRecord, dbSaveRecord, dbGetObjectId
+    dbGetAllReviews, dbFindRecord, dbFindAllRecords, dbDeleteRecord, dbSaveRecord, dbGetObjectId, dbUpdateOne
   }
 };

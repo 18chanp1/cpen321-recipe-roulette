@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette;
+package com.beaker.reciperoulette.RecipeFacebook;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.beaker.reciperoulette.R;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -29,6 +30,18 @@ public class RecipeFacebook extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_facebook);
 
+        loadReviews();
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        loadReviews();
+    }
+
+    private void loadReviews()
+    {
         //get token
         SharedPreferences sharedPref =
                 this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
@@ -86,7 +99,7 @@ public class RecipeFacebook extends AppCompatActivity {
                         @Override
                         public void run() {
 
-                           Review[] userArray = new Gson().fromJson(res, Review[].class);
+                            Review[] userArray = new Gson().fromJson(res, Review[].class);
 
                             List<Review> reviews = new ArrayList<Review>();
 
@@ -104,8 +117,5 @@ public class RecipeFacebook extends AppCompatActivity {
                 }
             }
         });
-
-
-
     }
 }

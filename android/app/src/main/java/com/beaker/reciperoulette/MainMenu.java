@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.beaker.reciperoulette.ChatRoom.EnterChatRoomView;
+import com.beaker.reciperoulette.IngredientRequest.IngredientRequestView;
+import com.beaker.reciperoulette.RecipeFacebook.RecipeFacebook;
+
 public class MainMenu extends AppCompatActivity {
     /*
     Save this stuff here just to keep track of buttons
@@ -59,6 +63,13 @@ public class MainMenu extends AppCompatActivity {
         shopTogetherButton.setOnClickListener(view -> {
             Intent cookWithOthersIntent = new Intent(MainMenu.this, EnterChatRoomView.class);
             startActivity(cookWithOthersIntent);
+        });
+
+        Button signOutButton = findViewById(R.id.menu7);
+        signOutButton.setOnClickListener(view -> {
+            Intent signOutIntent = new Intent(MainMenu.this, MainActivity.class);
+            signOutIntent.putExtra("SIGNOUT", true);
+            startActivity(signOutIntent);
         });
 
     }
