@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette.ChatRoom;
+package com.beaker.reciperoulette.chatroom;
 
 import android.view.View;
 import android.widget.ImageView;

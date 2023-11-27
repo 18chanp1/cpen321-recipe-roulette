@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette.ChatRoom;
+package com.beaker.reciperoulette.chatroom;
 
 import android.content.Context;
 import android.view.LayoutInflater;

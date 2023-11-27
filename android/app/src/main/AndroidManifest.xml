@@ -30,10 +30,10 @@
             android:name=".FlavorProfile"
             android:exported="false" />
         <activity
-            android:name=".ChatRoom.EnterChatRoomView"
+            android:name=".chatroom.EnterChatRoomView"
             android:exported="false" />
         <activity
-            android:name=".ChatRoom.ChatRoomLiveView"
+            android:name=".chatroom.ChatRoomLiveView"
             android:exported="false" />
         <activity
             android:name=".RecipeSelect"
@@ -55,7 +55,7 @@
             android:name=".reviews.RecipeFacebook"
             android:exported="false" />
         <activity
-            android:name=".Inventory.InventoryView"
+            android:name=".inventory.InventoryView"
             android:exported="false" />
         <activity
             android:name=".TakePhoto"

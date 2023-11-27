@@ -6,9 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.beaker.reciperoulette.ChatRoom.EnterChatRoomView;
+import com.beaker.reciperoulette.chatroom.EnterChatRoomView;
 import com.beaker.reciperoulette.requests.IngredientRequestView;
-import com.beaker.reciperoulette.Inventory.InventoryView;
+import com.beaker.reciperoulette.inventory.InventoryView;
 import com.beaker.reciperoulette.reviews.RecipeFacebook;
 
 public class MainMenu extends AppCompatActivity {

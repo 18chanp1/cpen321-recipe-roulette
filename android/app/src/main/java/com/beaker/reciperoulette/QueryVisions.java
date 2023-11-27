@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.beaker.reciperoulette.requests.Ingredient;
 import com.beaker.reciperoulette.requests.IngredientsRequest;
-import com.beaker.reciperoulette.Inventory.InventoryView;
+import com.beaker.reciperoulette.inventory.InventoryView;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.vision.v1.AnnotateImageRequest;
@@ -134,9 +134,7 @@ public class QueryVisions {
                         @Override
                         public void onFailure(@NonNull Call call, @NonNull IOException e) {
                             System.err.println("Request failed with code: " + e);
-                            c.runOnUiThread(() -> {
-                                Toast.makeText(c, "Upload failed. Please try again later.", Toast.LENGTH_SHORT).show();
-                            });
+                            c.runOnUiThread(() -> Toast.makeText(c, "Upload failed. Please try again later.", Toast.LENGTH_SHORT).show());
                         }
 
                         @Override

@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette.Inventory;
+package com.beaker.reciperoulette.inventory;
 
 public class IngredientV2 {
     public String name;

@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette.Inventory;public class DeleteTicket {
+package com.beaker.reciperoulette.inventory;public class DeleteTicket {
     String userId;
     String[] ingredients;
 

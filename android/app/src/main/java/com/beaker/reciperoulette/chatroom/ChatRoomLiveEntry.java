@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette.ChatRoom;
+package com.beaker.reciperoulette.chatroom;
 
 import android.os.Parcel;
 import android.os.Parcelable;
