@@ -85,8 +85,8 @@ router.put('/update', async (req, res) => {
 
     await Promise.all(ingredients.map(async (ingredientName) => {    
       const userIngredient = await dbFunctions.dbFindRecord(Models.Ingredient, { userId });
-      
-      if (!userIngredient || userIngredient == null) {
+      // console.log(userIngredient);
+      if (userIngredient == null) {
         console.log(`User with userId ${userId} not found`);
         res.status(404).send();
         return;
@@ -94,8 +94,9 @@ router.put('/update', async (req, res) => {
         console.log("Get userId: " + userIngredient.userId);
       }
 
-      const ingredient = dbFunctions.dbFindAllRecords(userIngredient.ingredients, ing => ing.name === ingredientName);
-      
+      const ingredient = await dbFunctions.dbFindAllRecords(userIngredient.ingredients, ing => ing.name === ingredientName);
+      console.log(ingredient);
+
       if (ingredient) {
         if (ingredient.count > 1) {
           // Decrement count if it's more than 1
@@ -105,6 +106,7 @@ router.put('/update', async (req, res) => {
           console.log('Count after: ' + ingredient.count);
         } else {
           // Remove ingredient from user's ingredients array if count is 1 or less
+          console.log('Remove ingredient');
           console.log('Ingredient Name: ' + ingredientName);
           console.log('Count: ' + ingredient.count);
           
@@ -116,7 +118,7 @@ router.put('/update', async (req, res) => {
       }
       dbFunctions.dbSaveRecord(userIngredient);
     }));
-    res.status(200).send();
+    res.status(200).send("Successfully updated the database");
     return;
 
 });
