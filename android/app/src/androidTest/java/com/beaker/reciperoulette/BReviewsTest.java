@@ -11,9 +11,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.beaker.reciperoulette.RecyclerViewActions.scrollToPosition;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.fail;
 
 import android.content.Context;
@@ -40,12 +39,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.beaker.reciperoulette.RecyclerViewActions.scrollToPosition;
-
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class B_Reviews {
+public class BReviewsTest {
 
     @Rule
     public ActivityScenarioRule<MainMenu> mActivityScenarioRule =
@@ -55,8 +52,6 @@ public class B_Reviews {
     public void testReviewsEntry() {
         onView(withText(R.string.recipe_review))
                 .perform(click());
-
-        RecyclerViewMatcher rvm = new RecyclerViewMatcher(R.id.rev_recycler);
 
         //Get context
         Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
@@ -79,6 +74,7 @@ public class B_Reviews {
         {
             if(response.isSuccessful())
             {
+                assert response.body() != null;
                 String res = response.body().string();
                 Review[] userArray = new Gson().fromJson(res, Review[].class);
 
@@ -118,7 +114,6 @@ public class B_Reviews {
     public void testReviewsDetailed() {
         onView(withText(R.string.recipe_review))
                 .perform(click());
-        RecyclerViewMatcher rvm = new RecyclerViewMatcher(R.id.rev_recycler);
 
         //Get context
         Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
@@ -139,6 +134,7 @@ public class B_Reviews {
         OkHttpClient client = new OkHttpClient();
         try (Response response = client.newCall(req).execute()) {
             if (response.isSuccessful()) {
+                assert response.body() != null;
                 String res = response.body().string();
                 Review[] userArray = new Gson().fromJson(res, Review[].class);
 

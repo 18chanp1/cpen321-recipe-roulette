@@ -23,7 +23,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class B_MainMenuTest {
+public class BMainMenuTest {
 
     /**
      * The following tests asserts that all the buttons can be found in the main menu.
@@ -38,7 +38,7 @@ public class B_MainMenuTest {
     {
         ViewInteraction button = onView(
                 allOf(withId(R.id.menu1), withText("Recipe Engine"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.view.ViewGroup.class))),
                         isDisplayed()));
         button.check(matches(isDisplayed()));
     }
@@ -48,7 +48,7 @@ public class B_MainMenuTest {
     {
         ViewInteraction button2 = onView(
                 allOf(withId(R.id.menu2), withText("Flavor Profile"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.view.ViewGroup.class))),
                         isDisplayed()));
         button2.check(matches(isDisplayed()));
     }
@@ -59,7 +59,7 @@ public class B_MainMenuTest {
     {
         ViewInteraction button3 = onView(
                 allOf(withId(R.id.menu3), withText("Request Ingredient"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.view.ViewGroup.class))),
                         isDisplayed()));
         button3.check(matches(isDisplayed()));
     }
@@ -69,7 +69,7 @@ public class B_MainMenuTest {
     {
         ViewInteraction button4 = onView(
                 allOf(withId(R.id.menu4), withText("Cook with others"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.view.ViewGroup.class))),
                         isDisplayed()));
         button4.check(matches(isDisplayed()));
     }
@@ -79,7 +79,7 @@ public class B_MainMenuTest {
     {
         ViewInteraction button5 = onView(
                 allOf(withId(R.id.menu5), withText("Recipe Reviews"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.view.ViewGroup.class))),
                         isDisplayed()));
         button5.check(matches(isDisplayed()));
     }
@@ -88,7 +88,7 @@ public class B_MainMenuTest {
     public void findTakePhotoButton() {
         ViewInteraction button6 = onView(
                 allOf(withId(R.id.menu6), withText("Take Photo"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.view.ViewGroup.class))),
                         isDisplayed()));
         button6.check(matches(isDisplayed()));
     }

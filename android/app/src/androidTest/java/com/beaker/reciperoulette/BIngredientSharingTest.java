@@ -50,7 +50,7 @@ import okhttp3.Response;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class B_IngredientSharingTest {
+public class BIngredientSharingTest {
 
     @Rule
     public ActivityScenarioRule<MainMenu> mActivityScenarioRule =
@@ -104,8 +104,6 @@ public class B_IngredientSharingTest {
         onView(withText(R.string.req_ingredient))
                 .perform(click());
 
-        RecyclerViewMatcher rvm = new RecyclerViewMatcher(R.id.rq_recycler);
-
         //Get context
         Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
@@ -127,6 +125,7 @@ public class B_IngredientSharingTest {
         {
             if(response.isSuccessful())
             {
+                assert response.body() != null;
                 String res = response.body().string();
                 IngredientRequest[] userArray = new Gson().fromJson(res, IngredientRequest[].class);
 
@@ -170,10 +169,10 @@ public class B_IngredientSharingTest {
     }
 
     @Test
-    public void makeRequest() throws InterruptedException {
+    public void makeRequest() {
         onView(withText(R.string.req_ingredient))
                 .perform(click());
-        String testFood = "Horse Testicles" + new Date().toString();
+        String testFood = "Horse Testicles" + new Date();
         String contactDet = "123 456";
 
         onView(withHint(R.string.ingredient))
@@ -190,7 +189,6 @@ public class B_IngredientSharingTest {
         restartActivity();
 
         //iterate through recycler view
-        RecyclerViewMatcher rvm = new RecyclerViewMatcher(R.id.rq_recycler);
 
         //Get context
         Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
@@ -213,6 +211,7 @@ public class B_IngredientSharingTest {
         {
             if(response.isSuccessful())
             {
+                assert response.body() != null;
                 String res = response.body().string();
                 IngredientRequest[] userArray = new Gson().fromJson(res, IngredientRequest[].class);
 
@@ -265,7 +264,7 @@ public class B_IngredientSharingTest {
         onView(withText(R.string.req_ingredient))
                 .perform(click());
 
-        String testFood = "Horse Testicles" + new Date().toString();
+        String testFood = "Horse Testicles" + new Date();
         String contactDet = "123 456";
 
         onView(withId(R.id.rq_ingredient_entry))
@@ -286,7 +285,6 @@ public class B_IngredientSharingTest {
                 .perform(click());
 
         //iterate through recycler view
-        RecyclerViewMatcher rvm = new RecyclerViewMatcher(R.id.rq_recycler);
 
         //Get context
         Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
@@ -309,6 +307,7 @@ public class B_IngredientSharingTest {
         {
             if(response.isSuccessful())
             {
+                assert response.body() != null;
                 String res = response.body().string();
                 IngredientRequest[] userArray = new Gson().fromJson(res, IngredientRequest[].class);
 
@@ -384,11 +383,6 @@ public class B_IngredientSharingTest {
         onView(withText(R.string.req_ingredient))
                 .perform(click());
 
-//        ActivityScenario<MainMenu> scenario =
-//                mActivityScenarioRule.getScenario();
-//
-//        scenario.moveToState(Lifecycle.State.RESUMED);
-//        scenario.recreate();
     }
 
 }

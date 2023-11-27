@@ -2,13 +2,11 @@ package com.beaker.reciperoulette;
 
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
 
 import android.content.Context;
@@ -31,7 +29,7 @@ import okhttp3.Response;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class B_FlavorProfile {
+public class BFlavorProfileTest {
 
     @Rule
     public ActivityScenarioRule<FlavorProfile> mActivityScenarioRule =
@@ -80,6 +78,7 @@ public class B_FlavorProfile {
         {
             if(res.isSuccessful())
             {
+                assert res.body() != null;
                 String result = res.body().string();
 
                 //assert fetched result is the same

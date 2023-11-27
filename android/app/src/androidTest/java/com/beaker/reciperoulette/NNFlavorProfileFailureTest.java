@@ -7,14 +7,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.junit.Assert.fail;
-
-import android.content.Context;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,14 +18,14 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class NN_FlavorProfileFailure {
+public class NNFlavorProfileFailureTest {
 
     @Rule
     public ActivityScenarioRule<FlavorProfile> mActivityScenarioRule =
             new ActivityScenarioRule<>(FlavorProfile.class);
 
     @Rule
-    public T_InternetOffRule ior = new T_InternetOffRule();
+    public TInternetOffRule ior = new TInternetOffRule();
 
     @Test
     public void checkTitleExists() {
@@ -52,7 +48,6 @@ public class NN_FlavorProfileFailure {
     public void checkFetchedDescription() throws InterruptedException {
         //GET from server
         //Get context
-        Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
 
         Thread.sleep(100);

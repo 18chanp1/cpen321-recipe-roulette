@@ -2,7 +2,6 @@ package com.beaker.reciperoulette;
 
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -10,16 +9,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.beaker.reciperoulette.RecyclerViewActions.scrollToPosition;
 import static org.hamcrest.Matchers.allOf;
-import static org.junit.Assert.fail;
 
-import android.content.Context;
 import android.view.View;
 
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.beaker.reciperoulette.requests.IngredientRequestView;
 
@@ -31,14 +27,14 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class NN_IngredientSharingTest {
+public class NNIngredientSharingTest {
 
     @Rule
     public ActivityScenarioRule<IngredientRequestView> mActivityScenarioRule =
             new ActivityScenarioRule<>(IngredientRequestView.class);
 
     @Rule
-    public T_InternetOffRule ior = new T_InternetOffRule();
+    public TInternetOffRule ior = new TInternetOffRule();
 
     @Test
     public void allElementsPresent() {
@@ -81,9 +77,7 @@ public class NN_IngredientSharingTest {
 
     @Test
     public void testIngredientRequestsNoNetwork() throws InterruptedException {
-        RecyclerViewMatcher rvm = new RecyclerViewMatcher(R.id.rq_recycler);
         //Get context
-        Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         Thread.sleep(100);
 

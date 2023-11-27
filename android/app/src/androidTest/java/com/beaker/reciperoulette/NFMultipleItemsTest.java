@@ -1,11 +1,6 @@
 package com.beaker.reciperoulette;
 
 
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
-import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.fail;
 
 import android.content.Context;
@@ -37,7 +32,7 @@ import okhttp3.Response;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class NF_MultipleItems {
+public class NFMultipleItemsTest {
 
     @Rule
     public ActivityScenarioRule<MainMenu> mActivityScenarioRule =
@@ -58,7 +53,7 @@ public class NF_MultipleItems {
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
         IngredientsRequest testRequest = new IngredientsRequest(email);
-        testRequest.ingredients = new ArrayList<Ingredient>();
+        testRequest.ingredients = new ArrayList<>();
 
 
 
@@ -97,13 +92,9 @@ public class NF_MultipleItems {
 
         try(Response res = client.newCall(req).execute())
         {
-            if(res.isSuccessful())
+            if(!res.isSuccessful())
             {
-                String result = res.body().string();
-
-            }
-            else {
-                fail("Server Error");
+                fail("server error");
             }
         }
 

@@ -7,7 +7,7 @@ import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
-public class T_InternetOffRule implements TestRule {
+public class TInternetOffRule implements TestRule {
     @NonNull
     @Override
     public Statement apply(@NonNull Statement base, @NonNull Description description) {
