@@ -35,7 +35,7 @@ public class MainMenu extends AppCompatActivity {
 
         Button takePhotoButton = findViewById(R.id.menu6);
         takePhotoButton.setOnClickListener(view -> {
-            Intent takePhotoIntent = new Intent(MainMenu.this, TakePhoto.class);
+            Intent takePhotoIntent = new Intent(MainMenu.this, UploadGroceries.class);
             startActivity(takePhotoIntent);
         });
 

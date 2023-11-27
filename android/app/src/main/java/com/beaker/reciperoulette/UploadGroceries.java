@@ -44,7 +44,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class TakePhoto extends AppCompatActivity {
+public class UploadGroceries extends AppCompatActivity {
 
     private static final int PERMISSION_CODE = 1000;
     private static final int GALLERY_PERMISSION_CODE = 1001;
@@ -61,7 +61,7 @@ public class TakePhoto extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.take_photo);
+        setContentView(R.layout.upload_groceries);
 
         mImageView = findViewById(R.id.imageview);
         mCaptureBtn = findViewById(R.id.capture_image_btn);
@@ -92,12 +92,12 @@ public class TakePhoto extends AppCompatActivity {
         sendImageBtn.setOnClickListener(view -> {
             if (imageSelectedOrCaptured) {
                 String imageUriString = image_uri.toString();
-                QueryVisions.processImage(imageUriString, TakePhoto.this);
+                QueryVisions.processImage(imageUriString, UploadGroceries.this);
 
                 Intent returnMenuIntent = new Intent(this, MainMenu.class);
                 startActivity(returnMenuIntent);
             } else {
-                Toast.makeText(TakePhoto.this, "Please capture or select an image first.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UploadGroceries.this, "Please capture or select an image first.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -147,7 +147,7 @@ public class TakePhoto extends AppCompatActivity {
                         imageSelectedOrCaptured = true; // Set the flag to true when an image is captured
                         sendImageBtn.setVisibility(View.VISIBLE); // Show the button
                     } else {
-                        Toast.makeText(TakePhoto.this, "Failed to capture image", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UploadGroceries.this, "Failed to capture image", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -165,7 +165,7 @@ public class TakePhoto extends AppCompatActivity {
                         imageSelectedOrCaptured = true; // Set the flag to true when an image is captured
                         sendImageBtn.setVisibility(View.VISIBLE); // Show the button
                     } else {
-                        Toast.makeText(TakePhoto.this, "Failed to select image", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UploadGroceries.this, "Failed to select image", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

@@ -49,7 +49,7 @@
             android:name="com.beaker.reciperoulette.RecipeFacebook.RecipeFacebook"
             android:exported="false" />
         <activity
-            android:name="com.beaker.reciperoulette.TakePhoto"
+            android:name="com.beaker.reciperoulette.UploadGroceries"
             android:exported="false" />
         <activity
             android:name="com.beaker.reciperoulette.MainMenu"
