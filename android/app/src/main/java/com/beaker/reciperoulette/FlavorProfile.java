@@ -28,19 +28,24 @@ public class FlavorProfile extends AppCompatActivity {
         setContentView(R.layout.activity_flavor_profile);
 
         flavorProfile = findViewById(R.id.fp_result);
+        assert flavorProfile != null;
 
         //make an http request for the flavor profile
         //get tokens
         SharedPreferences sharedPref =
                 this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
-        String tok = sharedPref.getString("TOKEN", "NOTOKEN");
-        String email = sharedPref.getString("EMAIL", "NOEMAIL");
+        String tok = sharedPref.getString(getString(R.string.prf_token), getString(R.string.prf_token_def));
+        String email = sharedPref.getString(getString(R.string.prf_eml), getString(R.string.prf_eml_def));
+
+        if(tok.equals(getString(R.string.prf_token_def)) ||
+                email.equals(getString(R.string.prf_eml_def)))
+            throw new IllegalStateException();
 
         //get requests from server
         Request req = new Request.Builder()
-                .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/flavourprofile")
-                .addHeader("email", email)
-                .addHeader("userToken", tok)
+                .url(getString(R.string.http_flavor_profile_url))
+                .addHeader(getString(R.string.http_args_email), email)
+                .addHeader(getString(R.string.http_args_userToken), tok)
                 .build();
 
         OkHttpClient client = new OkHttpClient();
@@ -56,7 +61,7 @@ public class FlavorProfile extends AppCompatActivity {
                 if (response.code() == Utilities.HTTP_511)
                 {
 
-                    CharSequence s = "Exit the app and try again";
+                    CharSequence s = getString(R.string.msg_token_expired);
 
                     Toast t = Toast.makeText(FlavorProfile.this, s, Toast.LENGTH_SHORT);
                     t.show();

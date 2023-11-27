@@ -161,6 +161,9 @@ public class ReviewDetailed extends AppCompatActivity {
                 this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
         String tok = sharedPref.getString(getString(R.string.prf_token), getString(R.string.prf_token_def));
 
+        if(tok.equals(getString(R.string.prf_token_def)))
+            throw new IllegalStateException();
+
         Gson gson = new Gson();
         String json = gson.toJson(new LikeTicket(tok, id, true, authorText.getText().toString()));
 
@@ -169,7 +172,7 @@ public class ReviewDetailed extends AppCompatActivity {
 
         //get requests from server
         Request req = new Request.Builder()
-                .url(getString(R.string.http_rev_like))
+                .url(getString(R.string.http_rev_like_url))
                 .addHeader(getString(R.string.http_args_userToken), tok)
                 .addHeader(getString(R.string.http_args_id), String.valueOf(id))
                 .addHeader(getString(R.string.http_args_email), authorText.getText().toString())

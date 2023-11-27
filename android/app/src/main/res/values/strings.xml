@@ -94,6 +94,23 @@
     <!-- Prefix for rating -->
     <string name="rev_rating_pref">Rating: </string>
 
+    <!--    Messages for main-->
+    <string name="main_msg_no_perm_title">No notifications allowed</string>
+    <string name="main_msg_no_perm_body">Since you did not allow notifications,
+        you will not get information on ingredient sharing.</string>
+
+    <string name="main_msg_allow_perm">Allow notification permissions</string>
+    <string name="main_msg_allow_perm_det">You must allow the permissions in order to get real time
+        notifications on ingredient sharing</string>
+    <string name="main_msg_perm_OK">OK</string>
+    <string name="main_msg_perm_REJ">Reject Notifications</string>
+
+    <!--  sign in messages-->
+    <string name="main_msg_decl_signin">You declined to sign in. You have to wait </string>
+    <string name="main_msg_decl_signin2"> minutes</string>
+    <string name="main_msg_signin_android">You must be logged into a google account on android first</string>
+
+
 
 
 <!--    Constants for keys transferred from up-->
@@ -101,6 +118,9 @@
 
 <!--    Constants for keys transferred from review to detailed-->
     <string name="rev_fromrev">REVIEW</string>
+
+<!--    Constants for keys transferred from menu-->
+    <string name="menu_signout">SIGNOUT</string>
 
     <!--    Server Details-->
     <string name="server_wss_url">wss://cpen321-reciperoulette.westus.cloudapp.azure.com</string>
@@ -121,7 +141,8 @@
     <string name="http_ingred_req_new_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests/new</string>
     <string name="http_inv_update_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/foodInventoryManager/update</string>
     <string name="http_inv_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/foodInventoryManager</string>
-    <string name="http_rev_like">https://cpen321-reciperoulette.westus.cloudapp.azure.com/reviews/like</string>
+    <string name="http_rev_like_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/reviews/like</string>
+    <string name="http_flavor_profile_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/flavourprofile</string>
 
 
     <!--    HTTP Arguments-->
