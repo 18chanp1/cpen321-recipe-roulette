@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette.RecipeFacebook;
+package com.beaker.reciperoulette.reviews;
 
 public class LikeTicket {
     String userToken;

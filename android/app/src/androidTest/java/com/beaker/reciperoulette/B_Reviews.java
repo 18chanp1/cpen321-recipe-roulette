@@ -26,7 +26,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.beaker.reciperoulette.RecipeFacebook.Review;
+import com.beaker.reciperoulette.reviews.Review;
 import com.google.gson.Gson;
 
 import org.hamcrest.Matcher;

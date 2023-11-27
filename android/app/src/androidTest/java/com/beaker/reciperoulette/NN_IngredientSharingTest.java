@@ -21,7 +21,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.beaker.reciperoulette.IngredientRequest.IngredientRequestView;
+import com.beaker.reciperoulette.requests.IngredientRequestView;
 
 import org.hamcrest.Matcher;
 import org.junit.Rule;

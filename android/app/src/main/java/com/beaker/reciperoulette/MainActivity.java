@@ -258,9 +258,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void askNotificationPermission() {
         // This is only necessary for API level >= 33 (TIRAMISU)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-           if (shouldShowRequestPermissionRationale(POST_NOTIFICATIONS))
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                shouldShowRequestPermissionRationale(POST_NOTIFICATIONS)){
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.main_msg_allow_perm))
                         .setMessage(getString(R.string.main_msg_allow_perm_det))

@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette.RecipeFacebook;
+package com.beaker.reciperoulette.reviews;
 
 import android.content.Context;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette.IngredientRequest;
+package com.beaker.reciperoulette.requests;
 
 import android.content.Context;
 import android.content.Intent;

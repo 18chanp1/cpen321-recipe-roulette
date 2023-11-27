@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette.RecipeFacebook;
+package com.beaker.reciperoulette.reviews;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

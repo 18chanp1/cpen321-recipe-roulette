@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette.IngredientRequest;
+package com.beaker.reciperoulette.requests;
 
 import android.os.Parcel;
 import android.os.Parcelable;

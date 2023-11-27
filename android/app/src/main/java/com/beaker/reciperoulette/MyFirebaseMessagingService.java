@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
-import com.beaker.reciperoulette.IngredientRequest.IngredientRequestSelfView;
+import com.beaker.reciperoulette.requests.IngredientRequestSelfView;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -94,8 +94,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void createNotification(String title, String body)
     {
-        if(title == null) title = "";
-        if(body == null) body = "";
+        String notifTitle = title == null ? "" : title;
+        String notifBody = body == null ? "" : body;
 
         NotificationManager mNotificationManager;
 
@@ -106,8 +106,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         mBuilder.setContentIntent(pendingIntent);
         mBuilder.setSmallIcon(R.mipmap.ic_launcher_round);
-        mBuilder.setContentTitle(title);
-        mBuilder.setContentText(body);
+        mBuilder.setContentTitle(notifTitle);
+        mBuilder.setContentText(notifBody);
         mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
         mBuilder.setChannelId(getString(R.string.not_ch));
 

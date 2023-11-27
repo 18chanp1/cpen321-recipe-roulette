@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette.RecipeFacebook;
+package com.beaker.reciperoulette.reviews;
 
 import android.view.View;
 import android.widget.Button;

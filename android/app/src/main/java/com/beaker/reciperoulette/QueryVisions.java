@@ -9,8 +9,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.beaker.reciperoulette.IngredientRequest.Ingredient;
-import com.beaker.reciperoulette.IngredientRequest.IngredientsRequest;
+import com.beaker.reciperoulette.requests.Ingredient;
+import com.beaker.reciperoulette.requests.IngredientsRequest;
 import com.beaker.reciperoulette.Inventory.InventoryView;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;

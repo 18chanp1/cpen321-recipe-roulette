@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette.IngredientRequest;
+package com.beaker.reciperoulette.requests;
 
 import java.util.List;
 

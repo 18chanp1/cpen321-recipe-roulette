@@ -32,7 +32,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.beaker.reciperoulette.IngredientRequest.IngredientRequest;
+import com.beaker.reciperoulette.requests.IngredientRequest;
 import com.google.gson.Gson;
 
 import org.hamcrest.Matcher;

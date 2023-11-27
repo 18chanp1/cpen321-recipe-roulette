@@ -1,4 +1,4 @@
-package com.beaker.reciperoulette.RecipeFacebook;
+package com.beaker.reciperoulette.reviews;
 
 import android.os.Parcel;
 import android.os.Parcelable;

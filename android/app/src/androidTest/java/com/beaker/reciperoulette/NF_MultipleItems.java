@@ -16,8 +16,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.beaker.reciperoulette.IngredientRequest.Ingredient;
-import com.beaker.reciperoulette.IngredientRequest.IngredientsRequest;
+import com.beaker.reciperoulette.requests.Ingredient;
+import com.beaker.reciperoulette.requests.IngredientsRequest;
 import com.google.gson.Gson;
 
 import org.junit.Rule;

@@ -110,7 +110,9 @@
     <string name="main_msg_decl_signin2"> minutes</string>
     <string name="main_msg_signin_android">You must be logged into a google account on android first</string>
 
-
+    <!--Review writing messages-->
+    <string name="rev_cust_empty">You must enter a title and a review</string>
+    <string name="revc_msg_submit_fail">Unable to submit review, please try again later.</string>
 
 
 <!--    Constants for keys transferred from up-->
@@ -143,6 +145,7 @@
     <string name="http_inv_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/foodInventoryManager</string>
     <string name="http_rev_like_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/reviews/like</string>
     <string name="http_flavor_profile_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/flavourprofile</string>
+    <string name="http_custom_rev_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/reviews/custom</string>
 
 
     <!--    HTTP Arguments-->
