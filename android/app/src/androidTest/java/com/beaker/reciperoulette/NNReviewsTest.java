@@ -24,7 +24,7 @@ import org.junit.runner.RunWith;
 public class NNReviewsTest {
 
     @Rule
-    public com.beaker.reciperoulette.TInternetOffRule TInternetOffRule =
+    public TInternetOffRule TInternetOffRule =
             new TInternetOffRule();
     @Rule
     public ActivityScenarioRule<MainMenu> mActivityScenarioRule =
