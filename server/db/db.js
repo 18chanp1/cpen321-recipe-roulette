@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-if (!process.env.APP_ENV == "TEST") {
-  mongoose.connect("mongodb://jaber:recipe@137.135.47.124:27017/Recipe_Roulette?authSource=admin", {useNewUrlParser: true, useUnifiedTopology: true});
+if (process.env.APP_ENV != "TEST") {
+	mongoose.connect("mongodb://jaber:recipe@137.135.47.124:27017/Recipe_Roulette?authSource=admin", {useNewUrlParser: true, useUnifiedTopology: true});
   const db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error:'));
   db.once('open', function() {
@@ -30,7 +30,7 @@ const IngredientRequest = mongoose.model('ingredientRequest', ingredientRequestS
 const foodItemSchema = new mongoose.Schema({
   name: {type: String, required: true},
   count: {type: Number, min: 0, required: true},
-  date: [{type: Date, required: true}]
+  date: [{type: Date, set: v => new Date(v * 1000), required: true}]
 })
 
 const foodItemsSchema = new mongoose.Schema({
