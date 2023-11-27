@@ -1,5 +1,4 @@
 var express = require('express');
-const { locals } = require('../app');
 var router = express.Router();
 var dbFunctions = require('../../db/db').Functions;
 var dbModels = require('../../db/db').Models;

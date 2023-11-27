@@ -44,8 +44,11 @@ router.post("/like", async (req, res, next) =>
 router.post("/custom", async (req, res, next) =>
 {
   let recipeName = req.body.recipeName;
-  let userId = req.body.email;
+  let userId = req.body.userId;
   let recipeSummary = req.body.recipeSummary;
+  console.log(recipeName);
+  console.log(userId);
+  console.log(recipeSummary);
   if (!recipeName || !userId || !recipeSummary) {
     res.status(400);
     res.send("Body parameters must not be empty");
