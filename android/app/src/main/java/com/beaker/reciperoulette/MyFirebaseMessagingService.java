@@ -31,16 +31,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                     // Get new FCM registration token
                     String token = task.getResult();
+                    assert token != null;
 
                     //Writing token and credentials to settings file
                     SharedPreferences sharedPref =
-                            c.getSharedPreferences("com.beaker.reciperoulette.TOKEN", Context.MODE_PRIVATE);
+                            c.getSharedPreferences(c.getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString("FCMTOKEN", token);
+                    editor.putString(c.getString(R.string.prf_fcmtoken), token);
                     editor.apply();
 
                     // Log and toast
-                    String msg = "Token obtained and saved.";
+                    String msg = c.getString(R.string.fcm_msg_ok);
                     Log.d(TAG, msg);
                     Log.d(TAG, token);
                     Toast.makeText(c, msg, Toast.LENGTH_SHORT).show();
@@ -55,9 +56,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         //Writing token and credentials to settings file
         SharedPreferences sharedPref =
-                getSharedPreferences("com.beaker.reciperoulette.TOKEN", Context.MODE_PRIVATE);
+                getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("FCMTOKEN", token);
+        editor.putString(getString(R.string.prf_fcmtoken), token);
         editor.apply();
         Log.d(TAG, "FCM TOKEN: " + token);
     }
@@ -69,8 +70,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-            String title = remoteMessage.getData().get("title");
-            String body = remoteMessage.getData().get("text");
+            String title = remoteMessage.getData().get(getString(R.string.fcm_msg_title));
+            String body = remoteMessage.getData().get(getString(R.string.fcm_msg_text));
             createNotification(title, body);
 
         }
@@ -93,6 +94,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void createNotification(String title, String body)
     {
+        if(title == null) title = "";
+        if(body == null) body = "";
+
         NotificationManager mNotificationManager;
 
         NotificationCompat.Builder mBuilder =
@@ -104,14 +108,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         mBuilder.setSmallIcon(R.mipmap.ic_launcher_round);
         mBuilder.setContentTitle(title);
         mBuilder.setContentText(body);
-        //.setAutoCancel(true)
         mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
-        mBuilder.setChannelId("FCM_NOTIF");
+        mBuilder.setChannelId(getString(R.string.not_ch));
 
         mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        mNotificationManager.createNotificationChannel(new NotificationChannel("FCM_NOTIF", "For fcm notifications", NotificationManager.IMPORTANCE_HIGH));
+        mNotificationManager.createNotificationChannel(new NotificationChannel(getString(R.string.not_ch), getString(R.string.not_ch_desc), NotificationManager.IMPORTANCE_HIGH));
 
         mNotificationManager.notify(notifs++, mBuilder.build());
 

@@ -2,7 +2,6 @@ package com.beaker.reciperoulette;
 
 
 import static android.Manifest.permission.POST_NOTIFICATIONS;
-
 import static com.beaker.Utilities.SIGNIN_TIMEOUT;
 
 import android.app.Activity;
@@ -10,7 +9,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,7 +18,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.IntentSenderRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.Identity;
@@ -35,8 +32,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
 import java.util.Calendar;
-
-
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -55,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
                     // FCM SDK (and your app) can post notifications.
                     Log.d(TAG, "Can post FCM notifications");
                 } else {
-                    assert getString(R.string.main_msg_no_perm_title) != null;
-                    assert getString(R.string.main_msg_no_perm_body) != null;
 
                     new AlertDialog.Builder(this)
                             .setTitle(getString(R.string.main_msg_no_perm_title))
@@ -95,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         timeUntilNextSignIn = Calendar.getInstance();
         oneTapClient = Identity.getSignInClient(this);
 
-        assert oneTapClient != null;
         assert timeUntilNextSignIn != null;
 
         //setup sign in request
@@ -142,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                             String username = credential.getId();
                             //For future reference, if we ever need to get the password.
                             // String password = credential.getPassword();
-                            if (idToken !=  null && username != null) {
+                            if (idToken != null) {
                                 // Got an ID token from Google. Use it to authenticate
                                 // with your backend.
                                 Log.d(TAG, "Got ID token.");
@@ -162,12 +155,8 @@ public class MainActivity extends AppCompatActivity {
                             {
                                 Log.d(TAG, "Id token was null");
                             }
-                            if(username == null)
-                            {
-                                Log.d(TAG, "Username was null");
-                            }
                         } catch (ApiException e) {
-                            Log.d(TAG, e.getMessage());
+                            Log.d(TAG, Objects.requireNonNull(e.getMessage()));
                         }
 
                     }
@@ -201,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
                     // do nothing and continue presenting the signed-out UI.
 
                     if(timeUntilNextSignIn.before(Calendar.getInstance())) {
-                        Log.d(TAG, e.getLocalizedMessage());
+                        Log.d(TAG, Objects.requireNonNull(e.getLocalizedMessage()));
                         Log.d(TAG, "registering new user");
 
                         oneTapClient.beginSignIn(signUpRequest).addOnSuccessListener(MainActivity.this, result ->
@@ -210,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                             activityResultLauncher.launch(intentSenderRequest);
                         }).addOnFailureListener(MainActivity.this, er ->
                         {
-                            Log.d(TAG, er.getMessage());
+                            Log.d(TAG, Objects.requireNonNull(er.getMessage()));
                             er.getCause();
                             Toast toast = Toast.makeText(MainActivity.this,getString(R.string.main_msg_signin_android), Toast.LENGTH_LONG);
                             toast.show();
@@ -270,25 +259,17 @@ public class MainActivity extends AppCompatActivity {
     private void askNotificationPermission() {
         // This is only necessary for API level >= 33 (TIRAMISU)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, POST_NOTIFICATIONS) ==
-                    PackageManager.PERMISSION_GRANTED) {
-                // FCM SDK (and your app) can post notifications.
-            } else if (shouldShowRequestPermissionRationale(POST_NOTIFICATIONS))
+           if (shouldShowRequestPermissionRationale(POST_NOTIFICATIONS))
 
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.main_msg_allow_perm))
                         .setMessage(getString(R.string.main_msg_allow_perm_det))
-                        .setPositiveButton(getString(R.string.main_msg_perm_OK), (dialogInterface, i) -> {
-                            requestPermissionLauncher.launch(POST_NOTIFICATIONS);
-                        })
+                        .setPositiveButton(getString(R.string.main_msg_perm_OK), (dialogInterface, i) -> requestPermissionLauncher.launch(POST_NOTIFICATIONS))
                         .setNegativeButton(getString(R.string.main_msg_perm_REJ), ((dialogInterface, i) -> {
                             //Do nothing
                         }))
                         .create()
                         .show();
-        } else {
-            // Directly ask for the permission
-            requestPermissionLauncher.launch(POST_NOTIFICATIONS);
         }
     }
 }

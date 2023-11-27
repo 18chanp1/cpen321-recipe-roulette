@@ -159,5 +159,13 @@
     <!--    Date Format from server-->
     <string name="sdf_server">yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'</string>
 
+    <!-- Firebase constants-->
+    <string name="fcm_msg_ok">Token obtained and saved</string>
+    <string name="fcm_msg_title">title</string>
+    <string name="fcm_msg_text">text</string>
+
+    <!--    Notification constants-->
+    <string name="not_ch">FCM_NOTIF</string>
+    <string name="not_ch_desc">For fcm notifications</string>
 
 </resources>
