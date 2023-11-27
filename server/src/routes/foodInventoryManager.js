@@ -95,7 +95,8 @@ router.put('/update', async (req, res) => {
       }
 
       const ingredient = await dbFunctions.dbFindAllRecords(userIngredient.ingredients, ing => ing.name === ingredientName);
-      console.log(ingredient);
+      const ingredientIndex = userIngredient.ingredients.findIndex(ing => ing.name === ingredientName);
+      console.log("Ingredient" + ingredient + " Ingredient Index: " + ingredientIndex);
 
       if (ingredient) {
         if (ingredient.count > 1) {
@@ -105,28 +106,52 @@ router.put('/update', async (req, res) => {
           ingredient.count -= 1;
           console.log('Count after: ' + ingredient.count);
           console.log('Remove the earliest date');
-
-          // ingredient.date.sort((a, b) => a - b);
           
+          
+          let smallestElement = Infinity;
+          let smallestElementIndex = 0;
+          for (let i = 0; i < ingredient.date.length; i++) {
+            if (ingredient.date[i] < smallestElement) {
+              smallestElement = ingredient.date[i];
+              smallestElementIndex = i;
+            }
+          }
+          // ingredient.date.splice(smallestElementIndex, 1);
+          
+         
+          // ingredient.date.sort((a, b) => a - b);
+          /*
           let smallestElement = Infinity;
           for (let item of ingredient.date) {
             if (item < smallestElement) {
               smallestElement = item;
             }
           }
+          */
 
           console.log("Earliest Date: " + smallestElement);
-          dbFunctions.dbUpdateOne(Models.Ingredient, {userId}, {$pull : { ingredient : {date : smallestElement}}});
-          dbFunctions.dbUpdateOne(Models.Ingredient, {userId}, {$pull : {date : smallestElement}});
+          // dbFunctions.dbUpdateOne(Models.Ingredient, {userId}, {$pull : { ingredient : {date : smallestElement}}});
+          // dbFunctions.dbUpdateOne(Models.Ingredient, {userId}, {$pull : {date : smallestElement}});
+          let filter = {'userId': userId};
+
+          // let update = { $pull: {} };
+          // update.$pull['ingredients.' + ingredientIndex + '.date'] = smallestElement;
+
+          let update = {$pull: {
+            [`ingredients.${ingredientIndex}.date`]: smallestElement
+          }}
+
+          await dbFunctions.dbUpdateOne(Models.Ingredient, filter, update);
           // ingredient.date = ingredient.date.slice(1, ingredient.date.length - 1);
           
-
+          /*
           let smallestDate = Math.min(...ingredient.date);
           let result = await Models.Ingredient.updateOne(
             { 'userId': userId, 'ingredients.name': ingredientName}, 
             {$pull: {'ingredient.$.date': smallestDate}}
             );
           console.log(result);
+          */
           
         } else {
           // Remove ingredient from user's ingredients array if count is 1 or less
