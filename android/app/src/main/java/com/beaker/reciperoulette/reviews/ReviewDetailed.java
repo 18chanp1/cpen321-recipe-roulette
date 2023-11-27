@@ -134,7 +134,8 @@ public class ReviewDetailed extends AppCompatActivity {
                 reviewText.setText(Html.fromHtml(r.getReview(), Html.FROM_HTML_MODE_COMPACT));
             }
 
-            ratingText.setText(r.getRating());
+            String newRatingText = getString(R.string.rev_rating_pref) + r.getRating();
+            ratingText.setText(newRatingText);
 
             if(r.getImage() != null && r.getImage().length() != 0)
             {
