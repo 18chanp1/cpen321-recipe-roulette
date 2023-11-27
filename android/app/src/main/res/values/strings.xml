@@ -3,6 +3,7 @@
     <string name="default_web_client_id">217153905955-spv5u408mc29flpg3bgqqev5272k2cd3.apps.googleusercontent.com</string>
     <string name="signin_title">Sign in to use app.</string>
 
+    <!--    Menu buttons-->
     <string name="recipe_engine">Recipe Engine</string>
     <string name="take_photo">Add to Pantry</string>
     <string name="flavor_profile">Flavor Profile</string>
