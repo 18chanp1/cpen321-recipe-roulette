@@ -1,6 +1,5 @@
 var admin = require("firebase-admin");
 var serviceAccount = require(process.env.FB_CRED);
-//var serviceAccount = require("../../secrets/firebase_admin.json");
 var dbModels = require("../../db/db").Models;
 var dbFunctions = require("../../db/db").Functions;
 

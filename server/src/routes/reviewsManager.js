@@ -57,6 +57,7 @@ router.post("/custom", async (req, res, next) =>
     userId,
     recipeId,
     recipeSummary,
+    recipeImage,
     recipeName,
     numTimes: 1,
     likes: 0

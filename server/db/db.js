@@ -14,6 +14,7 @@ const recipeSchema = new mongoose.Schema({
   recipeName: String,
   recipeId: String,
   recipeSummary: String,
+  recipeImage: String,
   numTimes: Number,
   likes: Number
 })
@@ -41,16 +42,6 @@ const foodItemsSchema = new mongoose.Schema({
 
 // Create a model
 const Ingredient = mongoose.model('foodItems', foodItemsSchema);
-
-const reviewSchema = new mongoose.Schema({
-  reviewId: mongoose.ObjectId,
-  userId: String,
-  recipeName: String,
-  reviewTitle: String,
-  reviewText: String,
-  likes: Number
-})
-const Review = mongoose.model('review', reviewSchema);
 
 const dbGetAllReviews = async () => {
   let allRecipes = await Recipe.find().limit(30);
@@ -86,7 +77,7 @@ const dbGetObjectId = () => {
 
 module.exports = { 
   Models: {
-    Recipe, IngredientRequest, Ingredient, Review, 
+    Recipe, IngredientRequest, Ingredient
   },
   Functions: {
     dbGetAllReviews, dbFindRecord, dbFindAllRecords, dbDeleteRecord, dbSaveRecord, dbGetObjectId, dbUpdateOne
