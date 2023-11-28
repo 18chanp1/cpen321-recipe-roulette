@@ -46,14 +46,12 @@ router.post("/custom", async (req, res, next) =>
   let recipeName = req.body.recipeName;
   let userId = req.body.userId;
   let recipeSummary = req.body.recipeSummary;
-  console.log(recipeName);
-  console.log(userId);
-  console.log(recipeSummary);
   if (!recipeName || !userId || !recipeSummary) {
     res.status(400);
     res.send("Body parameters must not be empty");
     return;
   }
+  let recipeImage = req.body.recipeImage ? req.body.recipeImage : "https://visitors-centre.jrc.ec.europa.eu/sites/default/files/thumbnail/kmffq_additional-illo4video_2019_5_fishplate%5B1%5D.jpg"
   let recipeId = randomUUID();
   let savedRecipe = new dbModels.Recipe({ 
     userId,
