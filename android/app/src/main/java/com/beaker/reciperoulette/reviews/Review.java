@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class Review implements Parcelable {
-    int id;
+    String id;
     int rating;
     String author;
     String title;
@@ -16,7 +16,7 @@ public class Review implements Parcelable {
     String image;
 
     protected Review(Parcel in) {
-        id = in.readInt();
+        id = in.readString();
         rating = in.readInt();
         author = in.readString();
         title = in.readString();
@@ -44,11 +44,11 @@ public class Review implements Parcelable {
 
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -75,7 +75,7 @@ public class Review implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeInt(id);
+        parcel.writeString(id);
         parcel.writeInt(rating);
         parcel.writeString(author);
         parcel.writeString(title);

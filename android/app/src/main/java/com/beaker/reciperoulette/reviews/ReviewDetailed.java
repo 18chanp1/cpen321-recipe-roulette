@@ -155,7 +155,7 @@ public class ReviewDetailed extends AppCompatActivity {
 
     }
 
-    private void likeListener(int id)
+    private void likeListener(String id)
     {
         //get tokens
         SharedPreferences sharedPref =

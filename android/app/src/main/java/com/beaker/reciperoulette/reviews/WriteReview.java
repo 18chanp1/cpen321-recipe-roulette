@@ -35,7 +35,7 @@ public class WriteReview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rev_write_review);
 
-        titleText = findViewById(R.id.rev_writereview_title);
+        titleText = findViewById(R.id.rev_titleEntry);
         reviewText = findViewById(R.id.rev_writereview_body);
         Button submitButton = findViewById(R.id.rev_review_submit);
 
@@ -99,6 +99,8 @@ public class WriteReview extends AppCompatActivity {
                         Log.d("test", "call ok");
                         Toast toast = Toast.makeText(WriteReview.this, getString(R.string.rq_msg_req_successful), Toast.LENGTH_LONG);
                         toast.show();
+
+                        runOnUiThread(() -> finish());
                     }
                 });
             }

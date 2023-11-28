@@ -2,11 +2,11 @@ package com.beaker.reciperoulette.reviews;
 
 public class LikeTicket {
     String userToken;
-    int id;
+    String id;
     boolean like;
     String email;
 
-    public LikeTicket(String userToken, int id, boolean like, String email) {
+    public LikeTicket(String userToken, String id, boolean like, String email) {
         this.userToken = userToken;
         this.id = id;
         this.like = like;
@@ -21,11 +21,11 @@ public class LikeTicket {
         this.userToken = userToken;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
