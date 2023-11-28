@@ -13,7 +13,7 @@ router.get('/', async function(req, res, next) {
       rating: recipe.likes,
       author: recipe.userId,
       title: recipe.recipeName,
-      image: "https://spoonacular.com/recipeImages/73420-312x231.jpg",
+      image: recipe.recipeImage,
       review: recipe.recipeSummary
     }
     response.push(review);
