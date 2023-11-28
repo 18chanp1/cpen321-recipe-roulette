@@ -93,7 +93,7 @@ router.post('/', async function(req, res, next) {
     }
     let ingredientRequest = await dbFunctions.dbFindRecord(
         dbModels.IngredientRequest, 
-        requestId
+        {requestId}
     );
 
     if (!ingredientRequest) {
