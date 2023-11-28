@@ -21,10 +21,16 @@ router.get('/', async function(req, res, next) {
     return;
   }
   // Push into a list
-  let ingredientList = [];
+  let ingredientListWithDate = [];
   allIngredients.ingredients.forEach(ingredient => {
-    ingredientList.push(ingredient.name);
+    ingredientListWithDate.push([Math.min.apply((d) => d.getTime(), ingredient.date), ingredient.name]);
   });
+  ingredientListWithDate.sort((e1, e2) => e1[0] > e2[0] ? 1: -1);
+
+  let ingredientList = []
+  for (i = 0; i < Math.min(20, ingredientListWithDate.length); i++) {
+    ingredientList.push(ingredientListWithDate[i][1]);
+  }
   // Get recipes from api endpoint
   let endpoint = `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${apiKey}&ingredients=${ingredientList}&number=5`;
   let apiResponse = await fetch(endpoint);

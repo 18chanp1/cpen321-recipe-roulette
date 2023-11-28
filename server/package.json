@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 8443 && node ./bin/www",
+    "start": "sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 8443 && FB_CRED=../../secrets/firebase_admin.json APP_ENV=PROD node ./bin/www",
     "test": "jest"
   },
   "dependencies": {
