@@ -117,42 +117,14 @@ router.put('/update', async (req, res) => {
               smallestElementIndex = i;
             }
           }
-          // ingredient.date.splice(smallestElementIndex, 1);
-          
-         
-          // ingredient.date.sort((a, b) => a - b);
-          /*
-          let smallestElement = Infinity;
-          for (let item of ingredient.date) {
-            if (item < smallestElement) {
-              smallestElement = item;
-            }
-          }
-          */
 
           console.log("Earliest Date: " + smallestElement);
-          // dbFunctions.dbUpdateOne(Models.Ingredient, {userId}, {$pull : { ingredient : {date : smallestElement}}});
-          // dbFunctions.dbUpdateOne(Models.Ingredient, {userId}, {$pull : {date : smallestElement}});
           let filter = {'userId': userId};
-
-          // let update = { $pull: {} };
-          // update.$pull['ingredients.' + ingredientIndex + '.date'] = smallestElement;
-
           let update = {$pull: {
             [`ingredients.${ingredientIndex}.date`]: smallestElement
           }}
 
           await dbFunctions.dbUpdateOne(Models.Ingredient, filter, update);
-          // ingredient.date = ingredient.date.slice(1, ingredient.date.length - 1);
-          
-          /*
-          let smallestDate = Math.min(...ingredient.date);
-          let result = await Models.Ingredient.updateOne(
-            { 'userId': userId, 'ingredients.name': ingredientName}, 
-            {$pull: {'ingredient.$.date': smallestDate}}
-            );
-          console.log(result);
-          */
           
         } else {
           // Remove ingredient from user's ingredients array if count is 1 or less
