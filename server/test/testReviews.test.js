@@ -8,7 +8,7 @@ const mockedDbGetAllRecipesResponse = [
         likes: 5,
         userId: "test@ubc.ca",
         recipeName: "Creamy Salmon Pasta",
-        image: "https://spoonacular.com/recipeImages/73420-312x231.jpg",
+        recipeImage: "https://spoonacular.com/recipeImages/73420-312x231.jpg",
         recipeSummary: "Lorem Ipsum for first recipe"
     },
     {
@@ -16,7 +16,7 @@ const mockedDbGetAllRecipesResponse = [
         likes: 2,
         userId: "test2@ubc.ca",
         recipeName: "Sticky Baked Chicken",
-        image: "https://spoonacular.com/recipeImages/73420-312x231.jpg",
+        recipeImage: "https://spoonacular.com/recipeImages/73420-312x231.jpg",
         recipeSummary: "Lorem Ipsum for second recipe"
     }        
 ]
@@ -48,7 +48,7 @@ describe("Get all recipes", () => {
               rating: recipe.likes,
               author: recipe.userId,
               title: recipe.recipeName,
-              image: recipe.image,
+              image: recipe.recipeImage,
               review: recipe.recipeSummary
             }
             expectedResponse.push(review);
@@ -72,7 +72,7 @@ describe("Get all recipes", () => {
             rating: mockedDbGetAllRecipesResponse[0].likes,
             author: mockedDbGetAllRecipesResponse[0].userId,
             title: mockedDbGetAllRecipesResponse[0].recipeName,
-            image: mockedDbGetAllRecipesResponse[0].image,
+            image: mockedDbGetAllRecipesResponse[0].recipeImage,
             review: mockedDbGetAllRecipesResponse[0].recipeSummary
         }
         for (i = 0; i < maxRecipes; i++) {
@@ -92,7 +92,7 @@ const mockedDbFindRecordResponse = {
     likes: 2,
     userId: "test2@ubc.ca",
     recipeName: "Sticky Baked Chicken",
-    image: "https://spoonacular.com/recipeImages/73420-312x231.jpg",
+    recipeImage: "https://spoonacular.com/recipeImages/73420-312x231.jpg",
     recipeSummary: "Lorem Ipsum for second recipe"
 } 
 

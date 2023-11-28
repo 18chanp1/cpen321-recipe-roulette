@@ -2,6 +2,7 @@ var admin = require("firebase-admin");
 var serviceAccount = require(process.env.FB_CRED);
 var dbModels = require("../../db/db").Models;
 var dbFunctions = require("../../db/db").Functions;
+const { randomUUID } = require('crypto');
 
 const app = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -20,7 +21,7 @@ router.post('/new', async function(req, res, next) {
     let fcmToken = req.body.fcmtok;
     let phoneNo = req.body.phoneNo;
     if (userId && ingredientName && fcmToken) {
-        let requestId = dbFunctions.dbGetObjectId();
+        let requestId = randomUUID();
         let newIngredientRequest = new dbModels.IngredientRequest({
             requestId, 
             userId,
@@ -54,7 +55,7 @@ router.post('/self/delete', async function(req, res, next) {
     if (requestId) {
         let ingredientRequest = dbFunctions.dbFindRecord(
             dbModels.IngredientRequest, 
-            {requestId: `${req.body.requestId}`}
+            {requestId}
             );
         if (ingredientRequest) {
             await dbFunctions.dbDeleteRecord(ingredientRequest);
@@ -92,7 +93,7 @@ router.post('/', async function(req, res, next) {
     }
     let ingredientRequest = await dbFunctions.dbFindRecord(
         dbModels.IngredientRequest, 
-        {requestId: `${requestId}`}
+        requestId
     );
 
     if (!ingredientRequest) {

@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var recipesRouter = require('./routes/recipesManager');
+var recipesRouter = require('./routes/recipeGenerator');
 var ingredientRequestRouter = require('./routes/ingredientRequestManager');
 var flavorProfileRouter = require('./routes/flavorProfileManager');
 let reviewRouter = require('./routes/reviewsManager');

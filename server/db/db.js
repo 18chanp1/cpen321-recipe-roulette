@@ -21,7 +21,7 @@ const recipeSchema = new mongoose.Schema({
 const Recipe = mongoose.model('recipe', recipeSchema);
 
 const ingredientRequestSchema = new mongoose.Schema({
-  requestId: mongoose.ObjectId,
+  requestId: String,
   userId: String,
   phoneNo: String,
   ingredientName: String,
@@ -71,15 +71,11 @@ const dbDeleteRecord = async (record) => {
   await record.deleteOne();
 }
 
-const dbGetObjectId = () => {
-  return new mongoose.Types.ObjectId();
-}
-
 module.exports = { 
   Models: {
     Recipe, IngredientRequest, Ingredient
   },
   Functions: {
-    dbGetAllReviews, dbFindRecord, dbFindAllRecords, dbDeleteRecord, dbSaveRecord, dbGetObjectId, dbUpdateOne
+    dbGetAllReviews, dbFindRecord, dbFindAllRecords, dbDeleteRecord, dbSaveRecord, dbUpdateOne
   }
 };
