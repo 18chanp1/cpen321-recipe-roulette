@@ -114,6 +114,7 @@ public class RecipeSelect extends AppCompatActivity {
                         for (RecipeDetails localRecipe : AllRecipes.recipeList) {
                             if (!localRecipe.name.isEmpty()) {
                                 Button recipeButton = new Button(RecipeSelect.this);
+                                recipeButton.setTag("valentinosfavoritebutton");
                                 recipeButton.setText(localRecipe.name);
                                 recipeButton.setOnClickListener(v -> {
                                     Toast.makeText(RecipeSelect.this, "Clicked " + localRecipe.name, Toast.LENGTH_SHORT).show();

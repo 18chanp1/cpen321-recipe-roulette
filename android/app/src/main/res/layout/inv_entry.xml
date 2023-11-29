@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="20dp"
+        android:layout_centerVertical="true"
+        android:id="@+id/img"/>
+
+
+    <TextView
+        android:id="@+id/item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/img"
+        android:textSize="20dp"
+        tools:text="Food Item" />
+
+    <TextView
+        android:id="@+id/expiry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item"
+        android:layout_toEndOf="@id/img"
+        tools:text="2023-11-25" />
+
+    <LinearLayout
+        android:id="@+id/linlayout"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/eat_but"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#673AB7"
+        android:orientation="horizontal" />
+
+    <Button
+        android:id="@+id/eat_but"
+        android:layout_width="161dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/expiry"
+        android:layout_marginStart="108dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@id/img"
+        android:text="@string/consume" />
+
+    <TextView
+        android:id="@+id/inv_new"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:layout_above="@id/linlayout"
+        android:layout_below="@id/expiry"
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginBottom="1dp"
+        android:layout_toRightOf="@id/img"
+        android:background="#3949AB"
+        android:text="@string/inv_new"
+        android:textColor="#EF9A9A"
+        android:textSize="20sp" />
+
+</RelativeLayout>

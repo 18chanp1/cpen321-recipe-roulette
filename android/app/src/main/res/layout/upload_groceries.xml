@@ -8,7 +8,7 @@
     tools:context=".UploadGroceries">
 
     <ImageView
-        android:id="@+id/imageview"
+        android:id="@+id/img"
         android:scaleType="centerCrop"
         android:src="@drawable/p"
         android:layout_width="400dp"

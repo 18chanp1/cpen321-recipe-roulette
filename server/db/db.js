@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-if (!process.env.APP_ENV == "TEST") {
+if (process.env.APP_ENV != "TEST") {
   mongoose.connect("mongodb://jaber:recipe@137.135.47.124:27017/Recipe_Roulette?authSource=admin", {useNewUrlParser: true, useUnifiedTopology: true});
   const db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error:'));
@@ -14,15 +14,17 @@ const recipeSchema = new mongoose.Schema({
   recipeName: String,
   recipeId: String,
   recipeSummary: String,
+  recipeImage: String,
   numTimes: Number,
   likes: Number
 })
 const Recipe = mongoose.model('recipe', recipeSchema);
 
 const ingredientRequestSchema = new mongoose.Schema({
-  requestId: mongoose.ObjectId,
+  requestId: String,
   userId: String,
-  ingredientDescription: String,
+  phoneNo: String,
+  ingredientName: String,
   fcmToken: String
 })
 const IngredientRequest = mongoose.model('ingredientRequest', ingredientRequestSchema);
@@ -40,16 +42,6 @@ const foodItemsSchema = new mongoose.Schema({
 
 // Create a model
 const Ingredient = mongoose.model('foodItems', foodItemsSchema);
-
-const reviewSchema = new mongoose.Schema({
-  reviewId: mongoose.ObjectId,
-  userId: String,
-  recipeName: String,
-  reviewTitle: String,
-  reviewText: String,
-  likes: Number
-})
-const Review = mongoose.model('review', reviewSchema);
 
 const dbGetAllReviews = async () => {
   let allRecipes = await Recipe.find().limit(30);
@@ -79,15 +71,11 @@ const dbDeleteRecord = async (record) => {
   await record.deleteOne();
 }
 
-const dbGetObjectId = () => {
-  return new mongoose.Types.ObjectId();
-}
-
 module.exports = { 
   Models: {
-    Recipe, IngredientRequest, Ingredient, Review, 
+    Recipe, IngredientRequest, Ingredient
   },
   Functions: {
-    dbGetAllReviews, dbFindRecord, dbFindAllRecords, dbDeleteRecord, dbSaveRecord, dbGetObjectId, dbUpdateOne
+    dbGetAllReviews, dbFindRecord, dbFindAllRecords, dbDeleteRecord, dbSaveRecord, dbUpdateOne
   }
 };

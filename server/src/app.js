@@ -4,10 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var recipesRouter = require('./routes/recipes');
-var ingredientRequestRouter = require('./routes/ingredientRequest');
-var flavorProfileRouter = require('./routes/flavorProfile');
-let reviewRouter = require('./routes/reviews');
+var recipesRouter = require('./routes/recipeGenerator');
+var ingredientRequestRouter = require('./routes/ingredientRequestManager');
+var flavorProfileRouter = require('./routes/flavorProfileManager');
+let reviewRouter = require('./routes/reviewsManager');
 var foodInventoryRouter = require('./routes/foodInventoryManager');
 
 var app = express();

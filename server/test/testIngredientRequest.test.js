@@ -1,18 +1,20 @@
 var dbFunctions = require("../db/db").Functions;
 var app = require("../src/app");
 var request = require("supertest");
-const mongoose = require("mongoose");
+const { randomUUID } = require('crypto');
 
 const baseMockedRequestBody = { 
     email: "test@ubc.ca", 
     requestItem: "400g of skinless chicken thigh",
+    phoneNo: "093-881-6698",
     fcmtok: "ckXGZWPGTU-2XnmGnt_QF_:APA91bHwSHBoFCph9tz27Da8qU5M8-8RbS-wANq6EN8c3ttQ8p-4TzvkMIuURKTYtYzp4IIgg_DTUMzyWy9KCXyyXWixen8dRj2sBaibdDIAB7fff8qpqWdCSsNsYPzpoFd5HHZwH8yw"
 }
 
 const baseMockedDbFindRecordResponse = {
-    requestId: new mongoose.Types.ObjectId(), 
+    requestId: randomUUID(), 
     userId: baseMockedRequestBody.email, 
-    ingredientDescription: baseMockedRequestBody.requestItem,
+    phoneNo: baseMockedRequestBody.phoneNo,
+    ingredientName: baseMockedRequestBody.requestItem,
     fcmToken: baseMockedRequestBody.fcmtok
 }
 
@@ -46,7 +48,8 @@ describe("Get all ingredient requests", () => {
         for (i = 0; i < 20; i++) {
             expect(res.body[i].requestId).toBeDefined();
             expect(res.body[i].userId).toEqual(expectedResponse.userId);
-            expect(res.body[i].ingredientDescription).toEqual(expectedResponse.ingredientDescription);
+            expect(res.body[i].ingredientName).toEqual(expectedResponse.ingredientName);
+            expect(res.body[i].phoneNo).toEqual(expectedResponse.phoneNo);
             expect(res.body[i].fcmToken).toEqual(expectedResponse.fcmToken);
         }
     });
@@ -82,7 +85,8 @@ describe("Get all ingredient requests made by a specific user", () => {
         for (i = 0; i < 20; i++) {
             expect(res.body[i].requestId).toBeDefined();
             expect(res.body[i].userId).toEqual(expectedResponse.userId);
-            expect(res.body[i].ingredientDescription).toEqual(expectedResponse.ingredientDescription);
+            expect(res.body[i].ingredientName).toEqual(expectedResponse.ingredientName);
+            expect(res.body[i].phoneNo).toEqual(expectedResponse.phoneNo);
             expect(res.body[i].fcmToken).toEqual(expectedResponse.fcmToken);
         }
     });
@@ -144,10 +148,16 @@ describe("Post new ingredient request", () => {
         expect(res.status).toStrictEqual(200);
         expect(res.body.requestId).toBeDefined();
         expect(res.body.userId).toEqual(expectedResponse.userId);
-        expect(res.body.ingredientDescription).toEqual(expectedResponse.ingredientDescription);
+        expect(res.body.ingredientName).toEqual(expectedResponse.ingredientName);
+        expect(res.body.phoneNo).toEqual(expectedResponse.phoneNo);
         expect(res.body.fcmToken).toEqual(expectedResponse.fcmToken);
     });
 })
+
+const mockedDonateRequestBody = {
+    email: baseMockedRequestBody.email,
+    requestId: "507f191e810c19729de860ea"
+}
 
 // Interface POST /ingredientrequests
 describe("Donate to an ingredient request", () => {
@@ -156,8 +166,24 @@ describe("Donate to an ingredient request", () => {
     // Expected behavior: Empty request ID detected and error returned
     // Expected output: "Missing Ingredient Request ID"
     test("Missing request ID", async () => {
+        let mockedRequestBody = Object.assign({}, baseMockedRequestBody);
+        mockedRequestBody.requestId = "";
         let expectedResponse = "Missing Ingredient Request ID";
-        const res = await request(app).post("/ingredientrequests").send({requestId: ""});
+        const res = await request(app).post("/ingredientrequests").send(mockedRequestBody);
+        expect(res.status).toStrictEqual(400);
+        expect(res.text).toEqual(expectedResponse);
+        expect(res.body).toEqual({});
+    });
+
+    // Input: Missing donator ID
+    // Expected status code: 400
+    // Expected behavior: Empty donator ID detected and error returned
+    // Expected output: "Missing donator ID"
+    test("Missing request ID", async () => {
+        let mockedRequestBody = Object.assign({}, baseMockedRequestBody);
+        mockedRequestBody.email = "";
+        let expectedResponse = "Missing donator ID";
+        const res = await request(app).post("/ingredientrequests").send(mockedRequestBody);
         expect(res.status).toStrictEqual(400);
         expect(res.text).toEqual(expectedResponse);
         expect(res.body).toEqual({});
@@ -168,10 +194,9 @@ describe("Donate to an ingredient request", () => {
     // Expected behavior: Non-existent ingredient request ID detected and error returned
     // Expected output: "Request ID ${requestId} does not exist"
     test("Invalid requestID", async () => {
-        let requestId = "507f191e810c19729de860ea";
-        let expectedResponse = `Request ID ${requestId} does not exist`;
+        let expectedResponse = `Request ID ${mockedDonateRequestBody.requestId} does not exist`;
         jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(null);
-        const res = await request(app).post("/ingredientrequests").send({requestId});
+        const res = await request(app).post("/ingredientrequests").send(mockedDonateRequestBody);
         expect(res.status).toStrictEqual(400);
         expect(res.text).toEqual(expectedResponse);
         expect(res.body).toEqual({});
@@ -183,10 +208,12 @@ describe("Donate to an ingredient request", () => {
     // Expected output: "Donated to request ID ${requestId}"
     test("Valid requestID", async () => {
         let requestId = baseMockedDbFindRecordResponse.requestId;
+        let mockedRequestBody = Object.assign({}, baseMockedRequestBody);
+        mockedRequestBody.requestId = requestId;
         let expectedResponse = `Donated to request ID ${requestId}`;
         jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(baseMockedDbFindRecordResponse);
         jest.spyOn(dbFunctions, "dbDeleteRecord").mockReturnValue(null);
-        const res = await request(app).post("/ingredientrequests").send({requestId});
+        const res = await request(app).post("/ingredientrequests").send(mockedRequestBody);
         expect(res.status).toStrictEqual(200);
         expect(res.text).toEqual(expectedResponse);
         expect(res.body).toEqual({});

@@ -6,7 +6,6 @@ do
 	while [ "$(ps -a | grep "node")" != "" ]
 	do
 		echo "$(ps -a | grep "node")"
-		echo "We gucci"
 		sleep 5
 	done
 	screen -dm bash -c "npm start"
