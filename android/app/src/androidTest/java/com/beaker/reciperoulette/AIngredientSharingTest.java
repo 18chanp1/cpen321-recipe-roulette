@@ -19,6 +19,7 @@ import androidx.test.filters.LargeTest;
 
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,14 +30,21 @@ import org.junit.runner.RunWith;
 public class AIngredientSharingTest {
 
     @Rule
-    public ActivityScenarioRule<MainMenu> mActivityScenarioRule =
-            new ActivityScenarioRule<>(MainMenu.class);
+    public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
+            new ActivityScenarioRule<>(MainActivity.class);
+
+    @Before
+    public void waitForMenu() throws InterruptedException {
+        Thread.sleep(500);
+    }
+
+
 
     @Test
     public void fieldBlank() throws InterruptedException {
-        onView(withText(R.string.req_ingredient))
-                .perform(click());
-        Thread.sleep(1000);
+
+        onView(withText(R.string.req_ingredient)).perform(click());
+
         onView(withId(R.id.rq_ingredient_entry))
                 .perform(typeText(""));
 
@@ -46,12 +54,13 @@ public class AIngredientSharingTest {
         onView(withId(R.id.rq_ingredreq_but))
                 .perform(click());
 
+        Thread.sleep(50);
+
         //verify toast
         onView(withText(R.string.must_enter_contact))
                 .inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
 
-        Thread.sleep(1000);
     }
 
 }

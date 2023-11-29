@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class IngredientRequest implements Parcelable {
-    String reqID;
+    String requestId;
     String reqDate;
     String expiryDate;
     String ingredientID;
@@ -15,8 +15,8 @@ public class IngredientRequest implements Parcelable {
     String userId; //the requester ID
 
     String image;
-    public IngredientRequest(String reqID, String reqDate, String expiryDate, String ingredientID, String ingredientName, String requester, String userId, String image) {
-        this.reqID = reqID;
+    public IngredientRequest(String requestId, String reqDate, String expiryDate, String ingredientID, String ingredientName, String requester, String userId, String image) {
+        this.requestId = requestId;
         this.reqDate = reqDate;
         this.expiryDate = expiryDate;
         this.ingredientID = ingredientID;
@@ -26,14 +26,9 @@ public class IngredientRequest implements Parcelable {
         this.image = image;
     }
 
-    public IngredientRequest(String ingredientName, String userId)
-    {
-        this.ingredientName = ingredientName;
-        this.userId = userId;
-    }
 
     protected IngredientRequest(Parcel in) {
-        reqID = in.readString();
+        requestId = in.readString();
         reqDate = in.readString();
         expiryDate = in.readString();
         ingredientID = in.readString();
@@ -75,7 +70,7 @@ public class IngredientRequest implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
 
-        parcel.writeString(reqID);
+        parcel.writeString(requestId);
         parcel.writeString(reqDate);
         parcel.writeString(expiryDate);
         parcel.writeString(ingredientID);

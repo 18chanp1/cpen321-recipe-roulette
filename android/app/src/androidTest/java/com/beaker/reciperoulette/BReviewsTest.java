@@ -29,6 +29,7 @@ import com.beaker.reciperoulette.reviews.Review;
 import com.google.gson.Gson;
 
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,9 +46,13 @@ import okhttp3.Response;
 public class BReviewsTest {
 
     @Rule
-    public ActivityScenarioRule<MainMenu> mActivityScenarioRule =
-            new ActivityScenarioRule<>(MainMenu.class);
+    public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
+            new ActivityScenarioRule<>(MainActivity.class);
 
+    @Before
+    public void waitForMenu() throws InterruptedException {
+        Thread.sleep(500);
+    }
     @Test
     public void testReviewsEntry() {
         onView(withText(R.string.recipe_review))

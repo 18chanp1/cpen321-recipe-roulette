@@ -37,7 +37,7 @@ public class ReviewAdaptor extends RecyclerView.Adapter<ReviewHolder> {
         holder.emailView.setText(items.get(position).getAuthor());
 
         String url = items.get(position).getImage();
-        if(url != null && url.length() == 0)
+        if(url != null && url.length() != 0)
         {
             Picasso.with(this.context).load(url).into(holder.imageView);
         }

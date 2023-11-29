@@ -2,6 +2,7 @@ package com.beaker.reciperoulette;
 
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -17,6 +18,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,11 +34,17 @@ import okhttp3.Response;
 public class BFlavorProfileTest {
 
     @Rule
-    public ActivityScenarioRule<FlavorProfile> mActivityScenarioRule =
-            new ActivityScenarioRule<>(FlavorProfile.class);
+    public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
+            new ActivityScenarioRule<>(MainActivity.class);
+
+    @Before
+    public void waitForMenu() throws InterruptedException {
+        Thread.sleep(500);
+    }
 
     @Test
     public void checkTitleExists() {
+        onView(withText("Flavor Profile")).perform(click());
 
         onView(withText("Flavor Profile")).check(matches(isDisplayed()));
 
@@ -47,6 +55,7 @@ public class BFlavorProfileTest {
     @Test
     public void checkDescriptionExists()
     {
+        onView(withText("Flavor Profile")).perform(click());
         onView(withId(R.id.fp_details))
                 .check(matches(allOf(withText(R.string.your_flavor_profile_is),
                         isDisplayed())));
@@ -55,6 +64,8 @@ public class BFlavorProfileTest {
     @Test
     public void checkFetchedDescription()
     {
+        onView(withText("Flavor Profile")).perform(click());
+
         //GET from server
         //Get context
         Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
