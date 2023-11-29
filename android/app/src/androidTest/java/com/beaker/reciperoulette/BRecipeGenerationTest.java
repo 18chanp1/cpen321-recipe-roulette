@@ -56,7 +56,7 @@ public class BRecipeGenerationTest {
     @Test
     public void checkGenerateRecipesButtonVisible() {
         gotoGenerateRecipe();
-        onView(ViewMatchers.withId(R.id.gen_recipes))
+        onView(withId(R.id.gen_recipes))
                 .check(matches(isDisplayed()));
     }
 
@@ -135,7 +135,7 @@ public class BRecipeGenerationTest {
                 .perform(click());
 
         // Check Recipe List
-        onView(ViewMatchers.withId(R.id.recipeButtonLayout))
+        onView(withId(R.id.recipeButtonLayout))
                 .check(matches(isDisplayed()));
 
         long endTime = System.currentTimeMillis();

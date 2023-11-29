@@ -3,16 +3,17 @@ var app = require("../src/app");
 var request = require("supertest");
 const mongoose = require("mongoose");
 
+let sampleDate = 1698576656
 const baseMockedIngredientBody = {
     name: "pork",
     count: 1,
-    date: 1698576656
+    date: sampleDate 
 }
 
 const baseMockedIngredientBody2 = {
     name: "beef",
     count: 2,
-    date: 1698576656
+    date: sampleDate 
 }
 
 const baseMockedIngredientBodyArr = [
@@ -30,10 +31,6 @@ const baseMockedDbFindRecordResponse = {
 const mockPutRequest = {
     userId: "test@ubc.ca", 
     ingredients: ["pork", "beef", "chicken"]
-}
-
-const mockGetRequest = {
-    userId: "test@ubc.ca"
 }
 
 // GET Ingredients based on user
