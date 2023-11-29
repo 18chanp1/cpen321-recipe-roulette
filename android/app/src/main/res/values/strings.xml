@@ -10,6 +10,7 @@
     <string name="req_ingredient">Request Ingredient</string>
     <string name="cook_together">Cook with others</string>
     <string name="recipe_review">Recipe Reviews</string>
+    <string name="grocery_upload">Upload Groceries</string>
     <string name="signout">Sign out</string>
 
     <string name="read_more">Read more</string>
@@ -47,10 +48,10 @@
     <string name="go_shop">Go shopping</string>
 
     <string name="your_flavor_profile_is">Your flavor profile is:</string>
-    <string name="capture_image">Capture Image</string>
-    <string name="select_photo_from_camera_roll">Select Photo from Camera Roll</string>
-    <string name="send_image">Send Image</string>
-    <string name="manual_enter">Manually Enter Item</string>
+    <string name="capture_image">Capture Photo of Groceries</string>
+    <string name="select_photo_from_camera_roll">Select Photo of Groceries from Camera Roll</string>
+    <string name="send_image">Send Groceries</string>
+    <string name="manual_enter">Manually Input Grocery Item</string>
     <string name="recipe_name_filler">RECIPE NAME</string>
     <string name="recipe_summary_filler">RECIPE SUMMARY\n</string>
     <string name="ingredients_name_filler">INGREDIENTS\n- Ingredient 1\n- Ingredient 2\n- Ingredient 3</string>

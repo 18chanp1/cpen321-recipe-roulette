@@ -58,7 +58,7 @@
             android:name=".inventory.InventoryView"
             android:exported="false" />
         <activity
-            android:name=".TakePhoto"
+            android:name=".UploadGroceries"
             android:exported="false" />
         <activity
             android:name=".MainMenu"
