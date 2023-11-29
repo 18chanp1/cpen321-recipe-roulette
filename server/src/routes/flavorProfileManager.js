@@ -12,7 +12,7 @@ router.get('/', async function(req, res, next) {
   }
   let recipes = await dbFunctions.dbFindAllRecords(dbModels.Recipe, {userId});
   let flavorProfile = "No Flavor Profile available";
-  if (recipes.length == 0) {
+  if (recipes.length === 0) {
     res.status(200);
     res.send(flavorProfile);
     return;

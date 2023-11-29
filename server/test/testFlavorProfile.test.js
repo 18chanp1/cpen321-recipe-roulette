@@ -2,12 +2,6 @@ var dbFunctions = require("../db/db").Functions;
 var app = require("../src/app");
 var request = require("supertest");
 
-const addRecipe = (list, count, recipe) => {
-    for (i = 0; i < count; i++) {
-        list.push(recipe);
-    }
-}
-
 const mockedRequestHeader = {
     email: "test@ubc.ca"
 }

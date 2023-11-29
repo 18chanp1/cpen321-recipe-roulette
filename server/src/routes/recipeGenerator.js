@@ -15,7 +15,7 @@ router.get('/', async function(req, res, next) {
   }
   // Find all ingredients of user
   let allIngredients = await dbFunctions.dbFindRecord(dbModels.Ingredient, {userId});
-  if (!allIngredients || allIngredients.ingredients.length == 0) {
+  if (!allIngredients || allIngredients.ingredients.length === 0) {
     res.status(200);
     res.send([]);
     return;
@@ -28,7 +28,7 @@ router.get('/', async function(req, res, next) {
   ingredientListWithDate.sort((e1, e2) => e1[0] > e2[0] ? 1: -1);
 
   let ingredientList = []
-  for (i = 0; i < Math.min(20, ingredientListWithDate.length); i++) {
+  for (let i = 0; i < Math.min(20, ingredientListWithDate.length); i++) {
     ingredientList.push(ingredientListWithDate[i][1]);
   }
   // Get recipes from api endpoint

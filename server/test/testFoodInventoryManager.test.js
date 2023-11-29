@@ -55,13 +55,12 @@ describe("Get food ingredients for a user", () => {
     // Expected output: List of all ingredient requests
     test("All food ingredients returned", async () => {
         // Build the mock request
-        let mockGetRequestCopy = Object.assign({}, mockGetRequest);
 
         // Build the expected response
         let expectedResponse = Object.assign({}, baseMockedDbFindRecordResponse);
         
         let mockedDbFindAllRecordsResponse = [];
-        for (i = 0; i < 20; i++) {
+        for (let i = 0; i < 20; i++) {
             mockedDbFindAllRecordsResponse.push(baseMockedDbFindRecordResponse);
         }
 
@@ -70,7 +69,7 @@ describe("Get food ingredients for a user", () => {
         const res = await request(app).get("/foodInventoryManager").set('userId', 'test@ubc.ca');
 
         expect(res.status).toStrictEqual(200);
-        for (i = 0; i < 20; i++) {
+        for (let i = 0; i < 20; i++) {
             expect(res.body[i].requestId).toBeDefined();
             expect(res.body[i].userId).toEqual(expectedResponse.userId);
             expect(res.body[i].ingredientDescription).toEqual(expectedResponse.ingredientDescription);

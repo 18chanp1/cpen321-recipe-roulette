@@ -75,7 +75,7 @@ describe("Get all recipes", () => {
             image: mockedDbGetAllRecipesResponse[0].recipeImage,
             review: mockedDbGetAllRecipesResponse[0].recipeSummary
         }
-        for (i = 0; i < maxRecipes; i++) {
+        for (let i = 0; i < maxRecipes; i++) {
             mockedDbGetAllRecipesResponseFull.push(mockedDbGetAllRecipesResponse[0]);
             expectedResponse.push(review);
         }
@@ -161,9 +161,6 @@ describe("Liking a recipe", () => {
         expect(res.body).toEqual(expectedResponse);
     });
 })
-
-const mockRecipeName = "Chicken Curry";
-const mockRecipeSummary = "A hearty curry made from chicken, Perfect for a winter night";
 
 // Interface POST /reviews/custom
 describe("Posting a custom review/recipe", () => {

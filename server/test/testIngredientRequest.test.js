@@ -39,7 +39,7 @@ describe("Get all ingredient requests", () => {
     test("All requests returned", async () => {
         let expectedResponse = baseMockedDbFindRecordResponse;
         let mockedDbFindAllRecordsResponse = [];
-        for (i = 0; i < 20; i++) {
+        for (let i = 0; i < 20; i++) {
             mockedDbFindAllRecordsResponse.push(baseMockedDbFindRecordResponse);
         }
         jest.spyOn(dbFunctions, "dbFindAllRecords").mockReturnValue(mockedDbFindAllRecordsResponse);

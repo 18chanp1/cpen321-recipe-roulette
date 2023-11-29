@@ -3,7 +3,7 @@ var fetch = require('node-fetch');
 describe("Non-functional test for server crashes", () => {
     test("Error rate no more than 12", async () => {
         let crashFile = await fetch("https://cpen321-reciperoulette.westus.cloudapp.azure.com/static/crashes.txt");
-        if (crashFile.status == 200) {
+        if (crashFile.status === 200) {
             let inputD = await crashFile.text()
             let dates = inputD.toString().split("\n")
             let dateFormatted = []
