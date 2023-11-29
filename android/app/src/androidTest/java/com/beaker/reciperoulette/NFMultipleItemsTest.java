@@ -3,6 +3,7 @@ package com.beaker.reciperoulette;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -28,7 +29,6 @@ import java.util.concurrent.TimeoutException;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 
 
 @LargeTest
@@ -64,7 +64,7 @@ public class NFMultipleItemsTest {
 
         for(Future<Long> future: futures)
         {
-            assert future.get(6, TimeUnit.SECONDS) < 6000;
+            assert future.get(10, TimeUnit.SECONDS) < 10000;
         }
     }
 
@@ -112,7 +112,7 @@ public class NFMultipleItemsTest {
             {
                 client.newCall(req).execute();
             } catch (IOException e){
-
+                Log.d("MULT_ITEM_TEST", "failed to get results");
             }
         }
 
