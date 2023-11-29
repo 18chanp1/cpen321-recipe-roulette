@@ -26,7 +26,7 @@ router.post('/upload', async (req, res) => {
       const ingredientDoc = new Models.Ingredient({ userId , ingredients });
 
       // Save the document to MongoDB
-      dbFunctions.dbSaveRecord(ingredientDoc);
+      await dbFunctions.dbSaveRecord(ingredientDoc);
       res.status(200).send('Successfully saved to database');
     } else {
       // the userID record exists
@@ -41,15 +41,25 @@ router.post('/upload', async (req, res) => {
         if (index !== -1) {
           //Item exists, update the value
           console.log("Item exists, update the value");
+          console.log(newItem.date[0]);
           ingredientRecord.ingredients[index].count += newItem.count;
           ingredientRecord.ingredients[index].date.push(...newItem.date);
+          // for (let i = 0; i < newItem.date.length; i++) {
+          //   ingredientRecord.ingredients[index].date.push(parseInt((newItem.date[i]) * 1000).toString());
+          // }
+
         } else {
           //Item does not exist
           console.log("Item does not exist")
           ingredientRecord.ingredients.push(newItem);
+          // ingredientRecord.ingredients.push({
+          //   "name" : newItem.name,
+          //   "count": newItem.count,
+          //   "date": newItem.date
+          // });
         }
       }
-      dbFunctions.dbSaveRecord(ingredientRecord);
+      await dbFunctions.dbSaveRecord(ingredientRecord);
       res.status(200).send('Successfully saved to database');
     }
   }
@@ -82,44 +92,93 @@ router.put('/update', async (req, res) => {
   let logTwo = 2;
   console.log(logOne + logTwo);
 
-    const { userId, ingredients } = req.body;
+    const userId = req.body.userId;
+    let inputIngredients = req.body.ingredients;
+    const userIngredient = await dbFunctions.dbFindRecord(Models.Ingredient, { userId });
+    if (userIngredient == null) {
+      console.log(`User with userId ${userId} not found`);
+      res.status(404).send();
+      return;
+    } else {
+      console.log("Get userId: " + userIngredient.userId);
+    }
+    let ingredients = userIngredient.ingredients;
 
-    await Promise.all(ingredients.map(async (ingredientName) => {    
-      const userIngredient = await dbFunctions.dbFindRecord(Models.Ingredient, { userId });
-      // console.log(userIngredient);
-      if (userIngredient == null) {
-        console.log(`User with userId ${userId} not found`);
-        res.status(404).send();
-        return;
-      } else {
-        console.log("Get userId: " + userIngredient.userId);
-      }
-
-      const ingredient = await dbFunctions.dbFindAllRecords(userIngredient.ingredients, ing => ing.name === ingredientName);
-      const ingredientIndex = userIngredient.ingredients.findIndex(ing => ing.name === ingredientName);
-      console.log("Ingredient" + ingredient + " Ingredient Index: " + ingredientIndex);
-
-      if (ingredient) {
-        if (ingredient.count > 1) {
+    for (let ingredientName of inputIngredients) {
+      const ingredientIndex = ingredients.findIndex((i) => i.name == ingredientName);
+      console.log("Ingredient " + ingredientName + " Ingredient Index: " + ingredientIndex);
+      if (ingredientIndex !== -1) {
+        let ingredient = ingredients[ingredientIndex];
+        if (ingredient.count >= 1) {
           // Decrement count if it's more than 1
           console.log('Ingredient Name: ' + ingredientName);
           console.log('Count: ' + ingredient.count);
-          ingredient.count -= 1;
-          console.log('Count after: ' + ingredient.count);
+          let newCount = ingredient.count - 1;
+
+          let filter = {userId};
+          let updateCount = {$set: {
+            [`ingredients.${ingredientIndex}.count`]: newCount
+          }}
+          await dbFunctions.dbUpdateOne(Models.Ingredient, filter, updateCount);
+
+          console.log('Count after: ' + newCount);
           console.log('Remove the earliest date');
           
           
           let smallestElement = Infinity;
-          let smallestElementIndex = 0;
           for (let i = 0; i < ingredient.date.length; i++) {
             if (ingredient.date[i] < smallestElement) {
               smallestElement = ingredient.date[i];
-              smallestElementIndex = i;
             }
           }
 
           console.log("Earliest Date: " + smallestElement);
-          let filter = {'userId': userId};
+          let update = {$pull: {
+            [`ingredients.${ingredientIndex}.date`]: smallestElement
+          }}
+
+          await dbFunctions.dbUpdateOne(Models.Ingredient, filter, update);
+          
+        }
+        
+      } else {
+        console.log(`Ingredient ${ingredientName} not found`);
+      }
+      
+      //await dbFunctions.dbSaveRecord(userIngredient);
+    }
+
+    /*
+    inputIngredients.map(async (ingredientName) => {    
+      
+      const ingredientIndex = ingredients.findIndex((i) => i.name == ingredientName);
+      console.log("Ingredient " + ingredientName + " Ingredient Index: " + ingredientIndex);
+      if (ingredientIndex !== -1) {
+        let ingredient = ingredients[ingredientIndex];
+        if (ingredient.count > 1) {
+          // Decrement count if it's more than 1
+          console.log('Ingredient Name: ' + ingredientName);
+          console.log('Count: ' + ingredient.count);
+          let newCount = ingredient.count - 1;
+
+          let filter = {userId};
+          let updateCount = {$set: {
+            [`ingredients.${ingredientIndex}.count`]: newCount
+          }}
+          await dbFunctions.dbUpdateOne(Models.Ingredient, filter, updateCount);
+
+          console.log('Count after: ' + newCount);
+          console.log('Remove the earliest date');
+          
+          
+          let smallestElement = Infinity;
+          for (let i = 0; i < ingredient.date.length; i++) {
+            if (ingredient.date[i] < smallestElement) {
+              smallestElement = ingredient.date[i];
+            }
+          }
+
+          console.log("Earliest Date: " + smallestElement);
           let update = {$pull: {
             [`ingredients.${ingredientIndex}.date`]: smallestElement
           }}
@@ -132,14 +191,17 @@ router.put('/update', async (req, res) => {
           console.log('Ingredient Name: ' + ingredientName);
           console.log('Count: ' + ingredient.count);
           
-          dbFunctions.dbUpdateOne(Models.Ingredient, {userId}, { $pull: { ingredients: { name : ingredientName } } })
+          await dbFunctions.dbUpdateOne(Models.Ingredient, {userId}, { $pull: { ingredients: { name : ingredientName } } })
         }
-
+        
       } else {
         console.log(`Ingredient ${ingredientName} not found`);
       }
-      dbFunctions.dbSaveRecord(userIngredient);
-    }));
+      
+      //await dbFunctions.dbSaveRecord(userIngredient);
+      
+    });
+    */
     res.status(200).send("Successfully updated the database");
     return;
 
