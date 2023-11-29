@@ -1,8 +1,6 @@
 package com.beaker.reciperoulette;
 
 
-import static org.junit.Assert.fail;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -10,10 +8,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
-
-import com.beaker.reciperoulette.requests.Ingredient;
-import com.beaker.reciperoulette.requests.IngredientsRequest;
-import com.google.gson.Gson;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -23,11 +17,17 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
@@ -36,16 +36,61 @@ import okhttp3.Response;
 public class NFMultipleItemsTest {
 
     @Rule
-    public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
-            new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityScenarioRule<MainMenu> mActivityScenarioRule =
+            new ActivityScenarioRule<>(MainMenu.class);
 
     @Before
     public void waitForMenu() throws InterruptedException {
-        Thread.sleep(500);
+        Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        SharedPreferences sharedPref =
+                c.getSharedPreferences(c.getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(c.getString(R.string.prf_token), "TESTTOKEN");
+        editor.putString(c.getString(R.string.prf_eml), "18chanp1@gmail.com");
+        editor.apply();    }
+
+    @Test
+    public void uploadMultipleItemsTimed() throws InterruptedException, ExecutionException, TimeoutException {
+        ExecutorService executor = Executors.newFixedThreadPool(100);
+
+        List<Callable<Long>> callableTasks = new ArrayList<>();
+
+        for(int i = 0; i < 100; i++)
+        {
+            callableTasks.add(this::makeRequest);
+        }
+
+        List<Future<Long>> futures = executor.invokeAll(callableTasks);
+
+        for(Future<Long> future: futures)
+        {
+            assert future.get(6, TimeUnit.SECONDS) < 6000;
+        }
     }
 
     @Test
-    public void uploadMultipleItems() throws IOException {
+    public void uploadMultipleItems() throws InterruptedException, ExecutionException {
+        ExecutorService executor = Executors.newFixedThreadPool(100);
+
+        List<Callable<Long>> callableTasks = new ArrayList<>();
+
+        for(int i = 0; i < 100; i++)
+        {
+            callableTasks.add(this::makeRequest);
+        }
+
+        List<Future<Long>> futures = executor.invokeAll(callableTasks);
+
+        for(Future<Long> future: futures)
+        {
+            future.get();
+        }
+    }
+
+
+    private long makeRequest()
+    {
+        long start = Calendar.getInstance().getTimeInMillis();
         Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         SharedPreferences sharedPref =
@@ -53,55 +98,25 @@ public class NFMultipleItemsTest {
         String tok = sharedPref.getString("TOKEN", "NOTOKEN");
         String email = sharedPref.getString("EMAIL", "NOEMAIL");
 
-        //create list of multiple items
-        Gson gson = new Gson();
-        MediaType JSON = MediaType.get("application/json; charset=utf-8");
-
-        IngredientsRequest testRequest = new IngredientsRequest(email);
-        testRequest.ingredients = new ArrayList<>();
-
-
-
-
-        testRequest.ingredients.add(new Ingredient("Turkey", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("Chicken", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("Beef", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("Human", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("Salmon", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("Grapes", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("Beans", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("Celery", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("Carrot", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("Sugar", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("Water", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("BBQ Sauce", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("Eggs", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("Jam", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("Pork", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("Chocolate", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("Banana", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("Bread", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("Banana bread", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-        testRequest.ingredients.add(new Ingredient("Cabbage", 1, new long[]{Calendar.getInstance().getTimeInMillis()}));
-
-        RequestBody body = RequestBody.create(gson.toJson(testRequest), JSON);
-
         Request req = new Request.Builder()
-                .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/foodInventoryManager/upload")
+                .url("https://cpen321-reciperoulette.westus.cloudapp.azure.com/reviews")
                 .addHeader("email", email)
                 .addHeader("userToken", tok)
-                .post(body)
                 .build();
 
         OkHttpClient client = new OkHttpClient();
 
-        try(Response res = client.newCall(req).execute())
+        for(int i = 0; i < 20; i++)
         {
-            if(!res.isSuccessful())
+            try
             {
-                fail("server error");
+                client.newCall(req).execute();
+            } catch (IOException e){
+
             }
         }
+
+        return Calendar.getInstance().getTimeInMillis() - start;
 
     }
 
