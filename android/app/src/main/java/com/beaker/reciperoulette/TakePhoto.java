@@ -26,8 +26,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.beaker.reciperoulette.IngredientRequest.Ingredient;
-import com.beaker.reciperoulette.IngredientRequest.IngredientsRequest;
+import com.beaker.reciperoulette.requests.Ingredient;
+import com.beaker.reciperoulette.requests.IngredientsRequest;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -63,7 +63,7 @@ public class TakePhoto extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.take_photo);
 
-        mImageView = findViewById(R.id.imageview);
+        mImageView = findViewById(R.id.img);
         mCaptureBtn = findViewById(R.id.capture_image_btn);
         mManualBtn = findViewById(R.id.manual_entry_btn);
         mSelectPicButton = findViewById(R.id.select_image_btn);

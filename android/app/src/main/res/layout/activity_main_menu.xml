@@ -7,8 +7,8 @@
     tools:context=".MainMenu">
 
     <LinearLayout
-        android:layout_width="312dp"
-        android:layout_height="534dp"
+        android:layout_width="308dp"
+        android:layout_height="563dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,10 +55,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Take Photo" />
+            android:text="@string/take_photo" />
 
         <Button
             android:id="@+id/menu7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/inventory" />
+
+        <Button
+            android:id="@+id/menu8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"

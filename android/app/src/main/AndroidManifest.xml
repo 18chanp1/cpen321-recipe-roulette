@@ -4,9 +4,12 @@
     package="com.beaker.reciperoulette">
     <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"
+    <uses-permission
+        android:name="android.permission.CAMERA"
         tools:ignore="PermissionImpliesUnsupportedChromeOsHardware" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29"/>
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
@@ -15,47 +18,53 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RecipeRoulette"
-        android:requestLegacyExternalStorage="true"
         tools:targetApi="31">
         <activity
-            android:name="com.beaker.reciperoulette.FlavorProfile"
+            android:name=".reviews.WriteReview"
             android:exported="false" />
         <activity
-            android:name="com.beaker.reciperoulette.ChatRoom.EnterChatRoomView"
+            android:name=".FlavorProfile"
             android:exported="false" />
         <activity
-            android:name="com.beaker.reciperoulette.ChatRoom.ChatRoomLiveView"
+            android:name=".chatroom.EnterChatRoomView"
             android:exported="false" />
         <activity
-            android:name="com.beaker.reciperoulette.RecipeSelect"
+            android:name=".chatroom.ChatRoomLiveView"
             android:exported="false" />
         <activity
-            android:name="com.beaker.reciperoulette.RecipeDisplay"
+            android:name=".RecipeSelect"
             android:exported="false" />
         <activity
-            android:name="com.beaker.reciperoulette.IngredientRequest.IngredientRequestSelfView"
+            android:name=".RecipeDisplay"
             android:exported="false" />
         <activity
-            android:name="com.beaker.reciperoulette.IngredientRequest.IngredientRequestView"
+            android:name=".requests.IngredientRequestSelfView"
+            android:exported="false" />
+        <activity
+            android:name=".requests.IngredientRequestView"
             android:exported="false"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name="com.beaker.reciperoulette.RecipeFacebook.ReviewDetailed"
+            android:name=".reviews.ReviewDetailed"
             android:exported="false" />
         <activity
-            android:name="com.beaker.reciperoulette.RecipeFacebook.RecipeFacebook"
+            android:name=".reviews.RecipeFacebook"
             android:exported="false" />
         <activity
-            android:name="com.beaker.reciperoulette.TakePhoto"
+            android:name=".inventory.InventoryView"
             android:exported="false" />
         <activity
-            android:name="com.beaker.reciperoulette.MainMenu"
+            android:name=".TakePhoto"
             android:exported="false" />
         <activity
-            android:name="com.beaker.reciperoulette.MainActivity"
+            android:name=".MainMenu"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -65,7 +74,7 @@
         </activity>
 
         <service
-            android:name="com.beaker.reciperoulette.MyFirebaseMessagingService"
+            android:name=".MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
