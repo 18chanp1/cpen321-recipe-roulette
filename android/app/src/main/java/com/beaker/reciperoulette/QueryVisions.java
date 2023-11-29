@@ -108,7 +108,8 @@ public class QueryVisions {
 
                         Calendar calendar = Calendar.getInstance();
                         calendar.add(Calendar.WEEK_OF_YEAR, 1);
-                        long unixTime = calendar.getTimeInMillis() / 1000;
+                        //By Josh's request, remove 1000.
+                        long unixTime = calendar.getTimeInMillis();
 
                         ingredient.date = new long[] {unixTime};
                         ingredientList.add(ingredient);
