@@ -17,25 +17,24 @@ package com.beaker.reciperoulette;
  */
 
 
-
 import static androidx.test.espresso.intent.Checks.checkArgument;
 import static androidx.test.espresso.intent.Checks.checkNotNull;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static org.hamcrest.Matchers.allOf;
 
+import android.util.SparseArray;
+import android.view.View;
+import android.widget.AdapterView;
+
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.Adapter;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.util.HumanReadables;
-
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.Adapter;
-import androidx.recyclerview.widget.RecyclerView.ViewHolder;
-import android.util.SparseArray;
-import android.view.View;
-import android.widget.AdapterView;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -81,7 +80,7 @@ public final class RecyclerViewActions {
          * @return PositionableRecyclerViewAction a new ViewAction focused on a particular position.
          * @throws IllegalArgumentException if position < 0.
          */
-        public PositionableRecyclerViewAction atPosition(int position);
+        PositionableRecyclerViewAction atPosition(int position);
     }
 
     /**

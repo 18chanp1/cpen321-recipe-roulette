@@ -1,8 +1,9 @@
 package com.beaker.reciperoulette;
 
 import android.content.res.Resources;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -51,7 +52,7 @@ public class RecyclerViewMatcher {
 
                 if (childView == null) {
                     RecyclerView recyclerView =
-                            (RecyclerView) view.getRootView().findViewById(recyclerViewId);
+                            view.getRootView().findViewById(recyclerViewId);
                     if (recyclerView != null && recyclerView.getId() == recyclerViewId) {
                         RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(position);
                         if (viewHolder != null) {

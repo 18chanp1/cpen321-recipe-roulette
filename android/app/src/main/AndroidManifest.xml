@@ -24,16 +24,16 @@
         android:theme="@style/Theme.RecipeRoulette"
         tools:targetApi="31">
         <activity
-            android:name=".RecipeFacebook.WriteReview"
+            android:name=".reviews.WriteReview"
             android:exported="false" />
         <activity
             android:name=".FlavorProfile"
             android:exported="false" />
         <activity
-            android:name=".ChatRoom.EnterChatRoomView"
+            android:name=".chatroom.EnterChatRoomView"
             android:exported="false" />
         <activity
-            android:name=".ChatRoom.ChatRoomLiveView"
+            android:name=".chatroom.ChatRoomLiveView"
             android:exported="false" />
         <activity
             android:name=".RecipeSelect"
@@ -42,20 +42,20 @@
             android:name=".RecipeDisplay"
             android:exported="false" />
         <activity
-            android:name=".IngredientRequest.IngredientRequestSelfView"
+            android:name=".requests.IngredientRequestSelfView"
             android:exported="false" />
         <activity
-            android:name=".IngredientRequest.IngredientRequestView"
+            android:name=".requests.IngredientRequestView"
             android:exported="false"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name=".RecipeFacebook.ReviewDetailed"
+            android:name=".reviews.ReviewDetailed"
             android:exported="false" />
         <activity
-            android:name=".RecipeFacebook.RecipeFacebook"
+            android:name=".reviews.RecipeFacebook"
             android:exported="false" />
         <activity
-            android:name=".Inventory.InventoryView"
+            android:name=".inventory.InventoryView"
             android:exported="false" />
         <activity
             android:name=".TakePhoto"

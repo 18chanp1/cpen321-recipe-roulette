@@ -3,6 +3,7 @@
     <string name="default_web_client_id">217153905955-spv5u408mc29flpg3bgqqev5272k2cd3.apps.googleusercontent.com</string>
     <string name="signin_title">Sign in to use app.</string>
 
+    <!--    Menu buttons-->
     <string name="recipe_engine">Recipe Engine</string>
     <string name="take_photo">Add to Pantry</string>
     <string name="flavor_profile">Flavor Profile</string>
@@ -62,5 +63,113 @@
     <string name="inventory">Inventory</string>
     <string name="consume">Consume</string>
     <string name="inv_new">New!</string>
+
+    <string name="cannot_donate">Unable to donate, please try again later!</string>
+    <string name="msg_token_expired">Exit the app and try again</string>
+
+    <string name="cannot_req">Unable to request, please try again later</string>
+
+    <string name="rq_msg_req_successful">Request successful!</string>
+
+    <string name="rev_msg_no_title">No title</string>
+
+<!--Constants-->
+
+    <!-- Chatroom type related constants   -->
+    <string name="cht_type_shopreq">SHOPREQ</string>
+    <string name="cht_type_cookreq">COOKREQ</string>
+    <string name="cht_type_newshopreq">NEWSHOPREQ</string>
+    <string name="cht_type_newcookreq">NEWCOOKREQ</string>
+    <string name="cht_type_del">DEL</string>
+    <string name="cht_contact_head">Contact: </string>
+
+    <string name="cht_anon">Anonymous</string>
+
+    <!-- Constants for keys in information transferred
+    from EnterChatRoomView to ChatRoomLiveView -->
+    <string name="cht_req_type">COOK</string>
+    <string name="cht_req_name">NAME</string>
+    <string name="cht_req_det">DETAILS</string>
+    <string name="cht_req_cont">CONTACT</string>
+
+    <!-- Prefix for rating -->
+    <string name="rev_rating_pref">Rating: </string>
+
+    <!--    Messages for main-->
+    <string name="main_msg_no_perm_title">No notifications allowed</string>
+    <string name="main_msg_no_perm_body">Since you did not allow notifications,
+        you will not get information on ingredient sharing.</string>
+
+    <string name="main_msg_allow_perm">Allow notification permissions</string>
+    <string name="main_msg_allow_perm_det">You must allow the permissions in order to get real time
+        notifications on ingredient sharing</string>
+    <string name="main_msg_perm_OK">OK</string>
+    <string name="main_msg_perm_REJ">Reject Notifications</string>
+
+    <!--  sign in messages-->
+    <string name="main_msg_decl_signin">You declined to sign in. You have to wait </string>
+    <string name="main_msg_decl_signin2"> minutes</string>
+    <string name="main_msg_signin_android">You must be logged into a google account on android first</string>
+
+    <!--Review writing messages-->
+    <string name="rev_cust_empty">You must enter a title and a review</string>
+    <string name="revc_msg_submit_fail">Unable to submit review, please try again later.</string>
+
+
+<!--    Constants for keys transferred from up-->
+    <string name="inv_fromupload">FROMUPLOAD</string>
+
+<!--    Constants for keys transferred from review to detailed-->
+    <string name="rev_fromrev">REVIEW</string>
+
+<!--    Constants for keys transferred from menu-->
+    <string name="menu_signout">SIGNOUT</string>
+
+    <!--    Server Details-->
+    <string name="server_wss_url">wss://cpen321-reciperoulette.westus.cloudapp.azure.com</string>
+
+    <!--Shared Preferences-->
+    <string name="prf_token">TOKEN</string>
+    <string name="prf_eml">EMAIL</string>
+    <string name="prf_fcmtoken">FCMTOKEN</string>
+
+    <string name="prf_token_def">NOTOKEN</string>
+    <string name="prf_eml_def">NOEMAIL</string>
+
+    <!--    HTTP Requests JSON type-->
+    <string name="http_json_type">application/json; charset=utf-8</string>
+
+    <!-- HTTP URLs   -->
+    <string name="http_inred_req_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests</string>
+    <string name="http_ingred_req_new_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/ingredientrequests/new</string>
+    <string name="http_inv_update_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/foodInventoryManager/update</string>
+    <string name="http_inv_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/foodInventoryManager</string>
+    <string name="http_rev_like_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/reviews/like</string>
+    <string name="http_flavor_profile_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/flavourprofile</string>
+    <string name="http_custom_rev_url">https://cpen321-reciperoulette.westus.cloudapp.azure.com/reviews/custom</string>
+
+
+    <!--    HTTP Arguments-->
+    <string name="http_args_userToken">userToken</string>
+    <string name="http_args_email">email</string>
+    <!-- Alias for email, because server can't write consistent code-->
+    <string name="http_args_userid">userID</string>
+    <string name="http_args_requestItem">requestItem</string>
+    <string name="http_args_phoneno">phoneNo</string>
+    <string name="http_args_fcmtok">fcmTok</string>
+    <string name="http_args_like">like</string>
+    <string name="http_args_id">id</string>
+
+    <!--    Date Format from server-->
+    <string name="sdf_server">yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'</string>
+
+    <!-- Firebase constants-->
+    <string name="fcm_msg_ok">Token obtained and saved</string>
+    <string name="fcm_msg_title">title</string>
+    <string name="fcm_msg_text">text</string>
+
+    <!--    Notification constants-->
+    <string name="not_ch">FCM_NOTIF</string>
+    <string name="not_ch_desc">For fcm notifications</string>
 
 </resources>

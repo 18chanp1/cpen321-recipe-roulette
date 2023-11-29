@@ -26,8 +26,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.beaker.reciperoulette.IngredientRequest.Ingredient;
-import com.beaker.reciperoulette.IngredientRequest.IngredientsRequest;
+import com.beaker.reciperoulette.requests.Ingredient;
+import com.beaker.reciperoulette.requests.IngredientsRequest;
 import com.google.gson.Gson;
 
 import java.io.IOException;
