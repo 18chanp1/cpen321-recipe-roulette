@@ -55,11 +55,11 @@ public class MainMenu extends AppCompatActivity {
             startActivity(mainMenuIntent);
         });
 
-        Button takePhotoButton = findViewById(R.id.menu6);
-        assert takePhotoButton != null;
-        takePhotoButton.setOnClickListener(view -> {
-            Intent takePhotoIntent = new Intent(MainMenu.this, UploadGroceries.class);
-            startActivity(takePhotoIntent);
+        Button uploadGroceriesButton = findViewById(R.id.menu6);
+        assert uploadGroceriesButton != null;
+        uploadGroceriesButton.setOnClickListener(view -> {
+            Intent uploadGroceriesIntent = new Intent(MainMenu.this, UploadGroceries.class);
+            startActivity(uploadGroceriesIntent);
         });
 
         Button inventoryViewButton = findViewById(R.id.menu7);
