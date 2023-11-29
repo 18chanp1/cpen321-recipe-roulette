@@ -355,7 +355,7 @@ public final class RecyclerViewActions {
                 List<MatchedItem> matchedItems = itemsMatching(recyclerView, viewHolderMatcher, maxMatches);
 
                 if (selectIndex >= matchedItems.size()) {
-                    throw new RuntimeException(String.format(
+                    throw new IllegalArgumentException(String.format(
                             "Found %d items matching %s, but position %d was requested.", matchedItems.size(),
                             viewHolderMatcher.toString(), atPosition));
                 }
@@ -366,7 +366,7 @@ public final class RecyclerViewActions {
                     for (MatchedItem item : matchedItems) {
                         ambiguousViewError.append(item + "\n");
                     }
-                    throw new RuntimeException(ambiguousViewError.toString());
+                    throw new IllegalArgumentException(ambiguousViewError.toString());
                 }
                 recyclerView.scrollToPosition(matchedItems.get(selectIndex).position);
                 uiController.loopMainThreadUntilIdle();
