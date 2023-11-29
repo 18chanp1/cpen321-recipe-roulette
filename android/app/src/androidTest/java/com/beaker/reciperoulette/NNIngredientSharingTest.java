@@ -2,6 +2,7 @@ package com.beaker.reciperoulette;
 
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -17,9 +18,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
-import com.beaker.reciperoulette.requests.IngredientRequestView;
-
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,14 +30,20 @@ import org.junit.runner.RunWith;
 public class NNIngredientSharingTest {
 
     @Rule
-    public ActivityScenarioRule<IngredientRequestView> mActivityScenarioRule =
-            new ActivityScenarioRule<>(IngredientRequestView.class);
+    public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
+            new ActivityScenarioRule<>(MainActivity.class);
+    @Before
+    public void waitForMenu() throws InterruptedException {
+        Thread.sleep(500);
+    }
 
     @Rule
     public TInternetOffRule ior = new TInternetOffRule();
 
     @Test
     public void allElementsPresent() {
+        onView(withText(R.string.req_ingredient)).perform(click());
+
         onView(withId(R.id.rq_title))
                 .check(matches(allOf(
                         withText(R.string.req_ingred),
@@ -78,6 +84,7 @@ public class NNIngredientSharingTest {
     @Test
     public void testIngredientRequestsNoNetwork() throws InterruptedException {
         //Get context
+        onView(withText(R.string.req_ingredient)).perform(click());
 
         Thread.sleep(100);
 

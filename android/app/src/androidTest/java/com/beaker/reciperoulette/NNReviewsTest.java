@@ -14,6 +14,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,10 +28,13 @@ public class NNReviewsTest {
     public TInternetOffRule TInternetOffRule =
             new TInternetOffRule();
     @Rule
-    public ActivityScenarioRule<MainMenu> mActivityScenarioRule =
-            new ActivityScenarioRule<>(MainMenu.class);
+    public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
+            new ActivityScenarioRule<>(MainActivity.class);
 
-
+    @Before
+    public void waitForMenu() throws InterruptedException {
+        Thread.sleep(500);
+    }
 
     @Test
     public void testReviewsEntry() throws InterruptedException {

@@ -97,7 +97,7 @@ public class IngredientRequestAdaptor extends RecyclerView.Adapter<IngredientReq
             Request req = new Request.Builder()
                     .url(acceptUrl)
                     .addHeader(context.getString(R.string.http_args_userToken), tok)
-                    .addHeader(context.getString(R.string.http_args_userToken), item.reqID)
+                    .addHeader(context.getString(R.string.http_args_userToken), item.requestId)
                     .addHeader(context.getString(R.string.http_args_email), email)
                     .post(body)
                     .build();

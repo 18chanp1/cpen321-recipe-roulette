@@ -1,12 +1,13 @@
 package com.beaker.reciperoulette;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.widget.EditText;
 
-import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -14,6 +15,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
 import org.hamcrest.Matchers;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,91 +25,110 @@ import org.junit.runner.RunWith;
 public class BRecipeUploadTest {
 
     @Rule
-    public ActivityScenarioRule<TakePhoto> mActivityScenarioRule =
-            new ActivityScenarioRule<>(TakePhoto.class);
+    public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
+            new ActivityScenarioRule<>(MainActivity.class);
 
+    @Before
+    public void waitForMenu() throws InterruptedException {
+        Thread.sleep(500);
+    }
     @Test
     public void checkCameraButtonVisible() {
-        Espresso.onView(ViewMatchers.withId(R.id.capture_image_btn))
+        onView(withText(R.string.take_photo)).perform(click());
+        onView(ViewMatchers.withId(R.id.capture_image_btn))
                 .check(matches(isDisplayed()));
     }
 
     @Test
     public void checkGalleryButtonVisible() {
-        Espresso.onView(ViewMatchers.withId(R.id.select_image_btn))
+        onView(withText(R.string.take_photo)).perform(click());
+
+        onView(ViewMatchers.withId(R.id.select_image_btn))
                 .check(matches(isDisplayed()));
     }
 
     @Test
     public void checkManualEntryButtonVisible() {
-        Espresso.onView(ViewMatchers.withId(R.id.manual_entry_btn))
+        onView(withText(R.string.take_photo)).perform(click());
+
+        onView(ViewMatchers.withId(R.id.manual_entry_btn))
                 .check(matches(isDisplayed()));
     }
 
     @Test
     public void checkSendImageButtonNotVisibleInitially() {
-        Espresso.onView(ViewMatchers.withId(R.id.send_image_btn))
+        onView(withText(R.string.take_photo)).perform(click());
+
+        onView(ViewMatchers.withId(R.id.send_image_btn))
                 .check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
     }
 
     @Test
     public void captureImageAndCheckSendButton() {
+        onView(withText(R.string.take_photo)).perform(click());
+
         // Capture Image
-        Espresso.onView(ViewMatchers.withId(R.id.capture_image_btn))
-                .perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.capture_image_btn))
+                .perform(click());
 
         // NOTE: Manual Accept Permissions and Take Photo with Camera
 
         // Check if send button is visible
-        Espresso.onView(ViewMatchers.withId(R.id.send_image_btn))
+        onView(ViewMatchers.withId(R.id.send_image_btn))
                 .check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
 
     @Test
     public void selectImageFromGalleryAndCheckSendButton() {
+        onView(withText(R.string.take_photo)).perform(click());
+
         // Gallery Image
-        Espresso.onView(ViewMatchers.withId(R.id.select_image_btn))
-                .perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.select_image_btn))
+                .perform(click());
 
         // NOTE: Manual Accept Permissions and Select Photo from Gallery
 
         // Check if send button is visible
-        Espresso.onView(ViewMatchers.withId(R.id.send_image_btn))
+        onView(ViewMatchers.withId(R.id.send_image_btn))
                 .check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
 
     @Test
     public void enterGroceryItemInManualEntryDialog() {
-        // Manual Entry
-        Espresso.onView(ViewMatchers.withId(R.id.manual_entry_btn))
-                .perform(ViewActions.click());
+        onView(withText(R.string.take_photo)).perform(click());
 
-        Espresso.onView(withText("Enter Grocery Item"))
+        // Manual Entry
+        onView(ViewMatchers.withId(R.id.manual_entry_btn))
+                .perform(click());
+
+        onView(withText("Enter Grocery Item"))
                 .check(matches(isDisplayed()));
 
-        Espresso.onView(ViewMatchers.withClassName(Matchers.equalTo(EditText.class.getName())))
+        onView(ViewMatchers.withClassName(Matchers.equalTo(EditText.class.getName())))
                 .perform(ViewActions.typeText("Chicken"), ViewActions.closeSoftKeyboard());
 
-        Espresso.onView(withText("Submit"))
-                .perform(ViewActions.click());
+        onView(withText("Submit"))
+                .perform(click());
 
-        Espresso.onView(ViewMatchers.withId(R.id.send_image_btn))
+        onView(ViewMatchers.withId(R.id.send_image_btn))
                 .check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
     }
 
     @Test
     public void cancelManualEntryDialog() {
-        // Cancelled Manual Entry
-        Espresso.onView(ViewMatchers.withId(R.id.manual_entry_btn))
-                .perform(ViewActions.click());
+        onView(withText(R.string.take_photo)).perform(click());
 
-        Espresso.onView(withText("Enter Grocery Item"))
+        // Cancelled Manual Entry
+        onView(ViewMatchers.withId(R.id.manual_entry_btn))
+                .perform(click());
+
+        onView(withText("Enter Grocery Item"))
                 .check(matches(isDisplayed()));
 
-        Espresso.onView(withText("Cancel"))
-                .perform(ViewActions.click());
+        onView(withText("Cancel"))
+                .perform(click());
 
-        Espresso.onView(ViewMatchers.withId(R.id.send_image_btn))
+        onView(ViewMatchers.withId(R.id.send_image_btn))
                 .check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
     }
 }

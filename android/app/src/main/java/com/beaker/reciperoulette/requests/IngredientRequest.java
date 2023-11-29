@@ -15,7 +15,7 @@ public class IngredientRequest implements Parcelable {
     String userId; //the requester ID
 
     String image;
-    public IngredientRequest(String requestId, String reqDate, String expiryDate, String ingredientID, String ingredientName, String requestor, String userId, String image) {
+    public IngredientRequest(String requestId, String reqDate, String expiryDate, String ingredientID, String ingredientName, String requester, String userId, String image) {
         this.requestId = requestId;
         this.reqDate = reqDate;
         this.expiryDate = expiryDate;
@@ -26,11 +26,6 @@ public class IngredientRequest implements Parcelable {
         this.image = image;
     }
 
-    public IngredientRequest(String ingredientName, String userId)
-    {
-        this.ingredientName = ingredientName;
-        this.userId = userId;
-    }
 
     protected IngredientRequest(Parcel in) {
         requestId = in.readString();
@@ -54,38 +49,6 @@ public class IngredientRequest implements Parcelable {
             return new IngredientRequest[size];
         }
     };
-
-    public String getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(String requestId) {
-        this.requestId = requestId;
-    }
-
-    public String getReqDate() {
-        return reqDate;
-    }
-
-    public void setReqDate(String reqDate) {
-        this.reqDate = reqDate;
-    }
-
-    public String getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(String expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
-    public String getIngredientID() {
-        return ingredientID;
-    }
-
-    public void setIngredientID(String ingredientID) {
-        this.ingredientID = ingredientID;
-    }
 
     public String getIngredientName() {
         return ingredientName;

@@ -19,6 +19,7 @@ import androidx.activity.result.IntentSenderRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.beaker.Utilities;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.Identity;
 import com.google.android.gms.auth.api.identity.SignInClient;
@@ -69,8 +70,22 @@ public class MainActivity extends AppCompatActivity {
         signInButton = findViewById(R.id.sign_in_button);
         assert signInButton != null;
 
-        boolean isSignOut = getIntent().getBooleanExtra(getString(R.string.menu_signout), false);
-        if(!isSignOut)
+        boolean signOutNow = getIntent().getBooleanExtra(getString(R.string.menu_signout), false);
+
+        //check if signed in once
+        SharedPreferences sharedPref =
+                this.getSharedPreferences(getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
+        long signInTime = sharedPref.getLong(getString(R.string.prf_signin_time), -1);
+        boolean isSignedIn = signInTime != -1 &&
+                ((Calendar.getInstance().getTimeInMillis() - signInTime) < Utilities.SIGNIN_EXPIRY);
+
+
+        if(signOutNow) setupSignInButton();
+        else if (isSignedIn)
+        {
+            Intent mainMenuIntent = new Intent(MainActivity.this, MainMenu.class);
+            startActivity(mainMenuIntent);
+        } else
         {
             setupSignIn();
             setupSignInButton();
@@ -78,10 +93,10 @@ public class MainActivity extends AppCompatActivity {
             //setup login state
             askNotificationPermission();
             MyFirebaseMessagingService.saveFCMTokentoSharedPref(this);
-        } else {
-
-            setupSignInButton();
         }
+
+
+
     }
 
     private void setupSignIn()
@@ -146,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = sharedPref.edit();
                                 editor.putString(getString(R.string.prf_token), idToken);
                                 editor.putString(getString(R.string.prf_eml), username);
+                                editor.putLong(getString(R.string.prf_signin_time), Calendar.getInstance().getTimeInMillis());
                                 editor.apply();
 
                                 Intent mainMenuIntent = new Intent(MainActivity.this, MainMenu.class);
@@ -239,6 +255,8 @@ public class MainActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = sharedPref.edit();
                             editor.putString(getString(R.string.prf_token), tok);
                             editor.putString(getString(R.string.prf_token), email);
+                            editor.putLong(getString(R.string.prf_signin_time), Calendar.getInstance().getTimeInMillis());
+
                             editor.apply();
                         }
 

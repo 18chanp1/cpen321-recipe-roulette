@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -44,8 +43,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     String msg = c.getString(R.string.fcm_msg_ok);
                     Log.d(TAG, msg);
                     Log.d(TAG, token);
-                    Toast.makeText(c, msg, Toast.LENGTH_SHORT).show();
-                });
+                }).addOnFailureListener(Throwable::printStackTrace);
 
     }
 

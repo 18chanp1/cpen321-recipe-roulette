@@ -15,6 +15,7 @@ import com.beaker.reciperoulette.requests.Ingredient;
 import com.beaker.reciperoulette.requests.IngredientsRequest;
 import com.google.gson.Gson;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,9 +36,13 @@ import okhttp3.Response;
 public class NFMultipleItemsTest {
 
     @Rule
-    public ActivityScenarioRule<MainMenu> mActivityScenarioRule =
-            new ActivityScenarioRule<>(MainMenu.class);
+    public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
+            new ActivityScenarioRule<>(MainActivity.class);
 
+    @Before
+    public void waitForMenu() throws InterruptedException {
+        Thread.sleep(500);
+    }
 
     @Test
     public void uploadMultipleItems() throws IOException {

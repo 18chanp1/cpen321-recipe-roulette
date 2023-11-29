@@ -92,6 +92,7 @@
     <string name="cht_req_det">DETAILS</string>
     <string name="cht_req_cont">CONTACT</string>
 
+
     <!-- Prefix for rating -->
     <string name="rev_rating_pref">Rating: </string>
 
@@ -132,6 +133,7 @@
     <string name="prf_token">TOKEN</string>
     <string name="prf_eml">EMAIL</string>
     <string name="prf_fcmtoken">FCMTOKEN</string>
+    <string name="prf_signin_time">SIGNINTIME</string>
 
     <string name="prf_token_def">NOTOKEN</string>
     <string name="prf_eml_def">NOEMAIL</string>
