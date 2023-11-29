@@ -35,7 +35,7 @@ router.post("/like", async (req, res, next) =>
       userId,
       recipeId
     });
-  if (review != null) {
+  if (review) {
     review.likes++;
     await dbFunctions.dbSaveRecord(review);
     res.status(200);
