@@ -46,12 +46,13 @@ public class IngredientRequestView extends AppCompatActivity {
 
         //setup buttons
         Button requestIngredientButton = findViewById(R.id.rq_ingredreq_but);
-        Button viewRequestButton = findViewById(R.id.rq_selfreq_but);
         ingredientRequestText = findViewById(R.id.rq_ingredient_entry);
         phoneNumberText = findViewById(R.id.rq_contact_entry);
 
+        requestIngredientButton.setOnClickListener((view) ->
+                submitRequestHandler());
+
         if(requestIngredientButton == null ||
-                viewRequestButton == null ||
                 ingredientRequestText == null ||
                 phoneNumberText == null)
             throw new IllegalStateException();
@@ -59,13 +60,6 @@ public class IngredientRequestView extends AppCompatActivity {
         loadDonations();
 
         //setup the listener to submit requests
-
-        requestIngredientButton.setOnClickListener(view -> submitRequestHandler());
-        viewRequestButton.setOnClickListener(view ->
-        {
-            Intent selfReqI = new Intent(IngredientRequestView.this, IngredientRequestSelfView.class);
-            startActivity(selfReqI);
-        });
     }
 
     private void submitRequestHandler()

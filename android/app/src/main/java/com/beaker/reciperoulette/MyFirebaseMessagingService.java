@@ -11,7 +11,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
-import com.beaker.reciperoulette.requests.IngredientRequestSelfView;
+import com.beaker.reciperoulette.requests.IngredientRequestView;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -99,7 +99,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getApplicationContext(), "FCM_NOTIF");
-        Intent ii = new Intent(getApplicationContext(), IngredientRequestSelfView.class);
+        Intent ii = new Intent(getApplicationContext(), IngredientRequestView.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, ii, PendingIntent.FLAG_IMMUTABLE);
 
         mBuilder.setContentIntent(pendingIntent);

@@ -73,11 +73,7 @@ public class NNIngredientSharingTest {
                         withText(R.string.req_ingredient),
                         isDisplayed()
                 )));
-        onView(withId(R.id.rq_selfreq_but))
-                .check(matches(allOf(
-                        withText(R.string.view_prev_req),
-                        isDisplayed()
-                )));
+
         onView(withId(R.id.rq_donate_title))
                 .check(matches(allOf(
                         withText(R.string.donate_ingred),

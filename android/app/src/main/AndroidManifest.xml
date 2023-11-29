@@ -42,9 +42,6 @@
             android:name=".RecipeDisplay"
             android:exported="false" />
         <activity
-            android:name=".requests.IngredientRequestSelfView"
-            android:exported="false" />
-        <activity
             android:name=".requests.IngredientRequestView"
             android:exported="false"
             android:windowSoftInputMode="adjustNothing" />

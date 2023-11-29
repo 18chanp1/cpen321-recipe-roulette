@@ -100,7 +100,7 @@ public class BMainMenuTest {
     @Test
     public void findTakePhotoButton() {
         ViewInteraction button6 = onView(
-                allOf(withId(R.id.menu6), withText("Add to Pantry"),
+                allOf(withId(R.id.menu6), withText("Upload Groceries"),
                         withParent(withParent(IsInstanceOf.instanceOf(android.view.ViewGroup.class))),
                         isDisplayed()));
         button6.check(matches(isDisplayed()));

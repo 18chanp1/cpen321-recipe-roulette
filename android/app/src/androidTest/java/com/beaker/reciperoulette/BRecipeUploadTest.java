@@ -43,14 +43,14 @@ public class BRecipeUploadTest {
     }
     @Test
     public void checkCameraButtonVisible() {
-        onView(withText(R.string.take_photo)).perform(click());
+        onView(withText(R.string.grocery_upload)).perform(click());
         onView(ViewMatchers.withId(R.id.capture_image_btn))
                 .check(matches(isDisplayed()));
     }
 
     @Test
     public void checkGalleryButtonVisible() {
-        onView(withText(R.string.take_photo)).perform(click());
+        onView(withText(R.string.grocery_upload)).perform(click());
 
         onView(ViewMatchers.withId(R.id.select_image_btn))
                 .check(matches(isDisplayed()));
@@ -58,7 +58,7 @@ public class BRecipeUploadTest {
 
     @Test
     public void checkManualEntryButtonVisible() {
-        onView(withText(R.string.take_photo)).perform(click());
+        onView(withText(R.string.grocery_upload)).perform(click());
 
         onView(ViewMatchers.withId(R.id.manual_entry_btn))
                 .check(matches(isDisplayed()));
@@ -66,7 +66,7 @@ public class BRecipeUploadTest {
 
     @Test
     public void checkSendImageButtonNotVisibleInitially() {
-        onView(withText(R.string.take_photo)).perform(click());
+        onView(withText(R.string.grocery_upload)).perform(click());
 
         onView(ViewMatchers.withId(R.id.send_image_btn))
                 .check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
@@ -74,7 +74,7 @@ public class BRecipeUploadTest {
 
     @Test
     public void captureImageAndCheckSendButton() {
-        onView(withText(R.string.take_photo)).perform(click());
+        onView(withText(R.string.grocery_upload)).perform(click());
 
         // Capture Image
         onView(ViewMatchers.withId(R.id.capture_image_btn))
@@ -89,7 +89,7 @@ public class BRecipeUploadTest {
 
     @Test
     public void selectImageFromGalleryAndCheckSendButton() {
-        onView(withText(R.string.take_photo)).perform(click());
+        onView(withText(R.string.grocery_upload)).perform(click());
 
         // Gallery Image
         onView(ViewMatchers.withId(R.id.select_image_btn))
@@ -104,7 +104,7 @@ public class BRecipeUploadTest {
 
     @Test
     public void enterGroceryItemInManualEntryDialog() {
-        onView(withText(R.string.take_photo)).perform(click());
+        onView(withText(R.string.grocery_upload)).perform(click());
 
         // Manual Entry
         onView(ViewMatchers.withId(R.id.manual_entry_btn))
@@ -125,7 +125,7 @@ public class BRecipeUploadTest {
 
     @Test
     public void cancelManualEntryDialog() {
-        onView(withText(R.string.take_photo)).perform(click());
+        onView(withText(R.string.grocery_upload)).perform(click());
 
         // Cancelled Manual Entry
         onView(ViewMatchers.withId(R.id.manual_entry_btn))
