@@ -102,7 +102,6 @@ router.post('/', async function(req, res, next) {
         return;
     }
     let fcmToken = ingredientRequest.fcmToken;
-    await dbFunctions.dbDeleteRecord(ingredientRequest);
     const message = {
         data: {
             text: `${donatorId} has fulfilled your request for ${ingredientRequest.ingredientName}. 
@@ -119,7 +118,7 @@ router.post('/', async function(req, res, next) {
     // .catch((error) => {
     //     console.log('Error sending message:', error);
     // });
-
+    await dbFunctions.dbDeleteRecord(ingredientRequest);
     res.status(200);
     res.send(`Donated to request ID ${requestId}`);
 });
