@@ -53,9 +53,9 @@ router.get('/self', async function(req, res, next) {
 router.post('/self/delete', async function(req, res, next) {
     let requestId = req.body.requestId;
     if (requestId) {
-        let ingredientRequest = dbFunctions.dbFindRecord(
-            dbModels.IngredientRequest, 
-            {requestId}
+        let ingredientRequest = await dbFunctions.dbFindRecord(
+                dbModels.IngredientRequest, 
+                {requestId}
             );
         if (ingredientRequest) {
             await dbFunctions.dbDeleteRecord(ingredientRequest);
