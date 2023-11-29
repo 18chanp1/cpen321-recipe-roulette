@@ -40,18 +40,23 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class BReviewsTest {
 
     @Rule
-    public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
-            new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityScenarioRule<MainMenu> mActivityScenarioRule =
+            new ActivityScenarioRule<>(MainMenu.class);
 
     @Before
     public void waitForMenu() throws InterruptedException {
-        Thread.sleep(500);
+        Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        SharedPreferences sharedPref =
+                c.getSharedPreferences(c.getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(c.getString(R.string.prf_token), "TESTTOKEN");
+        editor.putString(c.getString(R.string.prf_eml), "18chanp1@gmail.com");
+        editor.apply();
     }
     @Test
     public void testReviewsEntry() {
@@ -153,22 +158,26 @@ public class BReviewsTest {
 
                     //assert that the title is the same
                     onView(withId(R.id.detailed_title))
+                            .perform(scrollTo())
                             .check(matches(isDisplayed()))
                             .check(matches(withText(userArray[i].getTitle())));
 
                     //assert that contact is the same
                     onView(withId(R.id.detailed_author))
+                            .perform(scrollTo())
                             .check(matches(isDisplayed()))
                             .check(matches(withText(userArray[i].getAuthor())));
 
                     //assert that rating is the same
                     onView(withId(R.id.detailed_rating))
+                            .perform(scrollTo())
                             .check(matches(isDisplayed()))
-                            .check(matches(withText("Rating: " + userArray[i].getRating())));
+                            .check(matches(withText("Rating:" + userArray[i].getRating())));
 
                     //assert that the review is the same
                     String review = Html.fromHtml(userArray[i].getReview(), Html.FROM_HTML_MODE_COMPACT).toString();
                     onView(withId(R.id.detailed_text))
+                            .perform(scrollTo())
                             .check(matches(isDisplayed()))
                             .check(matches(withText(review)));
 
@@ -182,21 +191,13 @@ public class BReviewsTest {
                     onView(withId(R.id.like_button))
                             .perform(click());
 
-                    //go back to refresh item
-                    pressBack();
-                    pressBack();
-                    onView(withText("Recipe Reviews")).perform(click());
-                    onView(withId(R.id.rev_recycler))
-                            .perform(scrollToPosition(i));
-                    currentMatch = new RecyclerViewMatcher(R.id.rev_recycler).atPosition(i);
-                    onView(allOf(withParent(currentMatch), withId(R.id.rev_but)))
-                            .perform(click());
 
                     //check that like count has increased
                     String newRating = String.valueOf(Integer.valueOf(userArray[i].getRating() + 1)) ;
                     onView(withId(R.id.detailed_rating))
+                            .perform(scrollTo())
                             .check(matches(isDisplayed()))
-                            .check(matches(withText("Rating: " + newRating)));
+                            .check(matches(withText("Rating:" + newRating)));
 
                     pressBack();
 

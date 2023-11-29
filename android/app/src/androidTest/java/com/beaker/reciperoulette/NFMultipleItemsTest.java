@@ -36,16 +36,21 @@ import okhttp3.Response;
 public class NFMultipleItemsTest {
 
     @Rule
-    public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
-            new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityScenarioRule<MainMenu> mActivityScenarioRule =
+            new ActivityScenarioRule<>(MainMenu.class);
 
     @Before
     public void waitForMenu() throws InterruptedException {
-        Thread.sleep(500);
-    }
+        Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        SharedPreferences sharedPref =
+                c.getSharedPreferences(c.getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(c.getString(R.string.prf_token), "TESTTOKEN");
+        editor.putString(c.getString(R.string.prf_eml), "18chanp1@gmail.com");
+        editor.apply();    }
 
     @Test
-    public void uploadMultipleItemsTimed() throws IOException, InterruptedException, ExecutionException, TimeoutException {
+    public void uploadMultipleItemsTimed() throws InterruptedException, ExecutionException, TimeoutException {
         ExecutorService executor = Executors.newFixedThreadPool(100);
 
         List<Callable<Long>> callableTasks = new ArrayList<>();
@@ -64,7 +69,7 @@ public class NFMultipleItemsTest {
     }
 
     @Test
-    public void uploadMultipleItems() throws IOException, InterruptedException, ExecutionException, TimeoutException {
+    public void uploadMultipleItems() throws InterruptedException, ExecutionException {
         ExecutorService executor = Executors.newFixedThreadPool(100);
 
         List<Callable<Long>> callableTasks = new ArrayList<>();
@@ -103,15 +108,15 @@ public class NFMultipleItemsTest {
 
         for(int i = 0; i < 20; i++)
         {
-            try (Response response = client.newCall(req).execute())
+            try
             {
-            } catch (IOException e) {
+                client.newCall(req).execute();
+            } catch (IOException e){
 
             }
         }
 
-        long diff = Calendar.getInstance().getTimeInMillis() - start;
-        return diff;
+        return Calendar.getInstance().getTimeInMillis() - start;
 
     }
 

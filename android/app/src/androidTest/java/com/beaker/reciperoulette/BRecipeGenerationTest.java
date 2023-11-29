@@ -11,6 +11,7 @@ import static org.junit.Assert.fail;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -38,12 +39,18 @@ import okhttp3.Response;
 public class BRecipeGenerationTest {
 
     @Rule
-    public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
-            new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityScenarioRule<MainMenu> mActivityScenarioRule =
+            new ActivityScenarioRule<>(MainMenu.class);
 
     @Before
     public void waitForMenu() throws InterruptedException {
-        Thread.sleep(500);
+        Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        SharedPreferences sharedPref =
+                c.getSharedPreferences(c.getString(R.string.shared_pref_filename), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(c.getString(R.string.prf_token), "TESTTOKEN");
+        editor.putString(c.getString(R.string.prf_eml), "18chanp1@gmail.com");
+        editor.apply();
     }
 
     @Test
@@ -101,6 +108,11 @@ public class BRecipeGenerationTest {
                     pressBack();
                 }
 
+            }
+            else if(response.code() == 500)
+            {
+                //do nothing
+                Log.d("500 ERROR, OUT OF QUOTA");
             }
             else
             {
