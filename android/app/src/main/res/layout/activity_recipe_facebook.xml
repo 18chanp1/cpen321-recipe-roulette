@@ -20,12 +20,22 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rev_recycler"
         android:layout_width="340dp"
-        android:layout_height="574dp"
+        android:layout_height="476dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.496" />
+        app:layout_constraintVertical_bias="0.392" />
+
+    <Button
+        android:id="@+id/rev_write_but"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/write_rev"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rev_recycler" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

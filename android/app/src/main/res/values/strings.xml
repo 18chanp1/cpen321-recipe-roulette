@@ -12,6 +12,9 @@
     <string name="signout">Sign out</string>
 
     <string name="read_more">Read more</string>
+    <string name="write_rev">Write your own review</string>
+    <string name="title">Title</string>
+    <string name="submit_review">Submit Review</string>
 
     <string name="Loremipsum">Lorem Ipsum</string>
     <string name="like">Like</string>

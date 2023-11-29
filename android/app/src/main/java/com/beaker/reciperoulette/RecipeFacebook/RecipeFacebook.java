@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,11 @@ public class RecipeFacebook extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_facebook);
 
         loadReviews();
+
+        findViewById(R.id.rev_write_but).setOnClickListener((view) -> {
+            Intent writeReviewIntent = new Intent(RecipeFacebook.this, WriteReview.class);
+            startActivity(writeReviewIntent);
+        });
 
     }
 
