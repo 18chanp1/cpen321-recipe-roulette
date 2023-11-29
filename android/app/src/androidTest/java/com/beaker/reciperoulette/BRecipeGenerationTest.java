@@ -112,7 +112,7 @@ public class BRecipeGenerationTest {
             else if(response.code() == 500)
             {
                 //do nothing
-                Log.d("500 ERROR, OUT OF QUOTA");
+                Log.d("TEST_RECIPEGEN", "500 ERROR, OUT OF QUOTA");
             }
             else
             {
