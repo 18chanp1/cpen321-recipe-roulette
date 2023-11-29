@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".RecipeFacebook.ReviewDetailed">
+    tools:context=".reviews.ReviewDetailed">
 
     <ScrollView
         android:id="@+id/review_scroll"
@@ -31,12 +31,12 @@
                 android:layout_margin="0dp"
                 android:layout_weight="1"
                 android:text="@string/Loremipsum"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <ImageView
                 android:id="@+id/detailed_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:layout_weight="1"
                 tools:srcCompat="@tools:sample/avatars" />
 

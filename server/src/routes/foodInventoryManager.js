@@ -68,7 +68,7 @@ router.post('/upload', async (req, res) => {
 
 
 router.get('/', async function(req, res, next) {
-  console.log("Return the list of ingredients in the user's inventory")
+  // console.log("Return the list of ingredients in the user's inventory")
 
   let queriedUser = req.headers.userid;
   console.log(req.headers);

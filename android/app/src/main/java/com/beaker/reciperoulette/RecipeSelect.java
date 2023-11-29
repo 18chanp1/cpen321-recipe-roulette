@@ -84,6 +84,7 @@ public class RecipeSelect extends AppCompatActivity {
                     Log.d("RECIPE", responseBody);
                     String[] recipeNames = parseRecipeNames(responseBody);
                     int[] recipeIds = parseRecipeId(responseBody);
+                    String[] recipeImages = parseRecipeImage(responseBody);
 
                     for (String name : Objects.requireNonNull(recipeNames)) {
                         System.out.println("Recipe Name: " + name);
@@ -91,12 +92,16 @@ public class RecipeSelect extends AppCompatActivity {
                     for (int id : Objects.requireNonNull(recipeIds)) {
                         System.out.println("Recipe id: " + id);
                     }
+                    for (String image : Objects.requireNonNull(recipeImages)) {
+                        System.out.println("Recipe Image: " + image);
+                    }
                     AllRecipeDetails AllRecipes = new AllRecipeDetails();
                     List<RecipeDetails> recipeList = new ArrayList<>();
                     for (int i = 0; i < recipeNames.length; i++) {
                         RecipeDetails localRecipe = new RecipeDetails();
                         localRecipe.name = recipeNames[i];
                         localRecipe.recipeId = recipeIds[i];
+                        localRecipe.image = recipeImages[i];
 
                         recipeList.add(localRecipe);
                     }
@@ -109,6 +114,7 @@ public class RecipeSelect extends AppCompatActivity {
                         for (RecipeDetails localRecipe : AllRecipes.recipeList) {
                             if (!localRecipe.name.isEmpty()) {
                                 Button recipeButton = new Button(RecipeSelect.this);
+                                recipeButton.setTag("valentinosfavoritebutton");
                                 recipeButton.setText(localRecipe.name);
                                 recipeButton.setOnClickListener(v -> {
                                     Toast.makeText(RecipeSelect.this, "Clicked " + localRecipe.name, Toast.LENGTH_SHORT).show();
@@ -121,6 +127,7 @@ public class RecipeSelect extends AppCompatActivity {
                                     RecipePick chosenRecipe = new RecipePick();
                                     chosenRecipe.userId = email;
                                     chosenRecipe.recipeId = localRecipe.recipeId;
+                                    chosenRecipe.image = localRecipe.image;
 
                                     OkHttpClient client = new OkHttpClient();
                                     Gson gson = new Gson();
@@ -191,18 +198,37 @@ public class RecipeSelect extends AppCompatActivity {
     private int[] parseRecipeId(String jsonInput) {
         try {
             JSONArray jsonArray = new JSONArray(jsonInput);
-            int[] recipeId = new int[jsonArray.length()];
+            int[] recipeIds = new int[jsonArray.length()];
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject recipeObject = jsonArray.getJSONObject(i);
-                int id = recipeObject.getInt("id");
-                recipeId[i] = id;
+                int id = recipeObject.getInt("id"); // Use "id" field
+                recipeIds[i] = id;
             }
 
-            return recipeId;
+            return recipeIds;
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d("RECIPE", "Failed to parse recipe ids");
+        }
+        return null;
+    }
+
+    private String[] parseRecipeImage(String jsonInput) {
+        try {
+            JSONArray jsonArray = new JSONArray(jsonInput);
+            String[] recipeImages = new String[jsonArray.length()];
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject recipeObject = jsonArray.getJSONObject(i);
+                String image = recipeObject.optString("image"); // Use "image" field
+                recipeImages[i] = image;
+            }
+
+            return recipeImages;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d("RECIPE", "Failed to parse recipe images");
         }
         return null;
     }
@@ -211,11 +237,14 @@ public class RecipeSelect extends AppCompatActivity {
 class RecipePick {
     String userId;
     int recipeId;
+
+    String image;
 }
 
 class RecipeDetails {
     String name;
     int recipeId;
+    String image;
 }
 
 class AllRecipeDetails {

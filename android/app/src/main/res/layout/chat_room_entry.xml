@@ -10,34 +10,31 @@
         android:layout_marginRight="5dp"
         android:layout_marginBottom="20dp"
         android:layout_centerVertical="true"
-        android:id="@+id/imageview"/>
-
+        android:id="@+id/img"/>
 
 
     <TextView
+        android:id="@+id/item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/name"
-        android:layout_toEndOf="@id/imageview"
-        android:textColor="@color/black"
+        android:layout_toEndOf="@id/img"
         android:textSize="20dp"
-        tools:text="Name"/>
+        tools:text="Name" />
 
     <TextView
-        android:id="@+id/email"
+        android:id="@+id/expiry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/name"
+        android:layout_below="@id/item"
         android:layout_marginStart="8dp"
         android:layout_marginTop="1dp"
-        android:layout_toEndOf="@id/imageview"
-        android:textColor="@color/black"
+        android:layout_toEndOf="@id/img"
         tools:text="email@email.com" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_below="@id/imageview"
+        android:layout_below="@id/img"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:background="#673AB7"/>

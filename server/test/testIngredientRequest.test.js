@@ -1,7 +1,7 @@
 var dbFunctions = require("../db/db").Functions;
 var app = require("../src/app");
 var request = require("supertest");
-const mongoose = require("mongoose");
+const { randomUUID } = require('crypto');
 
 const baseMockedRequestBody = { 
     email: "test@ubc.ca", 
@@ -11,7 +11,7 @@ const baseMockedRequestBody = {
 }
 
 const baseMockedDbFindRecordResponse = {
-    requestId: new mongoose.Types.ObjectId(), 
+    requestId: randomUUID(), 
     userId: baseMockedRequestBody.email, 
     phoneNo: baseMockedRequestBody.phoneNo,
     ingredientName: baseMockedRequestBody.requestItem,
@@ -39,7 +39,7 @@ describe("Get all ingredient requests", () => {
     test("All requests returned", async () => {
         let expectedResponse = baseMockedDbFindRecordResponse;
         let mockedDbFindAllRecordsResponse = [];
-        for (i = 0; i < 20; i++) {
+        for (let i = 0; i < 20; i++) {
             mockedDbFindAllRecordsResponse.push(baseMockedDbFindRecordResponse);
         }
         jest.spyOn(dbFunctions, "dbFindAllRecords").mockReturnValue(mockedDbFindAllRecordsResponse);

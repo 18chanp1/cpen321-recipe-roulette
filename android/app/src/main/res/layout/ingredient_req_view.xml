@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RecipeFacebook.RecipeFacebook"
+    tools:context=".reviews.RecipeFacebook"
     tools:layout_editor_absoluteX="-1dp"
     tools:layout_editor_absoluteY="-13dp">
 
@@ -26,8 +26,8 @@
 
     <EditText
         android:id="@+id/rq_ingredient_entry"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_width="237dp"
+        android:layout_height="55dp"
         android:layout_marginTop="36dp"
         android:layout_marginBottom="92dp"
         android:ems="10"
@@ -36,10 +36,10 @@
         android:maxLines="1"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.278"
+        app:layout_constraintHorizontal_bias="0.321"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rq_title"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.022" />
 
     <TextView
         android:id="@+id/rq_donate_title"
@@ -78,41 +78,28 @@
 
     <Button
         android:id="@+id/rq_ingredreq_but"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="174dp"
+        android:layout_height="69dp"
         android:text="@string/req_ingredient"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.231"
+        app:layout_constraintHorizontal_bias="0.232"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rq_ingredient_entry" />
-
-    <Button
-        android:id="@+id/rq_selfreq_but"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/view_prev_req"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.291"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rq_ingredreq_but"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/rq_ingredient_entry"
+        app:layout_constraintVertical_bias="0.84" />
 
     <EditText
         android:id="@+id/rq_contact_entry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="240dp"
+        android:layout_height="57dp"
         android:ems="10"
         android:hint="@string/contact_details"
         android:inputType="phone"
         app:layout_constraintBottom_toTopOf="@+id/rq_ingredreq_but"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.278"
+        app:layout_constraintHorizontal_bias="0.327"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rq_ingredient_entry"
-        app:layout_constraintVertical_bias="0.6" />
+        app:layout_constraintVertical_bias="0.444" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

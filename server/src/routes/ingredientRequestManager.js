@@ -1,8 +1,8 @@
 var admin = require("firebase-admin");
 var serviceAccount = require(process.env.FB_CRED);
-//var serviceAccount = require("../../secrets/firebase_admin.json");
 var dbModels = require("../../db/db").Models;
 var dbFunctions = require("../../db/db").Functions;
+const { randomUUID } = require('crypto');
 
 const app = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -21,7 +21,7 @@ router.post('/new', async function(req, res, next) {
     let fcmToken = req.body.fcmtok;
     let phoneNo = req.body.phoneNo;
     if (userId && ingredientName && fcmToken) {
-        let requestId = dbFunctions.dbGetObjectId();
+        let requestId = randomUUID();
         let newIngredientRequest = new dbModels.IngredientRequest({
             requestId, 
             userId,
@@ -53,9 +53,9 @@ router.get('/self', async function(req, res, next) {
 router.post('/self/delete', async function(req, res, next) {
     let requestId = req.body.requestId;
     if (requestId) {
-        let ingredientRequest = dbFunctions.dbFindRecord(
-            dbModels.IngredientRequest, 
-            {requestId: `${req.body.requestId}`}
+        let ingredientRequest = await dbFunctions.dbFindRecord(
+                dbModels.IngredientRequest, 
+                {requestId}
             );
         if (ingredientRequest) {
             await dbFunctions.dbDeleteRecord(ingredientRequest);
@@ -93,7 +93,7 @@ router.post('/', async function(req, res, next) {
     }
     let ingredientRequest = await dbFunctions.dbFindRecord(
         dbModels.IngredientRequest, 
-        {requestId: `${requestId}`}
+        {requestId}
     );
 
     if (!ingredientRequest) {
@@ -102,7 +102,6 @@ router.post('/', async function(req, res, next) {
         return;
     }
     let fcmToken = ingredientRequest.fcmToken;
-    await dbFunctions.dbDeleteRecord(ingredientRequest);
     const message = {
         data: {
             text: `${donatorId} has fulfilled your request for ${ingredientRequest.ingredientName}. 
@@ -119,7 +118,7 @@ router.post('/', async function(req, res, next) {
     // .catch((error) => {
     //     console.log('Error sending message:', error);
     // });
-
+    await dbFunctions.dbDeleteRecord(ingredientRequest);
     res.status(200);
     res.send(`Donated to request ID ${requestId}`);
 });

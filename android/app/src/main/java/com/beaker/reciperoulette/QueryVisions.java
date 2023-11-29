@@ -1,14 +1,17 @@
 package com.beaker.reciperoulette;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.beaker.reciperoulette.IngredientRequest.Ingredient;
-import com.beaker.reciperoulette.IngredientRequest.IngredientsRequest;
+import com.beaker.reciperoulette.requests.Ingredient;
+import com.beaker.reciperoulette.requests.IngredientsRequest;
+import com.beaker.reciperoulette.inventory.InventoryView;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.vision.v1.AnnotateImageRequest;
@@ -105,7 +108,8 @@ public class QueryVisions {
 
                         Calendar calendar = Calendar.getInstance();
                         calendar.add(Calendar.WEEK_OF_YEAR, 1);
-                        long unixTime = calendar.getTimeInMillis() / 1000;
+                        //By Josh's request, remove 1000.
+                        long unixTime = calendar.getTimeInMillis();
 
                         ingredient.date = new long[] {unixTime};
                         ingredientList.add(ingredient);
@@ -131,12 +135,17 @@ public class QueryVisions {
                         @Override
                         public void onFailure(@NonNull Call call, @NonNull IOException e) {
                             System.err.println("Request failed with code: " + e);
+                            c.runOnUiThread(() -> Toast.makeText(c, "Upload failed. Please try again later.", Toast.LENGTH_SHORT).show());
                         }
 
                         @Override
                         public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                             String responseBody = Objects.requireNonNull(response.body()).string();
                             System.out.println("Response: " + responseBody);
+
+                            Intent goToInventory = new Intent(c, InventoryView.class);
+                            goToInventory.putExtra("FROMUPLOAD", true);
+                            c.startActivity(goToInventory);
                         }
                     });
                 }
