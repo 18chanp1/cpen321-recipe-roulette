@@ -28,16 +28,16 @@ router.post('/upload', async (req, res) => {
 
 
 router.get('/', async function(req, res, next) {
-  console.log("Return the list of ingredients in the user's inventory")
+  // console.log("Return the list of ingredients in the user's inventory")
 
   let queriedUser = req.get('userId');
-  console.log("Queried User: " + queriedUser);
+  // console.log("Queried User: " + queriedUser);
   if (queriedUser == null || queriedUser == "") {
     res.status(400).send([]);
   } else {
     const ingredients = dbFunctions.dbFindAllRecords(Models.Ingredient, {userId: `${queriedUser}`});
-    console.log(typeof ingredients);
-    console.log(ingredients);
+    // console.log(typeof ingredients);
+    // console.log(ingredients);
     res.status(200);
     res.send(ingredients);
   }

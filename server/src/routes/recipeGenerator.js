@@ -93,13 +93,14 @@ router.post('/', async function(req, res, next) {
     return;
   }
   let resJson = await apiResponse.json();
-  savedRecipe.instructions = resJson;
   let response = {
     userId: savedRecipe.userId,
     recipeId: savedRecipe.recipeId,
     recipeName: savedRecipe.recipeName,
     recipeSummary: savedRecipe.recipeSummary,
+    recipeImage: savedRecipe.recipeImage,
     numTimes: savedRecipe.numTimes,
+    likes: savedRecipe.likes,
     instructions: resJson,
   }
   res.status(200);
