@@ -1,9 +1,11 @@
 package com.beaker.reciperoulette;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.fail;
 
@@ -25,6 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -79,7 +82,8 @@ public class BRecipeGenerationTest {
         {
             if(response.isSuccessful())
             {
-                JSONArray jsonArray = new JSONArray();
+                String responseBody = Objects.requireNonNull(response.body()).string();
+                JSONArray jsonArray = new JSONArray(responseBody);
                 String[] recipeNames = new String[jsonArray.length()];
 
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -91,6 +95,10 @@ public class BRecipeGenerationTest {
                 for (String recipeName : recipeNames) {
                     onView(withText(recipeName))
                             .check(matches(isDisplayed()));
+
+                    onView(withText(recipeName)).perform(click());
+                    checkDetailedView(recipeName);
+                    pressBack();
                 }
 
             }
@@ -98,7 +106,7 @@ public class BRecipeGenerationTest {
             {
                 fail("Entry does not match");
             }
-        } catch (IOException | JSONException e)
+        } catch (IOException | JSONException | InterruptedException e)
         {
             fail("Unable to parse inputs from server");
         }
@@ -128,6 +136,33 @@ public class BRecipeGenerationTest {
     private void gotoGenerateRecipe()
     {
         onView(withText("Recipe Engine")).perform(click());
+    }
+
+    private void checkDetailedView(String recipeName) throws InterruptedException {
+        Thread.sleep(500);
+        onView(withText(recipeName)).check(matches(isDisplayed()));
+        onView(withId(R.id.recipe_name)).check(matches(isDisplayed()));
+        onView(withId(R.id.recipe_summary)).check(matches(isDisplayed()));
+        onView(withId(R.id.recipe_ingredients)).check(matches(isDisplayed()));
+        onView(withId(R.id.recipe_steps)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.recipe_complete)).perform(click());
+
+//        Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
+//        RecyclerView r = (RecyclerView) ((Activity) c).findViewById(R.id.rev_recycler);
+//
+//        int last = r.getAdapter().getItemCount() - 1;
+//
+//        onView(withId(R.id.rev_recycler))
+//                .perform(scrollToPosition(last));
+//        Matcher<View> currentMatch = new RecyclerViewMatcher(R.id.rev_recycler).atPosition(last);
+//
+//        onView(currentMatch)
+//                .check(matches(hasDescendant(withText(recipeName))));
+
+
+        pressBack();
+
     }
 
 }

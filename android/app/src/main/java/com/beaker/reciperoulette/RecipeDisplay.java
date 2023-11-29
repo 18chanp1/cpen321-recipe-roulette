@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.beaker.reciperoulette.reviews.RecipeFacebook;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +33,7 @@ public class RecipeDisplay extends AppCompatActivity {
         Button recipeCompleteButton = findViewById(R.id.recipe_complete);
 
         recipeCompleteButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, MainMenu.class);
+            Intent intent = new Intent(this, RecipeFacebook.class);
 
             this.startActivity(intent);
         });
