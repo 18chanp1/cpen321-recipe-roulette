@@ -13,35 +13,34 @@
         android:id="@+id/img"/>
 
 
-
     <TextView
+        android:id="@+id/item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/item"
         android:layout_toEndOf="@id/img"
         android:textColor="@color/black"
         android:textSize="20dp"
-        tools:text="Name"/>
+        tools:text="Food Item" />
 
     <TextView
+        android:id="@+id/expiry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/expiry"
-        android:layout_toEndOf="@id/img"
         android:layout_below="@id/item"
+        android:layout_toEndOf="@id/img"
         android:textColor="@color/black"
-        tools:text="email@email.com"/>
+        tools:text="2023-11-25" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_below="@id/rev_but"
+        android:layout_below="@id/eat_but"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:background="#673AB7"/>
+        android:background="#673AB7" />
 
     <Button
-        android:id="@+id/rev_but"
+        android:id="@+id/eat_but"
         android:layout_width="109dp"
         android:layout_height="44dp"
         android:layout_below="@+id/expiry"
@@ -50,6 +49,6 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         android:layout_toEndOf="@id/img"
-        android:text="@string/read_more" />
+        android:text="@string/consume" />
 
 </RelativeLayout>

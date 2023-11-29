@@ -10,7 +10,7 @@
         android:layout_marginRight="5dp"
         android:layout_marginBottom="20dp"
         android:layout_centerVertical="true"
-        android:id="@+id/imageview"/>
+        android:id="@+id/img"/>
 
 
 
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rq_entry_name"
-        android:layout_toEndOf="@id/imageview"
+        android:layout_toEndOf="@id/img"
         android:textColor="@color/black"
         android:textSize="20dp"
         tools:text="Name"/>
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rq_entry_eml"
-        android:layout_toEndOf="@id/imageview"
+        android:layout_toEndOf="@id/img"
         android:layout_below="@id/rq_entry_name"
         android:textColor="@color/black"
         tools:text="email@email.com"/>
@@ -49,7 +49,7 @@
         android:layout_marginTop="2dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
-        android:layout_toEndOf="@id/imageview"
+        android:layout_toEndOf="@id/img"
         android:text="@string/donate" />
 
 </RelativeLayout>

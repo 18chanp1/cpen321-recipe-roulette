@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import com.beaker.reciperoulette.ChatRoom.EnterChatRoomView;
 import com.beaker.reciperoulette.IngredientRequest.IngredientRequestView;
+import com.beaker.reciperoulette.Inventory.InventoryView;
 import com.beaker.reciperoulette.RecipeFacebook.RecipeFacebook;
 
 public class MainMenu extends AppCompatActivity {
@@ -65,7 +66,13 @@ public class MainMenu extends AppCompatActivity {
             startActivity(cookWithOthersIntent);
         });
 
-        Button signOutButton = findViewById(R.id.menu7);
+        Button inventoryViewButton = findViewById(R.id.menu7);
+        inventoryViewButton.setOnClickListener(view -> {
+            Intent inventoryIntent = new Intent(MainMenu.this, InventoryView.class);
+            startActivity(inventoryIntent);
+        });
+
+        Button signOutButton = findViewById(R.id.menu8);
         signOutButton.setOnClickListener(view -> {
             Intent signOutIntent = new Intent(MainMenu.this, MainActivity.class);
             signOutIntent.putExtra("SIGNOUT", true);

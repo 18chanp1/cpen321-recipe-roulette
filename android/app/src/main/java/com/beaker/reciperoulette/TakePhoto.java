@@ -63,7 +63,7 @@ public class TakePhoto extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.take_photo);
 
-        mImageView = findViewById(R.id.imageview);
+        mImageView = findViewById(R.id.img);
         mCaptureBtn = findViewById(R.id.capture_image_btn);
         mManualBtn = findViewById(R.id.manual_entry_btn);
         mSelectPicButton = findViewById(R.id.select_image_btn);

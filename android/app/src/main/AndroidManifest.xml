@@ -49,6 +49,9 @@
             android:name="com.beaker.reciperoulette.RecipeFacebook.RecipeFacebook"
             android:exported="false" />
         <activity
+            android:name="com.beaker.reciperoulette.Inventory.InventoryView"
+            android:exported="false" />
+        <activity
             android:name="com.beaker.reciperoulette.TakePhoto"
             android:exported="false" />
         <activity

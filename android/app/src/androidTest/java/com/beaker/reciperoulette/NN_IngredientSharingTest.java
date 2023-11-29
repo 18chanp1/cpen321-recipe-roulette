@@ -90,7 +90,7 @@ public class NN_IngredientSharingTest {
         for (int i = 0; i < 50; i++) {
             onView(withId(R.id.rq_recycler))
                     .perform(scrollToPosition(i));
-            Matcher<View> currentMatch = new RecyclerViewMatcher(R.id.recyclerView).atPosition(i);
+            Matcher<View> currentMatch = new RecyclerViewMatcher(R.id.rq_recycler).atPosition(i);
             onView(currentMatch)
                     .check(doesNotExist());
         }
