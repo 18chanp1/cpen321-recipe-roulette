@@ -8,16 +8,26 @@ router.get('/', async function(req, res, next) {
   let response = [];
   let allRecipes = await dbFunctions.dbGetAllReviews();
   allRecipes.forEach(recipe => {
-    let review = {
-      id: recipe.recipeId,
-      rating: recipe.likes,
-      author: recipe.userId,
-      title: recipe.recipeName,
-      image: recipe.recipeImage,
-      review: recipe.recipeSummary
+    let dup = false;
+    for (let r of response) {
+      if (recipe.recipeId == r.id && recipe.userId == r.author) {
+        dup = true;
+        break;
+      }
     }
-    response.push(review);
+    if (!dup) {
+      let review = {
+        id: recipe.recipeId,
+        rating: recipe.likes,
+        author: recipe.userId,
+        title: recipe.recipeName,
+        image: recipe.recipeImage,
+        review: recipe.recipeSummary
+      }
+      response.push(review);
+    }
   })
+  console.log(response)
   res.status(200);
   res.send(response);
 });
@@ -30,12 +40,21 @@ router.post("/like", async (req, res, next) =>
     res.status(400);
     res.send("Body parameters must not be empty");
   }
-  let review = await dbFunctions.dbFindRecord(dbModels.Recipe, 
+  let reviews = await dbFunctions.dbFindAllRecords(dbModels.Recipe, 
     { 
       userId,
       recipeId
     });
-  if (review) {
+  if (reviews.length > 0) {
+    let r = 0;
+    let maxLikes = 0;
+    for (let i = 0; i < reviews.length; i++) {
+      if (reviews[i].likes > maxLikes) {
+        maxLikes = reviews[i].likes;
+        r = i;
+      }
+    }
+    let review = reviews[r];
     review.likes++;
     await dbFunctions.dbSaveRecord(review);
     res.status(200);

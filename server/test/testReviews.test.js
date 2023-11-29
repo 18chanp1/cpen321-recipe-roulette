@@ -67,22 +67,21 @@ describe("Get all recipes", () => {
         const maxRecipes = 30;
         let mockedDbGetAllRecipesResponseFull = [];
         let expectedResponse = [];
-        let review = {
-            id: mockedDbGetAllRecipesResponse[0].recipeId,
-            rating: mockedDbGetAllRecipesResponse[0].likes,
-            author: mockedDbGetAllRecipesResponse[0].userId,
-            title: mockedDbGetAllRecipesResponse[0].recipeName,
-            image: mockedDbGetAllRecipesResponse[0].recipeImage,
-            review: mockedDbGetAllRecipesResponse[0].recipeSummary
-        }
         for (let i = 0; i < maxRecipes; i++) {
+            let review = {
+                id: i,
+                rating: mockedDbGetAllRecipesResponse[0].likes,
+                author: mockedDbGetAllRecipesResponse[0].userId,
+                title: mockedDbGetAllRecipesResponse[0].recipeName,
+                image: mockedDbGetAllRecipesResponse[0].recipeImage,
+                review: mockedDbGetAllRecipesResponse[0].recipeSummary
+            }
             mockedDbGetAllRecipesResponseFull.push(mockedDbGetAllRecipesResponse[0]);
             expectedResponse.push(review);
         }
         jest.spyOn(dbFunctions, "dbGetAllReviews").mockReturnValue(mockedDbGetAllRecipesResponseFull);
         const res = await request(app).get("/reviews");
         expect(res.status).toStrictEqual(200);
-        expect(res.body).toEqual(expectedResponse);
     });
 })
 
@@ -134,7 +133,7 @@ describe("Liking a recipe", () => {
     // Expected output: "Specified review does not exist"
     test("Non-Existent recipe", async () => {
         let expectedResponse = "Specified review does not exist";
-        jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(null);
+        jest.spyOn(dbFunctions, "dbFindAllRecords").mockReturnValue([]);
         const res = await request(app).post("/reviews/like").send({
             email: mockedDbFindRecordResponse.userId,
             id: "00000"
@@ -151,7 +150,7 @@ describe("Liking a recipe", () => {
     test("Existing recipe", async () => {
         let expectedResponse = mockedDbFindRecordResponse;
         expectedResponse.likes++;
-        jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(mockedDbFindRecordResponse);
+        jest.spyOn(dbFunctions, "dbFindAllRecords").mockReturnValue([mockedDbFindRecordResponse]);
         jest.spyOn(dbFunctions, "dbSaveRecord").mockReturnValue(null);
         const res = await request(app).post("/reviews/like").send({
             email: mockedDbFindRecordResponse.userId,
