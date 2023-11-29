@@ -24,11 +24,16 @@ router.get('/', async function(req, res, next) {
 
 router.post("/like", async (req, res, next) =>
 {
-
+  let userId = req.body.email;
+  let recipeId = req.body.id;
+  if (!userId || !recipeId) {
+    res.status(400);
+    res.send("Body parameters must not be empty");
+  }
   let review = await dbFunctions.dbFindRecord(dbModels.Recipe, 
     { 
-      userId: req.body.email, 
-      recipeId: req.body.id
+      userId,
+      recipeId
     });
   if (review != null) {
     review.likes++;
@@ -37,7 +42,7 @@ router.post("/like", async (req, res, next) =>
     res.send(review);
   } else {
     res.status(400);
-    res.send("Failed to like");
+    res.send("Specified review does not exist");
   }
 })
 
@@ -51,7 +56,7 @@ router.post("/custom", async (req, res, next) =>
     res.send("Body parameters must not be empty");
     return;
   }
-  let recipeImage = req.body.recipeImage ? req.body.recipeImage : "https://visitors-centre.jrc.ec.europa.eu/sites/default/files/thumbnail/kmffq_additional-illo4video_2019_5_fishplate%5B1%5D.jpg"
+  let recipeImage = "https://visitors-centre.jrc.ec.europa.eu/sites/default/files/thumbnail/kmffq_additional-illo4video_2019_5_fishplate%5B1%5D.jpg"
   let recipeId = randomUUID();
   let savedRecipe = new dbModels.Recipe({ 
     userId,
