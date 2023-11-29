@@ -22,8 +22,13 @@ import com.beaker.reciperoulette.RecipeFacebook.ReviewDetailed;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -32,6 +37,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
+import java.text.SimpleDateFormat;
 
 public class InventoryAdapter extends RecyclerView.Adapter<IngredientHolder> {
 
@@ -68,13 +75,25 @@ public class InventoryAdapter extends RecyclerView.Adapter<IngredientHolder> {
         Log.d("InventoryAdapter", "setting item names");
 
         holder.getImageView().setImageResource(R.drawable.carrot);
+        holder.getNewItemView().setVisibility(View.INVISIBLE);
 
-//        holder.getConsumeButtonView().setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+
+        try {
+            Date d1 = sdf.parse(item.date[item.date.length - 1]);
+            Date d2 = Calendar.getInstance().getTime();
+
+            long diff = d2.getTime() - d1.getTime();
+
+            //2  minutes
+            //TODO move to some var later, and deal with timezones
+            if(diff < 120000)
+            {
+                holder.getNewItemView().setVisibility(View.VISIBLE);
+            }
+        } catch (ParseException e) {
+
+        }
 
         //handle the buttons
         holder.getConsumeButtonView().setOnClickListener(view -> {
