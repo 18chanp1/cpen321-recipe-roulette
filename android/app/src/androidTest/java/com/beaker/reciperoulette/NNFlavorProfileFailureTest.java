@@ -26,13 +26,13 @@ public class NNFlavorProfileFailureTest {
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
+    @Rule
+    public TInternetOffRule ior = new TInternetOffRule();
+
     @Before
     public void waitForMenu() throws InterruptedException {
         Thread.sleep(500);
     }
-
-    @Rule
-    public TInternetOffRule ior = new TInternetOffRule();
 
     @Test
     public void checkTitleExists() {

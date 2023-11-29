@@ -26,7 +26,6 @@ import android.support.test.uiautomator.UiObject2;
 import android.support.test.uiautomator.Until;
 import android.view.View;
 
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -76,12 +75,12 @@ public class BIngredientSharingTest {
 
         onView(withId(R.id.rq_ingredient_entry))
                 .check(matches(allOf(
-                        ViewMatchers.withHint(R.string.ingredient),
+                        withHint(R.string.ingredient),
                         isDisplayed()
                 )));
         onView(withId(R.id.rq_contact_entry))
                 .check(matches(allOf(
-                        ViewMatchers.withHint(R.string.contact_details),
+                        withHint(R.string.contact_details),
                         isDisplayed()
                 )));
         onView(withId(R.id.rq_ingredreq_but))
