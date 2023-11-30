@@ -3,16 +3,17 @@ var app = require("../src/app");
 var request = require("supertest");
 const mongoose = require("mongoose");
 
+// Test Objects
 const baseMockedIngredientBody = {
     name: "pork",
     count: 1,
-    date: Date.parse("Sun Oct 29 2023 10:50:56 GMT+0000") 
+    date: [Date.parse("Sun Oct 29 2023 10:50:56 GMT+0000")]
 }
 
 const baseMockedIngredientBody2 = {
     name: "beef",
     count: 2,
-    date: Date.parse("Sun Oct 29 2023 10:50:56 GMT+0000")
+    date: [Date.parse("Sun Oct 29 2023 10:50:56 GMT+0000"), Date.parse("Sun Nov 29 2023 10:50:56 GMT+0000")]
 }
 
 const baseMockedIngredientBodyArr = [
@@ -27,12 +28,32 @@ const baseMockedDbFindRecordResponse = {
     ingredients: baseMockedIngredientBodyArr
 }
 
+const ingredientsArrPUT = [
+    baseMockedIngredientBody,
+    baseMockedIngredientBody2
+]
+
+const ingredientsArrPUTMissing = [
+    baseMockedIngredientBody
+]
+
+const mockedDbFindRecordResponse = {
+    requestId: new mongoose.Types.ObjectId(), 
+    userId: "test@ubc.ca", 
+    ingredients: ingredientsArrPUT
+}
+
+const mockedDbFindRecordResponseMissing = {
+    requestId: new mongoose.Types.ObjectId(), 
+    userId: "test@ubc.ca", 
+    ingredients: ingredientsArrPUTMissing
+}
+
 const mockPutRequest = {
     userId: "test@ubc.ca", 
     ingredients: ["pork", "beef", "chicken"]
 }
 
-/*
 // GET Ingredients based on user
 describe("Get food ingredients for a user", () => {
     // Input: User Id
@@ -48,33 +69,43 @@ describe("Get food ingredients for a user", () => {
 
     // Input: User Id
     // Expected status code: 200
-    // Expected behavior: Ingredient ingredients fetched and returned
+    // Expected behavior: Ingredients fetched and returned
     // Expected output: List of all ingredient requests
     test("All food ingredients returned", async () => {
-        // Build the mock request
 
         // Build the expected response
-        let expectedResponse = Object.assign({}, baseMockedDbFindRecordResponse);
-        
+        let expectedResponse = Object.assign({}, mockedDbFindRecordResponse);
         let mockedDbFindAllRecordsResponse = [];
-        for (let i = 0; i < 20; i++) {
-            mockedDbFindAllRecordsResponse.push(baseMockedDbFindRecordResponse);
-        }
+        mockedDbFindAllRecordsResponse.push(expectedResponse);
 
-        jest.spyOn(dbFunctions, "dbFindAllRecords").mockReturnValue(mockedDbFindAllRecordsResponse);
+        let expectedName = ["pork", "beef"];
+        let expectedCount = [1, 2]
+
+        jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(mockedDbFindRecordResponse);
 
         const res = await request(app).get("/foodInventoryManager").set('userId', 'test@ubc.ca');
 
         expect(res.status).toStrictEqual(200);
-        for (let i = 0; i < 20; i++) {
-            expect(res.body[i].requestId).toBeDefined();
-            expect(res.body[i].userId).toEqual(expectedResponse.userId);
-            expect(res.body[i].ingredientDescription).toEqual(expectedResponse.ingredientDescription);
-            expect(res.body[i].fcmToken).toEqual(expectedResponse.fcmToken);
+       
+        for (let i = 0; i < 2; i++) {
+            expect(res.body[i].name).toEqual(expectedName[i]);
+            expect(res.body[i].count).toEqual(expectedCount[i]);
+
+            //TODO: check date
         }
     });
+
+    // Input: User Id
+    // Expected status code: 200
+    // Expected behavior: Ingredients fetched and returned
+    // Expected output: Empty list of ingredients
+    test("User Ingredient is null", async () => {
+        jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(null);
+        const res = await request(app).get("/foodInventoryManager").set('userId', 'test@ubc.ca');
+        expect(res.status).toStrictEqual(200);
+        expect(res.body).toEqual([]);
+    })
 })
-*/
 
 // Interface POST /foodInventoryManager/upload
 describe("Post new ingredient request", () => {
@@ -118,22 +149,22 @@ describe("Post new ingredient request", () => {
     // Expected behavior: non-empty user id and no error returned
     // Expected output: "Successfully saved to database"
     test("Post new ingredient request, existing originally", async () => {
-        let mockedRequestBody = Object.assign({}, baseMockedDbFindRecordResponse);
+        let mockedRequestBody = Object.assign({}, mockedDbFindRecordResponse);
         let expectedResponse = "Successfully saved to database"; 
 
         jest.spyOn(dbFunctions, "dbSaveRecord").mockReturnValue(null);
-        jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(baseMockedDbFindRecordResponse);
+        jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(mockedDbFindRecordResponseMissing);
 
         const res = await request(app).post("/foodInventoryManager/upload").send(mockedRequestBody);
         expect(res.status).toStrictEqual(200);
-        expect(res.test).toEqual(expectedResponse);
+        expect(res.text).toEqual(expectedResponse);
         expect(res.body).toEqual({});
     })
 
     
 })
 
-/*
+
 // Interface PUT /foodInventoryManager/update
 describe("Update user's ingredient", () => {
 
@@ -156,13 +187,9 @@ describe("Update user's ingredient", () => {
     // Expected output: empty text and body
     test("PUT valid entry", async () => {
 
-        let ingredientPork = Object.assign({}, baseMockedIngredientBody);
-        let ingredientBeef = Object.assign({}, baseMockedIngredientBody2);
-
         let mockedRequestBody = Object.assign({}, mockPutRequest);
 
-        jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(mockedRequestBody);
-        jest.spyOn(dbFunctions, "dbFindAllRecords").mockReturnValueOnce(ingredientPork).mockReturnValueOnce(ingredientBeef).mockReturnValue(null);
+        jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(mockedDbFindRecordResponse);
         jest.spyOn(dbFunctions, "dbUpdateOne").mockReturnValue(null);
         jest.spyOn(dbFunctions, "dbSaveRecord").mockReturnValue(null);
 
@@ -171,7 +198,6 @@ describe("Update user's ingredient", () => {
         expect(res.status).toStrictEqual(200);
         expect(res.text).toEqual("Successfully updated the database");
         expect(res.body).toEqual({});
-    })
+    });
    
-});
-*/
+})
