@@ -89,7 +89,7 @@ router.get('/', async function(req, res, next) {
     console.log(ingredients);
     for (let ingredient of ingredients) {
       console.log(ingredient.count);
-      if (ingredient.count != 0) {
+      if (ingredient.count !== 0) {
         response.push(ingredient);
       }
     }

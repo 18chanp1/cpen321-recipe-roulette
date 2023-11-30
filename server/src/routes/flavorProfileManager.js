@@ -49,6 +49,8 @@ router.get('/', async function(req, res, next) {
     "boeuf",
     "sausage",
     "sausage meat",
+    "steak",
+    "rib",
     "snail",
     "beef",
     "chicken",

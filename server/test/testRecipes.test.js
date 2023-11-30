@@ -8,33 +8,39 @@ var request = require("supertest");
 const baseMockedRequestBody = { 
     userId: "test@ubc.ca",
     recipeId: "795512",
-    recipeImage: "https://someimgurl.jpg"
+    image: "https://someimgurl.jpg"
 }
 
 let baseMockedDbFindRecordGetResponse = {
     ingredients: [
         {
             name: "Salmon",
+            count: 2,
             date: [new Date(2023, 12, 9), new Date(2023, 12, 11)]
         },
         {
             name: "Chicken",
+            count: 2,
             date: [new Date(2023, 12, 20), new Date(2023, 12, 25)]
         },
         {
             name: "Soy Sauce",
+            count: 1,
             date: [new Date(2024, 2, 18)]
         },
         {
             name: "Heavy Cream",
+            count: 1,
             date: [new Date(2024, 1, 15)]
         },
         {
             name: "Onion",
+            count: 2,
             date: [new Date(2023, 12, 15), new Date(2023, 12, 20)]
         },
         {
             name: "BBQ Sauce",
+            count: 1,
             date: [new Date(2024, 5, 20)]
         }
     ]
@@ -89,6 +95,27 @@ describe("Get all available recipes", () => {
         expect(res.body).toEqual(expectedResponse);
     });
 
+    // Input: Valid user with all saved ingredients consumed
+    // Expected status code: 200
+    // Expected behavior: No recipes fetched
+    // Expected output: Empty list of recipes
+    test("Valid user with all saved ingredients consumed", async () => {
+        let expectedResponse = [];
+        mockedDbResponse = { ingredients: [] };
+        for (let ingredient of baseMockedDbFindRecordGetResponse.ingredients) {
+            mockedDbResponse.ingredients.push({
+                name: ingredient.name,
+                count: 0,
+                date: []
+            })
+        }
+        jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(mockedDbResponse);
+        fetch.mockReturnValue(Promise.resolve({ status: 201, json: () => Promise.resolve(mockedRecipes)}));
+        const res = await request(app).get("/recipes").set({email: "test@ubc.ca"});
+        expect(res.status).toStrictEqual(200);
+        expect(res.body).toEqual(expectedResponse);
+    });
+
     // Input: External API returns error
     // Expected status code: 500
     // Expected behavior: External API error detected and error returned
@@ -106,7 +133,7 @@ describe("Get all available recipes", () => {
     // Input: Valid user with ingredients saved
     // Expected status code: 200
     // Expected behavior: Recipes fetched and returned
-    // Expected output: Empty list of recipes
+    // Expected output: List of mocked recipes
     test("Valid email and Ingredients saved", async () => {
         let expectedResponse = mockedRecipes;
         jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(baseMockedDbFindRecordGetResponse);
@@ -121,7 +148,7 @@ const baseMockedDbFindRecordPostResponse = {
     userId: baseMockedRequestBody.userId,
     recipeId: baseMockedRequestBody.recipeId,
     recipeName: 'Whole 30 Slow Cooker',
-    recipeImage: baseMockedRequestBody.recipeImage,
+    recipeImage: baseMockedRequestBody.image,
     numTimes: 1,
     likes: 0,
     recipeSummary: `Whole 30 Slow Cooker is a <b>gluten free, dairy free, and whole 30</b> hor d'oeuvre. For <b>$17.22 per serving</b>, this recipe <b>covers 67%</b> of your daily requirements of vitamins and minerals. This recipe makes 65 servings with <b>3760 calories</b>, <b>365g of protein</b>, and <b>237g of fat</b> each. If you have conquer your fear of cooking a chicken the easy way! from one lovely life, pulled pork taco salad from anya's eats, easy slow cooker taco meat from rubies and radishes, and a few other ingredients on hand, you can make it. 24 people have tried and liked this recipe. From preparation to the plate, 
@@ -229,7 +256,7 @@ describe("Save chosen recipe and return its details", () => {
         })}));
         fetch.mockReturnValueOnce(Promise.resolve({ status: 201, json: () => Promise.resolve(mockedInstructions)}));
         let mockedRequestBody = Object.assign({}, baseMockedRequestBody);
-        mockedRequestBody.recipeImage = null;
+        mockedRequestBody.image = null;
         const res = await request(app).post("/recipes").send(mockedRequestBody);
         expect(res.status).toStrictEqual(200);
         expect(res.body).toEqual(expectedResponse);

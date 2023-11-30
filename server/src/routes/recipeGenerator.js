@@ -15,7 +15,7 @@ router.get('/', async function(req, res, next) {
   }
   // Find all ingredients of user
   let allIngredients = await dbFunctions.dbFindRecord(dbModels.Ingredient, {userId});
-  if (!allIngredients || allIngredients.ingredients.length === 0) {
+  if (!allIngredients) {
     res.status(200);
     res.send([]);
     return;
@@ -23,8 +23,17 @@ router.get('/', async function(req, res, next) {
   // Push into a list
   let ingredientListWithDate = [];
   allIngredients.ingredients.forEach(ingredient => {
-    ingredientListWithDate.push([Math.min.apply((d) => d.getTime(), ingredient.date), ingredient.name]);
+    console.log(ingredient.count);
+    if (ingredient.count > 0) {
+      console.log(ingredient.name);
+      ingredientListWithDate.push([Math.min.apply((d) => d.getTime(), ingredient.date), ingredient.name]);
+    }
   });
+  if (ingredientListWithDate.length == 0) {
+    res.status(200);
+    res.send([]);
+    return;
+  }
   ingredientListWithDate.sort((e1, e2) => e1[0] > e2[0] ? 1: -1);
 
   let ingredientList = []
