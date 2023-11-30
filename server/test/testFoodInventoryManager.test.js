@@ -32,10 +32,6 @@ const mockPutRequest = {
     ingredients: ["pork", "beef", "chicken"]
 }
 
-const mockGetRequest = {
-    userId: "test@ubc.ca"
-}
-
 /*
 // GET Ingredients based on user
 describe("Get food ingredients for a user", () => {
@@ -48,7 +44,7 @@ describe("Get food ingredients for a user", () => {
         const res = await request(app).get("/foodInventoryManager");
         expect(res.status).toStrictEqual(400);
         expect(res.body).toEqual(expectedResponse);
-    });
+    }); 
 
     // Input: User Id
     // Expected status code: 200
