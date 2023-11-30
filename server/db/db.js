@@ -32,7 +32,7 @@ const IngredientRequest = mongoose.model('ingredientRequest', ingredientRequestS
 const foodItemSchema = new mongoose.Schema({
   name: {type: String, required: true},
   count: {type: Number, min: 0, required: true},
-  date: [{type: Date, required: true}]
+  date: [{type: Date, set: v => new Date(v * 1000), required: true}]
 })
 
 const foodItemsSchema = new mongoose.Schema({
