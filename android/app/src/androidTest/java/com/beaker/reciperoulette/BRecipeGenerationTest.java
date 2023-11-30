@@ -131,7 +131,7 @@ public class BRecipeGenerationTest {
         long startTime = System.currentTimeMillis();
 
         // Generate Recipes
-        onView(ViewMatchers.withId(R.id.gen_recipes))
+        onView(withId(R.id.gen_recipes))
                 .perform(click());
 
         // Check Recipe List
