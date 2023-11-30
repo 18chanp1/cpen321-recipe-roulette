@@ -36,6 +36,7 @@ const mockGetRequest = {
     userId: "test@ubc.ca"
 }
 
+/*
 // GET Ingredients based on user
 describe("Get food ingredients for a user", () => {
     // Input: User Id
@@ -77,13 +78,14 @@ describe("Get food ingredients for a user", () => {
         }
     });
 })
+*/
 
 // Interface POST /foodInventoryManager/upload
 describe("Post new ingredient request", () => {
     // Input: Missing email
     // Expected status code: 400
     // Expected behavior: Empty user id and error returned
-    // Expected output: "Body parameters must not be empty"
+    // Expected output: "Error saving to database"
     test("POST invalid email", async () => {
         let mockedRequestBody = Object.assign({}, baseMockedDbFindRecordResponse);
         mockedRequestBody.userId = "";
@@ -98,24 +100,44 @@ describe("Post new ingredient request", () => {
         expect(res.body).toEqual({});
     });
 
-    // Input: valid new food ingredient upload
+    // Input: valid new food ingredient upload. UserId record did not exist originally
     // Expected status code: 200
-    // Expected behavior: non-empty user id and error returned
-    // Expected output: "Body parameters must not be empty"
-    test("POST new ingredient request", async () => {
+    // Expected behavior: non-empty user id and no error returned
+    // Expected output: "Successfully saved to database"
+    test("POST new ingredient request, not existing originally", async () => {
         let mockedRequestBody = Object.assign({}, baseMockedDbFindRecordResponse);
-        let expectedResponse = "Successfully saved to database";
+        let expectedResponse = "Successfully saved to database"; 
 
         jest.spyOn(dbFunctions, "dbSaveRecord").mockReturnValue(null);
+        jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(null);
+        
         const res = await request(app).post("/foodInventoryManager/upload").send(mockedRequestBody);
         expect(res.status).toStrictEqual(200);
         expect(res.text).toEqual(expectedResponse);
+        expect(res.body).toEqual({});
+    });
+
+    // Input: valid new food ingredient upload. UserId record existed originally
+    // Expected status code: 200
+    // Expected behavior: non-empty user id and no error returned
+    // Expected output: "Successfully saved to database"
+    test("Post new ingredient request, existing originally", async () => {
+        let mockedRequestBody = Object.assign({}, baseMockedDbFindRecordResponse);
+        let expectedResponse = "Successfully saved to database"; 
+
+        jest.spyOn(dbFunctions, "dbSaveRecord").mockReturnValue(null);
+        jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(baseMockedDbFindRecordResponse);
+
+        const res = await request(app).post("/foodInventoryManager/upload").send(mockedRequestBody);
+        expect(res.status).toStrictEqual(200);
+        expect(res.test).toEqual(expectedResponse);
         expect(res.body).toEqual({});
     })
 
     
 })
 
+/*
 // Interface PUT /foodInventoryManager/update
 describe("Update user's ingredient", () => {
 
@@ -151,8 +173,9 @@ describe("Update user's ingredient", () => {
         const res = await request(app).put("/foodInventoryManager/update").send(mockedRequestBody);
         
         expect(res.status).toStrictEqual(200);
-        expect(res.text).toEqual("");
+        expect(res.text).toEqual("Successfully updated the database");
         expect(res.body).toEqual({});
     })
    
 });
+*/

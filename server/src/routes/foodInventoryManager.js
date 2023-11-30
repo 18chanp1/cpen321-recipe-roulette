@@ -40,7 +40,8 @@ router.post('/upload', async (req, res) => {
         if (index !== -1) {
           //Item exists, update the value
           console.log("Item exists, update the value");
-          console.log(newItem.date[0]);
+          console.log("New Item" + newItem);
+          console.log("Date 0: " + newItem.date[0]);
           ingredientRecord.ingredients[index].count += newItem.count;
           ingredientRecord.ingredients[index].date.push(...newItem.date);
 
