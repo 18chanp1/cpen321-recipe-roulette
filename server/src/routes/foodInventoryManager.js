@@ -43,7 +43,11 @@ router.post('/upload', async (req, res) => {
           console.log("New Item" + newItem);
           console.log("Date 0: " + newItem.date[0]);
           ingredientRecord.ingredients[index].count += newItem.count;
-          ingredientRecord.ingredients[index].date.push(...newItem.date);
+          console.log(newItem);
+          // ingredientRecord.ingredients[index].date.push(...newItem.date);
+          for (let i = 0; i < newItem.date.length; i++) {
+            ingredientRecord.ingredients[index].date.push(newItem.date[i]);
+          }
 
         } else {
           //Item does not exist
@@ -70,6 +74,12 @@ router.get('/', async function(req, res, next) {
     res.status(400).send([]);
   } else {
     const userIngredients = await dbFunctions.dbFindRecord(Models.Ingredient, {userId: `${queriedUser}`});
+    
+    if (!userIngredients) {
+      res.status(200).send([]);
+      return;
+    }
+
     console.log(userIngredients);
     
     let ingredients = userIngredients.ingredients;
