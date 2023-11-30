@@ -34,7 +34,7 @@ router.post('/upload', async (req, res) => {
       console.log("userID record exists");
       for (let newItem of ingredients) {
         //find the index
-        index = ingredientRecord.ingredients.findIndex(item => item.name === newItem.name);
+        let index = ingredientRecord.ingredients.findIndex(item => item.name === newItem.name);
         console.log("index: " + index);
 
         if (index !== -1) {
@@ -63,16 +63,29 @@ router.get('/', async function(req, res, next) {
   console.log("Return the list of ingredients in the user's inventory")
 
   let queriedUser = req.headers.userid;
+  console.log(queriedUser);
   console.log(req.headers);
   console.log("Queried User: " + queriedUser);
   if (queriedUser == null || queriedUser == "") {
     res.status(400).send([]);
   } else {
-    const ingredients = await dbFunctions.dbFindAllRecords(Models.Ingredient, {userId: `${queriedUser}`});
-    console.log(typeof ingredients);
+    const userIngredients = await dbFunctions.dbFindRecord(Models.Ingredient, {userId: `${queriedUser}`});
+    console.log(userIngredients);
+    
+    let ingredients = userIngredients.ingredients;
+    let response = [];
+
+    console.log(userIngredients.ingredients);
     console.log(ingredients);
+    for (let ingredient of ingredients) {
+      console.log(ingredient.count);
+      if (ingredient.count != 0) {
+        response.push(ingredient);
+      }
+    }
+    console.log(response);
     res.status(200);
-    res.send(ingredients);
+    res.send(response);
   }
 });
 
