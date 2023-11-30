@@ -13,7 +13,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -56,7 +55,7 @@ public class BRecipeGenerationTest {
     @Test
     public void checkGenerateRecipesButtonVisible() {
         gotoGenerateRecipe();
-        onView(ViewMatchers.withId(R.id.gen_recipes))
+        onView(withId(R.id.gen_recipes))
                 .check(matches(isDisplayed()));
     }
 
@@ -65,7 +64,7 @@ public class BRecipeGenerationTest {
         onView(withText("Recipe Engine")).perform(click());
 
         // Generate Recipes
-        onView(ViewMatchers.withId(R.id.gen_recipes))
+        onView(withId(R.id.gen_recipes))
                 .perform(click());
 
         //independently obtain the recipe
@@ -131,11 +130,11 @@ public class BRecipeGenerationTest {
         long startTime = System.currentTimeMillis();
 
         // Generate Recipes
-        onView(ViewMatchers.withId(R.id.gen_recipes))
+        onView(withId(R.id.gen_recipes))
                 .perform(click());
 
         // Check Recipe List
-        onView(ViewMatchers.withId(R.id.recipeButtonLayout))
+        onView(withId(R.id.recipeButtonLayout))
                 .check(matches(isDisplayed()));
 
         long endTime = System.currentTimeMillis();

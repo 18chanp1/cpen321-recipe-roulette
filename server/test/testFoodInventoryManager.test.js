@@ -6,13 +6,13 @@ const mongoose = require("mongoose");
 const baseMockedIngredientBody = {
     name: "pork",
     count: 1,
-    date: 1698576656
+    date: Date.parse("Sun Oct 29 2023 10:50:56 GMT+0000") 
 }
 
 const baseMockedIngredientBody2 = {
     name: "beef",
     count: 2,
-    date: 1698576656
+    date: Date.parse("Sun Oct 29 2023 10:50:56 GMT+0000")
 }
 
 const baseMockedIngredientBodyArr = [

@@ -1,5 +1,5 @@
 # Server
-firebase_admin.json
+secrets/firebase_admin.json
 package-lock.json
 node_modules/
 draft.js
