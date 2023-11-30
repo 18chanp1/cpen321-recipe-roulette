@@ -45,7 +45,7 @@ describe("Get all ingredient requests", () => {
         jest.spyOn(dbFunctions, "dbFindAllRecords").mockReturnValue(mockedDbFindAllRecordsResponse);
         const res = await request(app).get("/ingredientrequests");
         expect(res.status).toStrictEqual(200);
-        for (i = 0; i < 20; i++) {
+        for (let i = 0; i < 20; i++) {
             expect(res.body[i].requestId).toBeDefined();
             expect(res.body[i].userId).toEqual(expectedResponse.userId);
             expect(res.body[i].ingredientName).toEqual(expectedResponse.ingredientName);
