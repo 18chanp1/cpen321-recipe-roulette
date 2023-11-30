@@ -29,6 +29,7 @@ router.post("/like", async (req, res, next) =>
   if (!userId || !recipeId) {
     res.status(400);
     res.send("Body parameters must not be empty");
+    return;
   }
   let review = await dbFunctions.dbFindRecord(dbModels.Recipe, 
     { 
