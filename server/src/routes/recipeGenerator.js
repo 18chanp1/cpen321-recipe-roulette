@@ -72,7 +72,7 @@ router.post('/', async function(req, res, next) {
     let resJson = await apiResponse.json();
     recipeSummary = resJson.summary;
     recipeName = resJson.title;
-    let recipeImage = req.body.recipeImage ? req.body.recipeImage : "https://visitors-centre.jrc.ec.europa.eu/sites/default/files/thumbnail/kmffq_additional-illo4video_2019_5_fishplate%5B1%5D.jpg"
+    let recipeImage = req.body.image ? req.body.image : "https://visitors-centre.jrc.ec.europa.eu/sites/default/files/thumbnail/kmffq_additional-illo4video_2019_5_fishplate%5B1%5D.jpg"
     savedRecipe = new dbModels.Recipe({ 
       userId,
       recipeId,
