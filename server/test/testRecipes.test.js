@@ -8,7 +8,7 @@ var request = require("supertest");
 const baseMockedRequestBody = { 
     userId: "test@ubc.ca",
     recipeId: "795512",
-    recipeImage: "https://someimgurl.jpg"
+    image: "https://someimgurl.jpg"
 }
 
 let baseMockedDbFindRecordGetResponse = {
@@ -121,7 +121,7 @@ const baseMockedDbFindRecordPostResponse = {
     userId: baseMockedRequestBody.userId,
     recipeId: baseMockedRequestBody.recipeId,
     recipeName: 'Whole 30 Slow Cooker',
-    recipeImage: baseMockedRequestBody.recipeImage,
+    recipeImage: baseMockedRequestBody.image,
     numTimes: 1,
     likes: 0,
     recipeSummary: `Whole 30 Slow Cooker is a <b>gluten free, dairy free, and whole 30</b> hor d'oeuvre. For <b>$17.22 per serving</b>, this recipe <b>covers 67%</b> of your daily requirements of vitamins and minerals. This recipe makes 65 servings with <b>3760 calories</b>, <b>365g of protein</b>, and <b>237g of fat</b> each. If you have conquer your fear of cooking a chicken the easy way! from one lovely life, pulled pork taco salad from anya's eats, easy slow cooker taco meat from rubies and radishes, and a few other ingredients on hand, you can make it. 24 people have tried and liked this recipe. From preparation to the plate, 
@@ -229,7 +229,7 @@ describe("Save chosen recipe and return its details", () => {
         })}));
         fetch.mockReturnValueOnce(Promise.resolve({ status: 201, json: () => Promise.resolve(mockedInstructions)}));
         let mockedRequestBody = Object.assign({}, baseMockedRequestBody);
-        mockedRequestBody.recipeImage = null;
+        mockedRequestBody.image = null;
         const res = await request(app).post("/recipes").send(mockedRequestBody);
         expect(res.status).toStrictEqual(200);
         expect(res.body).toEqual(expectedResponse);
