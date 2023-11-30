@@ -16,18 +16,6 @@ const baseMockedIngredientBody2 = {
     date: [Date.parse("Sun Oct 29 2023 10:50:56 GMT+0000"), Date.parse("Sun Nov 29 2023 10:50:56 GMT+0000")]
 }
 
-const baseMockedIngredientBodyArr = [
-    baseMockedIngredientBody,
-    baseMockedIngredientBody,
-    baseMockedIngredientBody
-]
-
-const baseMockedDbFindRecordResponse = {
-    requestId: new mongoose.Types.ObjectId(), 
-    userId: "test@ubc.ca", 
-    ingredients: baseMockedIngredientBodyArr
-}
-
 const ingredientsArrPUT = [
     baseMockedIngredientBody,
     baseMockedIngredientBody2
@@ -78,20 +66,20 @@ describe("Get food ingredients for a user", () => {
         let mockedDbFindAllRecordsResponse = [];
         mockedDbFindAllRecordsResponse.push(expectedResponse);
 
-        let expectedName = ["pork", "beef"];
-        let expectedCount = [1, 2]
-
         jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(mockedDbFindRecordResponse);
 
         const res = await request(app).get("/foodInventoryManager").set('userId', 'test@ubc.ca');
 
         expect(res.status).toStrictEqual(200);
-       
-        for (let i = 0; i < 2; i++) {
-            expect(res.body[i].name).toEqual(expectedName[i]);
-            expect(res.body[i].count).toEqual(expectedCount[i]);
+        expect(res.body.length).toStrictEqual(2);
 
-            //TODO: check date
+        for (let i = 0; i < res.body.length; i++) {
+            expect(res.body[i].name).toEqual(expectedResponse.ingredients[i].name);
+            expect(res.body[i].count).toEqual(expectedResponse.ingredients[i].count);
+
+            for (let j = 0; j < res.body[i].date.length; j++) {
+                expect(res.body[i].date[j]).toEqual(expectedResponse.ingredients[i].date[j]);
+            }
         }
     });
 
@@ -114,7 +102,7 @@ describe("Post new ingredient request", () => {
     // Expected behavior: Empty user id and error returned
     // Expected output: "Error saving to database"
     test("POST invalid email", async () => {
-        let mockedRequestBody = Object.assign({}, baseMockedDbFindRecordResponse);
+        let mockedRequestBody = Object.assign({}, mockedDbFindRecordResponse);
         mockedRequestBody.userId = "";
 
         let expectedResponse = "Error saving to database";
@@ -132,7 +120,7 @@ describe("Post new ingredient request", () => {
     // Expected behavior: non-empty user id and no error returned
     // Expected output: "Successfully saved to database"
     test("POST new ingredient request, not existing originally", async () => {
-        let mockedRequestBody = Object.assign({}, baseMockedDbFindRecordResponse);
+        let mockedRequestBody = Object.assign({}, mockedDbFindRecordResponse);
         let expectedResponse = "Successfully saved to database"; 
 
         jest.spyOn(dbFunctions, "dbSaveRecord").mockReturnValue(null);
