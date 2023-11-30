@@ -23,9 +23,7 @@ router.get('/', async function(req, res, next) {
   // Push into a list
   let ingredientListWithDate = [];
   allIngredients.ingredients.forEach(ingredient => {
-    console.log(ingredient.count);
     if (ingredient.count > 0) {
-      console.log(ingredient.name);
       ingredientListWithDate.push([Math.min.apply((d) => d.getTime(), ingredient.date), ingredient.name]);
     }
   });

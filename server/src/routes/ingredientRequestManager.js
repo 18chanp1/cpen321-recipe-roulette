@@ -111,13 +111,7 @@ router.post('/', async function(req, res, next) {
     };
 
     messaging.send(message);
-    // .then((response) => {
-    //     // Response is a message ID string.
-    //     console.log('Successfully sent message:', response);
-    // })
-    // .catch((error) => {
-    //     console.log('Error sending message:', error);
-    // });
+    
     await dbFunctions.dbDeleteRecord(ingredientRequest);
     res.status(200);
     res.send(`Donated to request ID ${requestId}`);
