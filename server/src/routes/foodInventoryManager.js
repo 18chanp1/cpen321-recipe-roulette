@@ -44,7 +44,7 @@ router.post('/upload', async (req, res) => {
           console.log("Date 0: " + newItem.date[0]);
           ingredientRecord.ingredients[index].count += newItem.count;
           console.log(newItem);
-          // ingredientRecord.ingredients[index].date.push(...newItem.date);
+        
           for (let i = 0; i < newItem.date.length; i++) {
             ingredientRecord.ingredients[index].date.push(newItem.date[i]);
           }
