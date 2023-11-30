@@ -15,26 +15,32 @@ let baseMockedDbFindRecordGetResponse = {
     ingredients: [
         {
             name: "Salmon",
+            count: 2,
             date: [new Date(2023, 12, 9), new Date(2023, 12, 11)]
         },
         {
             name: "Chicken",
+            count: 2,
             date: [new Date(2023, 12, 20), new Date(2023, 12, 25)]
         },
         {
             name: "Soy Sauce",
+            count: 1,
             date: [new Date(2024, 2, 18)]
         },
         {
             name: "Heavy Cream",
+            count: 1,
             date: [new Date(2024, 1, 15)]
         },
         {
             name: "Onion",
+            count: 2,
             date: [new Date(2023, 12, 15), new Date(2023, 12, 20)]
         },
         {
             name: "BBQ Sauce",
+            count: 1,
             date: [new Date(2024, 5, 20)]
         }
     ]
@@ -89,6 +95,27 @@ describe("Get all available recipes", () => {
         expect(res.body).toEqual(expectedResponse);
     });
 
+    // Input: Valid user with all saved ingredients consumed
+    // Expected status code: 200
+    // Expected behavior: No recipes fetched
+    // Expected output: Empty list of recipes
+    test("Valid user with all saved ingredients consumed", async () => {
+        let expectedResponse = [];
+        mockedDbResponse = { ingredients: [] };
+        for (let ingredient of baseMockedDbFindRecordGetResponse.ingredients) {
+            mockedDbResponse.ingredients.push({
+                name: ingredient.name,
+                count: 0,
+                date: []
+            })
+        }
+        jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(mockedDbResponse);
+        fetch.mockReturnValue(Promise.resolve({ status: 201, json: () => Promise.resolve(mockedRecipes)}));
+        const res = await request(app).get("/recipes").set({email: "test@ubc.ca"});
+        expect(res.status).toStrictEqual(200);
+        expect(res.body).toEqual(expectedResponse);
+    });
+
     // Input: External API returns error
     // Expected status code: 500
     // Expected behavior: External API error detected and error returned
@@ -106,7 +133,7 @@ describe("Get all available recipes", () => {
     // Input: Valid user with ingredients saved
     // Expected status code: 200
     // Expected behavior: Recipes fetched and returned
-    // Expected output: Empty list of recipes
+    // Expected output: List of mocked recipes
     test("Valid email and Ingredients saved", async () => {
         let expectedResponse = mockedRecipes;
         jest.spyOn(dbFunctions, "dbFindRecord").mockReturnValue(baseMockedDbFindRecordGetResponse);
