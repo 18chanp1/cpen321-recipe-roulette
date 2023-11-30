@@ -12,14 +12,10 @@ router.use(bodyParser.json());
 router.post('/upload', async (req, res) => {
   // Get the user ID token and ingredients from the request body
   const {userId, ingredients} = req.body;
-  console.log(req.body);
-  console.log("/foodInventoryManager/upload userId: " + userId);
   if (userId == null || userId == "") {
     res.status(400).send('Error saving to database');
   } else {
     const ingredientRecord = await dbFunctions.dbFindRecord(Models.Ingredient, {userId});
-    console.log("Print the ingredient record contents")
-    console.log(ingredientRecord);
 
     if (ingredientRecord == null) {
       console.log("userID record does not exist");
@@ -35,15 +31,11 @@ router.post('/upload', async (req, res) => {
       for (let newItem of ingredients) {
         //find the index
         let index = ingredientRecord.ingredients.findIndex(item => item.name === newItem.name);
-        console.log("index: " + index);
 
         if (index !== -1) {
           //Item exists, update the value
           console.log("Item exists, update the value");
-          console.log("New Item" + newItem);
-          console.log("Date 0: " + newItem.date[0]);
           ingredientRecord.ingredients[index].count += newItem.count;
-          console.log(newItem);
         
           for (let i = 0; i < newItem.date.length; i++) {
             ingredientRecord.ingredients[index].date.push(newItem.date[i]);
