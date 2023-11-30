@@ -65,7 +65,7 @@ public class BRecipeGenerationTest {
         onView(withText("Recipe Engine")).perform(click());
 
         // Generate Recipes
-        onView(ViewMatchers.withId(R.id.gen_recipes))
+        onView(withId(R.id.gen_recipes))
                 .perform(click());
 
         //independently obtain the recipe
