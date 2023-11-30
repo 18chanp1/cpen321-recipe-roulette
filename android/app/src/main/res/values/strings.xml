@@ -64,6 +64,7 @@
     <string name="inventory">Inventory</string>
     <string name="consume">Consume</string>
     <string name="inv_new">New!</string>
+    <string name="inv_expires">Expiry: </string>
 
     <string name="cannot_donate">Unable to donate, please try again later!</string>
     <string name="msg_token_expired">Exit the app and try again</string>
@@ -164,7 +165,8 @@
     <string name="http_args_id">id</string>
 
     <!--    Date Format from server-->
-    <string name="sdf_server">yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'</string>
+    <string name="sdf_server">yyyy-MM-dd\'T\'HH:mm:ss.SSSX</string>
+    <string name="sdf_readable">yyyy-MM-dd EEE</string>
 
     <!-- Firebase constants-->
     <string name="fcm_msg_ok">Token obtained and saved</string>

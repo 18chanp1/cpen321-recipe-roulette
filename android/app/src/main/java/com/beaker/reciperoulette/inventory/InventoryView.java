@@ -16,7 +16,6 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import okhttp3.Call;
@@ -87,14 +86,15 @@ public class InventoryView extends AppCompatActivity {
 
                     InventoryView.this.runOnUiThread(() -> {
 
-                        IngredientRequestResult[] ingredientsArr= new Gson().fromJson(res, IngredientRequestResult[].class);
+                        IngredientV2[] ingredientsArr= new Gson().fromJson(res, IngredientV2[].class);
 
                         List<IngredientV2> invList= new ArrayList<>();
 
-                        for(IngredientRequestResult ingredientRequestResult : ingredientsArr)
+                        for(IngredientV2 ingredient : ingredientsArr)
                         {
-                            invList.addAll(Arrays.asList(ingredientRequestResult.ingredients));
+                            invList.add(ingredient);
                         }
+
 
                         RecyclerView recyclerView = findViewById(R.id.inv_recycler);
                         recyclerView.setLayoutManager(new LinearLayoutManager(InventoryView.this));

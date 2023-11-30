@@ -6,4 +6,7 @@ public class Utilities {
 
     //30 mins in ms
     public static final long SIGNIN_EXPIRY = 1_800_000;
+
+    //one week in ms
+    public static final long SEVEN_DAYS = 604800000;
 }

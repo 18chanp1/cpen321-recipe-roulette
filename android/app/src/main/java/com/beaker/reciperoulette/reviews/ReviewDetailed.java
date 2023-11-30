@@ -1,19 +1,18 @@
 package com.beaker.reciperoulette.reviews;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.beaker.Utilities;
 import com.beaker.reciperoulette.R;
@@ -66,92 +65,44 @@ public class ReviewDetailed extends AppCompatActivity {
         Intent in = getIntent();
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            Review r = in.getParcelableExtra(getString(R.string.rev_fromrev), Review.class);
-            assert r != null;
-            if (r.getTitle() == null || r.getTitle().length() == 0)
-            {
-                titleText.setText(getString(R.string.rev_msg_no_title));
-            } else
-            {
-                titleText.setText(r.getTitle());
-            }
+        Review r = in.getParcelableExtra("REVIEW");
 
-            if(r.getAuthor() == null)
-            {
-                authorText.setText("");
-            } else
-            {
-                authorText.setText(r.getAuthor());
-            }
-
-            if(r.getReview() == null)
-            {
-                reviewText.setText("");
-            }
-            else
-            {
-                reviewText.setText(Html.fromHtml(r.getReview(), Html.FROM_HTML_MODE_COMPACT));
-            }
-
-            ratingText.setText(r.getRating());
-
-            if(r.getImage() != null && r.getImage().length() != 0)
-            {
-                Picasso.with(this).load(r.getImage()).into(image);
-            }
-
-
-            like_but.setOnClickListener(view -> likeListener(r.getId()));
-
-            review = r;
-        } else {
-            Review r = in.getParcelableExtra("REVIEW");
-
-            assert r != null;
-            if (r.getTitle() == null || r.getTitle().length() == 0)
-            {
-                titleText.setText(getString(R.string.rev_msg_no_title));
-            } else
-            {
-                titleText.setText(r.getTitle());
-            }
-
-            if(r.getAuthor() == null)
-            {
-                authorText.setText("");
-            } else
-            {
-                authorText.setText(r.getAuthor());
-            }
-
-            if(r.getReview() == null)
-            {
-                reviewText.setText("");
-            }
-            else
-            {
-                reviewText.setText(Html.fromHtml(r.getReview(), Html.FROM_HTML_MODE_COMPACT));
-            }
-
-            String newRatingText = getString(R.string.rev_rating_pref) + r.getRating();
-            ratingText.setText(newRatingText);
-
-            if(r.getImage() != null && r.getImage().length() != 0)
-            {
-                Picasso.with(this).load(r.getImage()).into(image);
-            }
-            review = r;
-
-            like_but.setOnClickListener(view -> likeListener(r.getId()));
+        assert r != null;
+        if (r.getTitle() == null || r.getTitle().length() == 0)
+        {
+            titleText.setText(getString(R.string.rev_msg_no_title));
+        } else
+        {
+            titleText.setText(r.getTitle());
         }
 
+        if(r.getAuthor() == null)
+        {
+            authorText.setText("");
+        } else
+        {
+            authorText.setText(r.getAuthor());
+        }
 
+        if(r.getReview() == null)
+        {
+            reviewText.setText("");
+        }
+        else
+        {
+            reviewText.setText(Html.fromHtml(r.getReview(), Html.FROM_HTML_MODE_COMPACT));
+        }
 
+        String newRatingText = getString(R.string.rev_rating_pref) + r.getRating();
+        ratingText.setText(newRatingText);
 
+        if(r.getImage() != null && r.getImage().length() != 0)
+        {
+            Picasso.with(this).load(r.getImage()).into(image);
+        }
+        review = r;
 
-
-
+        like_but.setOnClickListener(view -> likeListener(r.getId()));
 
     }
 
