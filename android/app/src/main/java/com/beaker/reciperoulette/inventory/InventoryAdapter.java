@@ -38,7 +38,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<IngredientHolder> {
     Context context;
     InventoryView inventoryView;
     List<IngredientV2> items;
-    private static final int TIME_WINDOW = 120000;
+    private static final int TIME_WINDOW = 60000;
 
     private static final String TAG = "InventoryAdapter";
 
@@ -73,7 +73,22 @@ public class InventoryAdapter extends RecyclerView.Adapter<IngredientHolder> {
         else  title.setText(item.name);
 
         if(item.date == null || item.date.length < 1) expiry.setText("");
-        else expiry.setText(item.date[0]);
+        else
+        {
+            SimpleDateFormat sdf = new SimpleDateFormat(context.getString(R.string.sdf_server), Locale.getDefault());
+            SimpleDateFormat sdfReadable = new SimpleDateFormat(context.getString(R.string.sdf_readable), Locale.getDefault());
+            try {
+                Calendar c = Calendar.getInstance();
+                Date d = sdf.parse(item.date[0]);
+                String result = sdfReadable.format(d);
+
+                expiry.setText(context.getString(R.string.inv_expires) + result);
+
+            } catch (ParseException e) {
+               Log.d("INVENTORYADAPTER", "Failed to parse date");
+                expiry.setText(item.date[0]);
+            }
+        }
 
         //TODO fix expiry, waiting for Josh.
         image.setImageResource(R.drawable.carrot);
@@ -86,7 +101,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<IngredientHolder> {
             Date d2 = Calendar.getInstance().getTime();
 
             assert d1 != null;
-            long diff = d2.getTime() - d1.getTime();
+            long diff = d2.getTime() - (d1.getTime() - Utilities.SEVEN_DAYS);
 
             //2  minutes
             //TODO move to some var later, and deal with timezones
