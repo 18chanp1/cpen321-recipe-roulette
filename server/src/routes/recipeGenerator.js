@@ -27,7 +27,7 @@ router.get('/', async function(req, res, next) {
       ingredientListWithDate.push([Math.min.apply((d) => d.getTime(), ingredient.date), ingredient.name]);
     }
   });
-  if (ingredientListWithDate.length == 0) {
+  if (ingredientListWithDate.length === 0) {
     res.status(200);
     res.send([]);
     return;

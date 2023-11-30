@@ -101,7 +101,7 @@ describe("Get all available recipes", () => {
     // Expected output: Empty list of recipes
     test("Valid user with all saved ingredients consumed", async () => {
         let expectedResponse = [];
-        mockedDbResponse = { ingredients: [] };
+        let mockedDbResponse = { ingredients: [] };
         for (let ingredient of baseMockedDbFindRecordGetResponse.ingredients) {
             mockedDbResponse.ingredients.push({
                 name: ingredient.name,
