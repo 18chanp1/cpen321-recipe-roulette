@@ -3,6 +3,7 @@ package com.beaker.reciperoulette;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -152,10 +153,10 @@ public class BRecipeGenerationTest {
     private void checkDetailedView(String recipeName) throws InterruptedException {
         Thread.sleep(500);
         onView(withText(recipeName)).check(matches(isDisplayed()));
-        onView(withId(R.id.recipe_name)).check(matches(isDisplayed()));
-        onView(withId(R.id.recipe_summary)).check(matches(isDisplayed()));
-        onView(withId(R.id.recipe_ingredients)).check(matches(isDisplayed()));
-        onView(withId(R.id.recipe_steps)).check(matches(isDisplayed()));
+        onView(withId(R.id.recipe_name)).perform((scrollTo())).check(matches(isDisplayed()));
+        onView(withId(R.id.recipe_summary)).perform((scrollTo())).check(matches(isDisplayed()));
+        onView(withId(R.id.recipe_ingredients)).perform((scrollTo())).check(matches(isDisplayed()));
+        onView(withId(R.id.recipe_steps)).perform((scrollTo())).check(matches(isDisplayed()));
 
         onView(withId(R.id.recipe_complete)).perform(click());
 
