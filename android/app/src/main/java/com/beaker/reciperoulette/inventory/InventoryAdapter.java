@@ -90,7 +90,6 @@ public class InventoryAdapter extends RecyclerView.Adapter<IngredientHolder> {
             }
         }
 
-        //TODO fix expiry, waiting for Josh.
         image.setImageResource(R.drawable.carrot);
         newItem.setVisibility(View.INVISIBLE);
 
