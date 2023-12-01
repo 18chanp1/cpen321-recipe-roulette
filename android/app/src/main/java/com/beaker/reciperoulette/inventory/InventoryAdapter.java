@@ -78,7 +78,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<IngredientHolder> {
             SimpleDateFormat sdf = new SimpleDateFormat(context.getString(R.string.sdf_server), Locale.getDefault());
             SimpleDateFormat sdfReadable = new SimpleDateFormat(context.getString(R.string.sdf_readable), Locale.getDefault());
             try {
-                Calendar c = Calendar.getInstance();
+                // Calendar c = Calendar.getInstance();
                 Date d = sdf.parse(item.date[0]);
                 String result = sdfReadable.format(d);
 
@@ -94,6 +94,10 @@ public class InventoryAdapter extends RecyclerView.Adapter<IngredientHolder> {
         image.setImageResource(R.drawable.carrot);
         newItem.setVisibility(View.INVISIBLE);
 
+        InventoryDateHelper(item, holder);
+    }
+
+    private void InventoryDateHelper(IngredientV2 item, IngredientHolder holder) {
         SimpleDateFormat sdf = new SimpleDateFormat(context.getString(R.string.sdf_server), Locale.getDefault());
 
         try {
@@ -103,24 +107,20 @@ public class InventoryAdapter extends RecyclerView.Adapter<IngredientHolder> {
             assert d1 != null;
             long diff = d2.getTime() - (d1.getTime() - Utilities.SEVEN_DAYS);
 
-            //2  minutes
-            //TODO move to some var later, and deal with timezones
+            // 2 minutes
+            // TODO move to some var later, and deal with timezones
             if(diff < TIME_WINDOW)
             {
                 holder.getNewItemView().setVisibility(View.VISIBLE);
             }
         } catch (ParseException e) {
             e.printStackTrace();
-            //don't do anything else
         }
 
-        //handle the buttons
         holder.getConsumeButtonView().setOnClickListener(view -> {
             Log.d("InventoryAdapter", "Button pressed");
             consumeItem(item);
-
         });
-
     }
 
     @Override
